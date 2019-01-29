@@ -12,8 +12,9 @@ import UserNotifications
 import StoreKit
 
 
-class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource, UIPopoverPresentationControllerDelegate {
+class SaveScreenViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     
+    //MARK: - Properties
     var tableView = UITableView(frame: UIScreen.main.bounds)
     let cellId = "cellId"
     let headerId = "headerId"
@@ -38,7 +39,8 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
     var selectedStreak = -1
     
     var fetchedResultsController: NSFetchedResultsController<Streak>!
-
+    
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeFetchedResultsController()
@@ -82,28 +84,14 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
         // hide the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        
         if badgeSwitch.isOn && unfinishedStreaks.count > 0 && lastSelectedRow != -1 {
             unfinishedStreaks[lastSelectedRow].setValue(true, forKey: "badge")
         }
-        
-        try? managedContext.save()
-        
     }
     
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    //MARK: - UIElements
     lazy var sortButton = UIBarButtonItem(title: "Sort", style: UIBarButtonItemStyle.plain, target: self, action: #selector(sortList))
     
-
     let badgeSwitch:UISwitch = {
         let newSwitch = UISwitch()
         newSwitch.isOn = false
@@ -255,7 +243,7 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
             streakPicker.isHidden = !badgeSwitch.isOn
         }
     }
-    
+    //MARK: - Actions:
     @objc func switchAction(sender: UISwitch!) {
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
@@ -282,54 +270,9 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
         }
     }
     
-    
-    func scheduleReminderNotification(name: String) {
-        let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
-        let ignoreAction = UNNotificationAction(identifier: "DO_NOTHING", title: "Continue Streak", options: [.foreground])
-        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
-        
-        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [ignoreAction, restartAction, finishAction],intentIdentifiers: [], options: [])
-        
-        
-        let content = UNMutableNotificationContent()
-        content.body = "Did you continue your streak of \(name)?"
-        content.title = "Daily Streak: \(name)"
-        content.categoryIdentifier = "DailyReminderCategory"
-        
-        //Real
-//         Configure the trigger for notification at 4
-        var triggerDate = DateComponents()
-        triggerDate.hour = 16
-        
-        //Test
-        // Configure the trigger for notification at 3 seconds
-//        var triggerDate = DateComponents()
-//        triggerDate.second = 3
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
-        
-        // Create the request object.
-        let request = UNNotificationRequest(identifier: "DailyReminder", content: content, trigger: trigger)
-        
-        // Schedule the request.
-        let center = UNUserNotificationCenter.current()
-        center.setNotificationCategories([category])
-        center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
-
-        
-
-        center.add(request) { (error : Error?) in
-            if let theError = error {
-                print(theError.localizedDescription)
-            }
-        }
-    }
-    
     @objc func sortList() {
-
         let alert = UIAlertController(title: "Sort your saved Streaks by:", message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
-        
         
         let count = UIAlertAction(title: "Streak Lenght", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "count", ascending: false)
@@ -361,12 +304,11 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
         present(alert, animated: true, completion: nil)
     }
 
-    
-    
     @objc func reviewApp(sender: UIButton) {
         SKStoreReviewController.requestReview()
     }
     
+    //MARK: - Notifications
     private func askForNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, error) in
             if let error = error {
@@ -374,22 +316,65 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
             }
         }
     }
-    private func getNotificationSettings() {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            print("Notification settings: \(settings)")
-            guard settings.authorizationStatus == .authorized else { return }
+    
+    func scheduleReminderNotification(name: String) {
+        let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
+        let ignoreAction = UNNotificationAction(identifier: "DO_NOTHING", title: "Continue Streak", options: [.foreground])
+        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
+        
+        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [ignoreAction, restartAction, finishAction],intentIdentifiers: [], options: [])
+        
+        let content = UNMutableNotificationContent()
+        content.body = "Did you continue your streak of \(name)?"
+        content.title = "Daily Streak: \(name)"
+        content.categoryIdentifier = "DailyReminderCategory"
+        
+        //Real
+        //         Configure the trigger for notification at 4
+        var triggerDate = DateComponents()
+        triggerDate.hour = 16
+        
+        //Test
+        // Configure the trigger for notification at 3 seconds
+        //        var triggerDate = DateComponents()
+        //        triggerDate.second = 3
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: "DailyReminder", content: content, trigger: trigger)
+        
+        // Schedule the request.
+        let center = UNUserNotificationCenter.current()
+        center.setNotificationCategories([category])
+        center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+        
+        center.add(request) { (error : Error?) in
+            if let theError = error {
+                print(theError.localizedDescription)
+            }
         }
     }
     
-    
+    //MARK: - Private Functions
+    func updateEditButtonState() {
+        if let sections = fetchedResultsController.sections {
+            self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.isEnabled = (sections[0].numberOfObjects) > 0
+        }
+    }
+    ///this function sets all the badge boolean values of the unfinished streak to false
+    func resetBadge() {
+        if unfinishedStreaks.count > 0 {
+            unfinishedStreaks.forEach { streak in
+                streak.setValue(false, forKey: "badge")
+            }
+        }
+    }
     
     func initializeFetchedResultsController() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
         let managedContext = appDelegate.persistentContainer.viewContext
         let predicate = NSPredicate(format: "finishedStreak == true")
-
-
         let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
         fetchRequest.sortDescriptors = [sortBy]
         fetchRequest.predicate = predicate
@@ -403,21 +388,81 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
-    ///this function sets all the badge boolean values of the unfinished streak to false
-    func resetBadge() {
-        if unfinishedStreaks.count > 0 {
-            unfinishedStreaks.forEach { streak in
-                streak.setValue(false, forKey: "badge")
-            }
+}
+//MARK: - NSFetchedResultsControllerDelegate:
+extension SaveScreenViewController: NSFetchedResultsControllerDelegate {
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .update:
+            tableView.reloadData()
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!] , with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!] , with: .fade )
+        default:
+            print("default")
+            tableView.reloadData()
+        }
+    }
+}
+
+//MARK: - TableViewDataSource:
+extension SaveScreenViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let streak =  fetchedResultsController.object(at: indexPath )
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! StreakCell
+        cell.streakLabel.text = streak.name
+        cell.streakNumberLabel.text = streak.count.description
+        cell.unFinishedStreak = streak.restartedStreak
+        if streak.goal != 0 {
+            cell.progressRatio = Float(streak.count) / Float(streak.goal)
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let streakToDelete = fetchedResultsController.object(at: indexPath)
+            managedContext.delete(streakToDelete)
+            try? managedContext.save()
         }
     }
     
-    func updateEditButtonState() {
-        if let sections = fetchedResultsController.sections {
-            self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.isEnabled = (sections[0].numberOfObjects) > 0
-        }
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
-    //Mark: PickerView:
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: true)
+        self.tableView.setEditing(editing, animated: true)
+    }
+}
+
+//MARK: - PickerView:
+extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -439,7 +484,7 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         resetBadge()
-
+        
         if row > 0 {
             //"a streak was selected"
             UIApplication.shared.applicationIconBadgeNumber = unfinishedStreaks[row - 1].value(forKey: "count") as! Int
@@ -453,78 +498,6 @@ class SaveScreenViewController: UIViewController, UITableViewDataSource, UIPicke
             reminderSwitch.setOn(false, animated: true)
             reminderSwitch.isEnabled = false
             turnOnReminder()
-        }
-    }
-    
-    //MARK: TableView:
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let streak =  fetchedResultsController.object(at: indexPath )
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! StreakCell
-            cell.streakLabel.text = streak.name
-            cell.streakNumberLabel.text = streak.count.description
-            cell.unFinishedStreak = streak.restartedStreak
-            if streak.goal != 0 {
-                cell.progressRatio = Float(streak.count) / Float(streak.goal)
-            }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let streakToDelete = fetchedResultsController.object(at: indexPath)
-            managedContext.delete(streakToDelete)
-            try? managedContext.save()
-        }
-    }
-
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: true)
-        self.tableView.setEditing(editing, animated: true)
-    }
-}
-
-
-
-
-extension SaveScreenViewController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
-    
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .update:
-            tableView.reloadData()
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!] , with: .fade)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!] , with: .fade )
-        default:
-            print("default")
-            tableView.reloadData()
         }
     }
 }
