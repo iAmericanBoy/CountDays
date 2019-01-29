@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uet-uK-gfJ">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Page View Contoller-->
+        <scene sceneID="Jds-6k-hI5">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="uet-uK-gfJ" customClass="PageViewContoller" customModule="CountDays" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MvI-QW-8qr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="385" y="-785"/>
+        </scene>
+        <!--Streak Collection View Controller-->
+        <scene sceneID="nPC-57-Fs0">
+            <objects>
+                <collectionViewController storyboardIdentifier="StreakCollectionViewController" id="Exr-Jf-FA0" customClass="StreakCollectionViewController" customModule="CountDays" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="KaY-Kh-nCD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jSk-UU-kQp">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="Exr-Jf-FA0" id="9EO-7y-hnU"/>
+                            <outlet property="delegate" destination="Exr-Jf-FA0" id="2ht-pu-ReC"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V2B-Vz-f8W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-897" y="187"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="CountDays" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgb-re-fGl">
+                                <rect key="frame" x="16" y="723" width="160.66666666666666" height="47"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.069748602085307532" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="jgb-re-fGl" secondAttribute="height" multiplier="75:22" id="JJd-vM-eRq"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="ISq-kn-7cM"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="RESTART">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartStreakButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hk9-NZ-piO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJn-WH-SpI">
+                                <rect key="frame" x="198.66666666666663" y="723" width="160.33333333333337" height="47"/>
+                                <color key="backgroundColor" red="0.23748294176547746" green="0.8757893458549223" blue="0.12158477717108974" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="TJn-WH-SpI" secondAttribute="height" multiplier="75:22" id="YdI-dq-H5J"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="KiZ-yu-QyV"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="FINISH">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveStreakButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RGq-wh-2pL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="GOW-6w-gYI">
+                                <rect key="frame" x="16" y="234.66666666666663" width="343" height="343"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="GOW-6w-gYI" secondAttribute="height" multiplier="1:1" id="m4y-tq-MgR"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="IlL-cR-EIy"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="300"/>
+                                <state key="normal" title="1">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeStartDateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KF6-UL-pMd"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKd-FJ-dNK">
+                                <rect key="frame" x="16" y="64" width="343" height="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yKd-FJ-dNK" secondAttribute="height" multiplier="80:11" id="Aoh-Nn-MwR"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="46r-0f-0Gl"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="set new Goal">
+                                    <color key="titleColor" red="0.2627450980392157" green="0.2627450980392157" blue="0.2627450980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="streakNameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="15I-d8-L9c"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rui-P7-Opu">
+                                <rect key="frame" x="256" y="458" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gOg-tv-5fK">
+                                <rect key="frame" x="46.666666666666657" y="671.66666666666663" width="282" height="41.333333333333371"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="gOg-tv-5fK" secondAttribute="height" multiplier="75:11" id="3Y9-G1-5kZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-3"/>
+                                <state key="normal" title="display counter on badge"/>
+                                <connections>
+                                    <action selector="displayBadgeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e8U-FB-YbS"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="gOg-tv-5fK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="55F-RB-AOG"/>
+                            <constraint firstItem="GOW-6w-gYI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="5iR-ro-lhq"/>
+                            <constraint firstItem="yKd-FJ-dNK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9ir-4j-Yjb"/>
+                            <constraint firstItem="yKd-FJ-dNK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="BFN-Jb-ClN"/>
+                            <constraint firstItem="TJn-WH-SpI" firstAttribute="baseline" secondItem="jgb-re-fGl" secondAttribute="baseline" id="Gtr-hR-Ein"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="gOg-tv-5fK" secondAttribute="bottom" constant="65" id="SWE-AO-dfL"/>
+                            <constraint firstItem="jgb-re-fGl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="YqS-oE-I5b"/>
+                            <constraint firstItem="GOW-6w-gYI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="eCQ-EP-LrQ"/>
+                            <constraint firstItem="GOW-6w-gYI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gIW-aJ-xbz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="jgb-re-fGl" secondAttribute="bottom" constant="8" id="kbV-HJ-gBn"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="TJn-WH-SpI" secondAttribute="bottom" constant="8" id="mlp-Iz-wah"/>
+                            <constraint firstItem="TJn-WH-SpI" firstAttribute="leading" secondItem="jgb-re-fGl" secondAttribute="trailing" constant="22" id="paU-Qx-Gwo"/>
+                            <constraint firstItem="yKd-FJ-dNK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="vNz-7F-maI"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="TJn-WH-SpI" secondAttribute="trailing" constant="16" id="vpu-zh-G54"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="counterLable" destination="GOW-6w-gYI" id="STP-Jz-NJp"/>
+                        <outlet property="displayBadgeButton" destination="gOg-tv-5fK" id="wHv-wi-RMF"/>
+                        <outlet property="restartStreakButton" destination="jgb-re-fGl" id="nQp-gd-amJ"/>
+                        <outlet property="saveStreakButton" destination="TJn-WH-SpI" id="dba-vN-IFs"/>
+                        <outlet property="streakNameButton" destination="yKd-FJ-dNK" id="Aaj-sO-EUh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="385" y="234"/>
+        </scene>
+        <!--Save Screen View Controller-->
+        <scene sceneID="MdM-Bq-HZu">
+            <objects>
+                <viewController storyboardIdentifier="SaveScreenViewController" id="Q8k-PN-Fi6" customClass="SaveScreenViewController" customModule="CountDays" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hCj-z7-rhe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="YO6-08-bC7"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GRm-Gt-ljF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1444" y="202.46305418719211"/>
+        </scene>
+    </scenes>
+</document>
