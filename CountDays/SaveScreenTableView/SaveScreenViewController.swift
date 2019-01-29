@@ -47,6 +47,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         
         tableView.dataSource = self
+        streakPicker.dataSource = self
+        streakPicker.delegate = self
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
 
@@ -167,9 +169,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return button
     }()
 
-    
+    //MARK: - SetupView
     private func setupUI() {
-        //TODO: FIX UI BY ADDING STACKVIEWS
         self.navigationController?.navigationBar.topItem?.title = "Past Streaks"
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems = [self.editButtonItem, sortButton]
         
@@ -177,61 +178,41 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         tableView.rowHeight = 55
-        
-        tableView.delaysContentTouches = false
+//        tableView.delaysContentTouches = false
 
         let footerHeight: CGFloat =  500
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = footerHeight
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight))
         
-        let footerTopHalf = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight / 2))
-        tableView.tableFooterView?.addSubview(footerTopHalf)
-        let footerBottomHalf = UIView(frame: CGRect(x: 0, y: 150, width: UIScreen.main.bounds.width, height: footerHeight / 2))
-        
-        tableView.tableFooterView?.addSubview(footerBottomHalf)
         tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
+        let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel,badgeSwitch])
+        badgeStackView.alignment = .center
+        badgeStackView.distribution = .equalSpacing
+        badgeStackView.axis = .horizontal
         
-        streakPicker.dataSource = self
-        streakPicker.delegate = self
-        
-        tableView.tableFooterView?.addSubview(badgeLabel)
-        badgeLabel.topAnchor.constraint(equalTo: footerTopHalf.topAnchor, constant: 10).isActive = true
-        badgeLabel.leftAnchor.constraint(equalTo: footerTopHalf.leftAnchor, constant: 5).isActive = true
-        badgeLabel.rightAnchor.constraint(equalTo: footerTopHalf.rightAnchor, constant: -60).isActive = true
-        
-        tableView.tableFooterView?.addSubview(reminderLabel)
-        reminderLabel.topAnchor.constraint(equalTo: badgeLabel.bottomAnchor, constant: 10).isActive = true
-        reminderLabel.leftAnchor.constraint(equalTo: footerTopHalf.leftAnchor, constant: 5).isActive = true
-        reminderLabel.rightAnchor.constraint(equalTo: footerTopHalf.rightAnchor, constant: -60).isActive = true
-        
-        tableView.tableFooterView?.addSubview(streakPicker)
-        streakPicker.topAnchor.constraint(equalTo: reminderLabel.bottomAnchor).isActive = true
-        streakPicker.leftAnchor.constraint(equalTo: footerTopHalf.leftAnchor).isActive = true
-        streakPicker.rightAnchor.constraint(equalTo: footerTopHalf.rightAnchor).isActive = true
-        streakPicker.selectRow(selectedStreak + 1, inComponent: 0, animated: true)
+        let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel, reminderSwitch])
+        reminderStackView.alignment = .center
+        reminderStackView.distribution = .equalSpacing
+        reminderStackView.axis = .horizontal
 
-        tableView.tableFooterView?.addSubview(badgeSwitch)
-        badgeSwitch.topAnchor.constraint(equalTo: footerTopHalf.topAnchor, constant: 10).isActive = true
-        badgeSwitch.rightAnchor.constraint(equalTo: footerTopHalf.rightAnchor, constant: -5).isActive = true
-        
-        tableView.tableFooterView?.addSubview(reminderSwitch)
-        reminderSwitch.topAnchor.constraint(equalTo: badgeSwitch.bottomAnchor, constant: 15).isActive = true
-        reminderSwitch.rightAnchor.constraint(equalTo: footerTopHalf.rightAnchor, constant: -5).isActive = true
-        
-        
-        tableView.tableFooterView?.addSubview(aboutTextView)
-        aboutTextView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.bottomAnchor).isActive = true
-        aboutTextView.rightAnchor.constraint(equalTo: footerBottomHalf.rightAnchor).isActive = true
-        aboutTextView.leftAnchor.constraint(equalTo: footerBottomHalf.leftAnchor).isActive = true
-        aboutTextView.heightAnchor.constraint(equalTo: footerBottomHalf.heightAnchor, multiplier: 0.5).isActive = true
 
-        tableView.tableFooterView?.addSubview(reviewButton)
-        reviewButton.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.bottomAnchor).isActive = true
-        reviewButton.leftAnchor.constraint(equalTo: footerBottomHalf.leftAnchor).isActive = true
-        reviewButton.rightAnchor.constraint(equalTo: footerBottomHalf.rightAnchor).isActive = true
+        let tableViewFooterStackView = UIStackView(arrangedSubviews: [badgeStackView,reminderStackView,streakPicker,aboutTextView, reviewButton])
+        tableViewFooterStackView.alignment = .fill
+        tableViewFooterStackView.distribution = .fill
+        tableViewFooterStackView.axis = .vertical
+        tableViewFooterStackView.spacing = 5
+        tableViewFooterStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        
+        tableView.tableFooterView?.addSubview(tableViewFooterStackView)
+        tableViewFooterStackView.leadingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.leadingAnchor).isActive = true
+        tableViewFooterStackView.trailingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.trailingAnchor).isActive = true
+        tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
+        tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
+
 
         
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
