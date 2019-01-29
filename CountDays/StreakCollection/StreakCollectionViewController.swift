@@ -11,7 +11,6 @@ import CoreData
 import StoreKit
 
 
-//this is a test
 
 @available(iOS 12.0, *)
 
