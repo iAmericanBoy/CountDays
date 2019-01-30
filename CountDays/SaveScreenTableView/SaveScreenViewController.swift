@@ -23,7 +23,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let defaults = UserDefaults.standard
     
-    
     var sortBy: NSSortDescriptor {
         get {
             return NSSortDescriptor(key: defaults.string(forKey: "sortBy") ?? "name", ascending: false)
@@ -44,7 +43,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeFetchedResultsController()
-        
         
         tableView.dataSource = self
         streakPicker.dataSource = self
