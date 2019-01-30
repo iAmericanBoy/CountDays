@@ -122,6 +122,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         newSwitch.backgroundColor = .white
         newSwitch.layer.cornerRadius = newSwitch.frame.height / 2
         newSwitch.onTintColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
+        newSwitch.isOn = false
         return newSwitch
     }()
     
@@ -178,7 +179,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         tableView.rowHeight = 55
-//        tableView.delaysContentTouches = false
 
         let footerHeight: CGFloat =  500
         tableView.allowsSelection = false
@@ -215,6 +215,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
 
         
+        reminderSwitch.isEnabled = selectedStreak < 0 ? false : true
+        
+        streakPicker.selectRow(selectedStreak + 1, inComponent: 0, animated: true)
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         reminderSwitch.isOn = defaults.object(forKey: "dailyReminderOn") as? Bool ?? false
 
@@ -239,6 +242,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     @objc func turnOnReminder() {
         defaults.set(reminderSwitch.isOn, forKey: "dailyReminderOn")
+        guard 0 < streakPicker.selectedRow(inComponent: 0) else {return}
+
         if reminderSwitch.isOn {
             print("daily reminder sent")
             scheduleReminderNotification(name: unfinishedStreaks[streakPicker.selectedRow(inComponent: 0) - 1].value(forKey: "name") as! String)
