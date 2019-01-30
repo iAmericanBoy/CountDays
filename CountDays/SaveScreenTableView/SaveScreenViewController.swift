@@ -128,7 +128,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sent daily reminder"
+        label.text = "Send daily reminder"
         label.textAlignment = .center
         label.numberOfLines = 0;
         label.translatesAutoresizingMaskIntoConstraints = false
