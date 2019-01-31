@@ -37,12 +37,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     var selectedStreak = -1
     
-    var fetchedResultsController: NSFetchedResultsController<Streak>!
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeFetchedResultsController()
         
         tableView.dataSource = self
         streakPicker.dataSource = self
@@ -69,7 +67,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        StreakController.shared.finishedStreakfetchResultsController.delegate = self
         // show the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         setupUI()
@@ -260,22 +258,18 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         let count = UIAlertAction(title: "Streak Lenght", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "count", ascending: false)
-            self.initializeFetchedResultsController()
             self.tableView.reloadData()
         }
         let startDate = UIAlertAction(title: "Streak Start Day", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "start", ascending: false)
-            self.initializeFetchedResultsController()
             self.tableView.reloadData()
         }
         let restartedStreak = UIAlertAction(title: "Restarted Streak", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "restartedStreak", ascending: false)
-            self.initializeFetchedResultsController()
             self.tableView.reloadData()
         }
         let streakName = UIAlertAction(title: "Streak Name", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "name", ascending: false)
-            self.initializeFetchedResultsController()
             self.tableView.reloadData()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -342,8 +336,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     //MARK: - Private Functions
     func updateEditButtonState() {
-        if let sections = fetchedResultsController.sections {
-            self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.isEnabled = (sections[0].numberOfObjects) > 0
+        if let numberOfObjects = StreakController.shared.finishedStreakfetchResultsController.sections?[0].numberOfObjects {
+            self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.isEnabled = numberOfObjects > 0
         }
     }
     ///this function sets all the badge boolean values of the unfinished streak to false
@@ -352,24 +346,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             unfinishedStreaks.forEach { streak in
                 streak.setValue(false, forKey: "badge")
             }
-        }
-    }
-    
-    func initializeFetchedResultsController() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let predicate = NSPredicate(format: "finishedStreak == true")
-        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
-        fetchRequest.sortDescriptors = [sortBy]
-        fetchRequest.predicate = predicate
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
 }
@@ -413,15 +389,16 @@ extension SaveScreenViewController: NSFetchedResultsControllerDelegate {
 //MARK: - TableViewDataSource:
 extension SaveScreenViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        let number = StreakController.shared.finishedStreakfetchResultsController.sections?[section].numberOfObjects ?? 0
+        return number
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
+        return StreakController.shared.finishedStreakfetchResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let streak =  fetchedResultsController.object(at: indexPath )
+        let streak =  StreakController.shared.finishedStreakfetchResultsController.object(at: indexPath )
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! StreakCell
         cell.streakLabel.text = streak.name
         cell.streakNumberLabel.text = streak.count.description
@@ -438,11 +415,7 @@ extension SaveScreenViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let streakToDelete = fetchedResultsController.object(at: indexPath)
-            managedContext.delete(streakToDelete)
-            try? managedContext.save()
+            StreakController.shared.remove(streak: StreakController.shared.finishedStreakfetchResultsController.object(at: indexPath))
         }
     }
     
