@@ -100,5 +100,5 @@ class StreakCell: UITableViewCell {
         ovalPath.lineWidth = 3
         ovalPath.lineJoinStyle = .bevel
         ovalPath.stroke()
-    }    
+    }
 }
