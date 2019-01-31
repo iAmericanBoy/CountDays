@@ -25,7 +25,7 @@ class StreakController {
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     let finishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
-        let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
+        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
         let predicate = NSPredicate(format: "finishedStreak == true")
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         fetchRequest.sortDescriptors = [nameSort]

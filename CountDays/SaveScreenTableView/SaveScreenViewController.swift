@@ -67,6 +67,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
         // show the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(false, animated: animated)

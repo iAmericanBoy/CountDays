@@ -157,7 +157,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let directory: NSURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.oskman.DaysInARowGroup")! as NSURL
         let newStoreUrl = directory.appendingPathComponent("CountDays.sqlite")!
         
-        
+        print(newStoreUrl)
         var targetUrl : URL? = nil
         var needMigrate = false
         var needDeleteOld = false
