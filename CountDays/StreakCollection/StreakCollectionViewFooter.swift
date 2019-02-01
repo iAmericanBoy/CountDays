@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CollectionViewFooterDelegate : class {
-    func sequeToSaveScreen()
+    func segueToSaveScreen()
 }
 
 class StreakCollectionViewFooter: UICollectionViewCell {
@@ -23,6 +23,6 @@ class StreakCollectionViewFooter: UICollectionViewCell {
     weak var delegate: CollectionViewFooterDelegate?
 
     func goToSaveScreen() {
-        self.delegate?.sequeToSaveScreen()
+        self.delegate?.segueToSaveScreen()
     }
 }

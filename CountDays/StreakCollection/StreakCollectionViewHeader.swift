@@ -10,7 +10,7 @@ import UIKit
 
 protocol CollectionViewHeaderDelegate: class {
     func showChangeNameAlert(_ cell: StreakCollectionViewHeader)
-    func sequeToSaveScreen()
+    func segueToSaveScreen()
 }
 
 class StreakCollectionViewHeader: UICollectionViewCell {
@@ -200,7 +200,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
 
     @objc func openSaveScreenButtonPressed(sender: UIButton) {
         print("openSaveScreenButtonPressed")
-        self.delegate?.sequeToSaveScreen()
+        self.delegate?.segueToSaveScreen()
         updateUI()
     }
     @objc func changeStartDayAlert(sender: UIButton) {

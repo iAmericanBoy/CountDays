@@ -14,7 +14,7 @@ protocol CollectionViewCellDelegate: class {
     func getGoalAlert(_ cell: StreakCollectionViewCell)
     func restartStreak(_ cell: StreakCollectionViewCell)
     func saveStreak(_ cell: StreakCollectionViewCell)
-    func sequeToSaveScreen()
+    func segueToSaveScreen()
     func newEmptyStreakButtonPressed(_ cell: StreakCollectionViewCell)
 }
 
@@ -264,7 +264,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     }
     @objc func openSaveScreenButtonPressed(sender: UIButton) {
         print("openSaveScreenButtonPressed")
-        self.delegate?.sequeToSaveScreen()
+        self.delegate?.segueToSaveScreen()
         updateUI()
     }
     @objc func changeStartDayAlert(sender: UIButton) {
