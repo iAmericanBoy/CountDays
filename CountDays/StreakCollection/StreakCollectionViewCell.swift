@@ -31,7 +31,6 @@ class StreakCollectionViewCell: UICollectionViewCell {
     
     weak var delegate: CollectionViewCellDelegate?
     
-    var currentIndexPath = IndexPath()
 
     let streakNumberButton: UIButton = {
         let button = UIButton(type: .system)

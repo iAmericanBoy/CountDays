@@ -16,12 +16,11 @@ import StoreKit
 
 class StreakCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, CollectionViewCellDelegate, CollectionViewHeaderDelegate, CollectionViewFooterDelegate {
     
-    var fetchedResultsController: NSFetchedResultsController<Streak>!
-
+    
     let defaults = UserDefaults.standard
-
+    
     let calendar = Calendar.current
-
+    
     var currentDay = Calendar.current.startOfDay(for: Date())
     
     
@@ -31,13 +30,12 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeFetchedResultsController()
         setupPaging()
         // Register cell classes
         self.collectionView!.register(StreakCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView?.register(StreakCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         showBadge = defaults.bool(forKey: "badgeOn")
-
+        
         setupView()
         updateUI()
         
@@ -61,7 +59,9 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        if onLaunch && fetchedResultsController.sections![0].numberOfObjects > 0 {
+        StreakController.shared.unfinishedStreakfetchResultsController.delegate = self
+        
+        if onLaunch && StreakController.shared.unfinishedStreakfetchResultsController.sections![0].numberOfObjects > 0 {
             let currentIndex = IndexPath(item: 0, section: 0)
             collectionView?.scrollToItem(at: currentIndex,at: .left,animated: false)
             pageIndicator.currentPage = 1
@@ -75,55 +75,18 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-    func initializeFetchedResultsController() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        let predicate = NSPredicate(format: "finishedStreak == false")
-        
-        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
-        fetchRequest.sortDescriptors = [nameSort]
-        fetchRequest.predicate = predicate
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("Failed to initialize FetchedResultsController: \(error)")
-        }
-    }
-    
-    
-    
-    
     //UI:
     private func updateUI() {
-        if let streaks = fetchedResultsController!.fetchedObjects {
-            for streak in streaks {
-                print(streak)
-
-
-                streak.count = Int32(differenceInDays(start: self.currentDay, end: streak.start ?? self.currentDay))
-                
-                if streak.badge == true  && showBadge {
-                    UIApplication.shared.applicationIconBadgeNumber = Int(streak.count)
-                    defaults.set(Int(streak.count), forKey: "currentCount")
-                }
+        StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
+            streak.count = Int32(differenceInDays(start: self.currentDay, end: streak.start ?? self.currentDay))
+            
+            if streak.badge == true  && showBadge {
+                UIApplication.shared.applicationIconBadgeNumber = Int(streak.count)
+                defaults.set(Int(streak.count), forKey: "currentCount")
             }
-        }
+        })
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        if managedContext.hasChanges {
-            try? managedContext.save()
-        }
-        
-        pageIndicator.numberOfPages = fetchedResultsController.sections![0].numberOfObjects + 1
-
-        collectionView?.reloadData()
+        pageIndicator.numberOfPages = StreakController.shared.unfinishedStreakfetchResultsController.sections![0].numberOfObjects + 1
     }
     
     let pageIndicator: UIPageControl = {
@@ -141,8 +104,8 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         switch pageIndicator.currentPage {
         case 0:
             collectionView?.scrollRectToVisible(CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height), animated: true)
-//        case pageIndicator.numberOfPages - 1:
-//            pageIndicator.currentPage = pageIndicator.currentPage - 1
+            //        case pageIndicator.numberOfPages - 1:
+        //            pageIndicator.currentPage = pageIndicator.currentPage - 1
         default:
             let currentIndex = IndexPath(item: pageIndicator.currentPage - 1, section: 0)
             collectionView?.scrollToItem(at: currentIndex,at: .left,animated: true)
@@ -169,16 +132,17 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     }
     
     internal func showChangeNameAlert(_ cell: StreakCollectionViewCell) {
-        nameAlert(indexPath: nil, cell: cell, editStreak: true)
+        nameAlert(cell: cell, editStreak: true)
     }
     internal func showChangeNameAlert(_ cell: StreakCollectionViewHeader) {
-        nameAlert(indexPath: nil, cell: nil, editStreak: false)
+        nameAlert(cell: nil, editStreak: false)
     }
     
-    private func nameAlert(indexPath: IndexPath?, cell: StreakCollectionViewCell?, editStreak: Bool){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
+    private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){
+        var nameTextField: UITextField?
+
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
         if !editStreak {
             alertController.title =  "New Streak"
             alertController.message = "Please name your new Streak"
@@ -188,42 +152,36 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            if let path = indexPath {
-                self.collectionView?.scrollToItem(at: path, at: .right, animated: true)
-                self.pageIndicator.currentPage = (path.item) + 1
-                self.updateUI()
-                self.collectionView?.reloadData()
-            }
+//            self.collectionView?.scrollToItem(at: index!, at: .right, animated: true)
+//            self.pageIndicator.currentPage = (index?.item)! + 1
+//            self.updateUI()
+//            self.collectionView?.reloadData()
         }
         
         let confirmAction = UIAlertAction(title: "Save", style: .default) { [weak self] action in
-            if let name = alertController.textFields?.first?.text {
-//                self?.currentTitle = name.uppercased()
-                if let cell = cell {
-
-                    self?.fetchedResultsController.object(at: cell.currentIndexPath).name = name.uppercased()
-                    self?.fetchedResultsController.object(at: cell.currentIndexPath).lastModified = Date.init()
-                }  else {
-                    let newStreak = Streak(context: managedContext)
-                    newStreak.start = (self?.currentDay)!
-                    newStreak.name = name.uppercased()
-                    newStreak.lastModified = Date.init()
-
+            if let name = nameTextField?.text {
+                if editStreak {
+                    //update
+                    guard  let cell = cell, let index = self?.collectionView?.indexPath(for: cell) else {return}
+                    let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
+                    StreakController.shared.update(name: name, ofStreak: streak)
+                } else {
+                    //new Streak
+                    StreakController.shared.createStreakWith(name: name)
                 }
-
+                
                 self?.updateUI()
-
-                try? managedContext.save()
             }
         }
         confirmAction.isEnabled = false
         
         //adding textfields to our dialog box
         alertController.addTextField { textField in
-            textField.placeholder = "Name"
+            textField.placeholder = "Add Name"
             NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
-                if let text = textField.text, !text.isEmpty {
+                if let name = textField.text, !name.isEmpty {
                     confirmAction.isEnabled = true
+                    nameTextField = textField
                 } else {
                     confirmAction.isEnabled = false
                 }
@@ -236,7 +194,8 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         self.present(alertController, animated: true, completion: nil)
     }
     internal func getDateAlert(_ cell: StreakCollectionViewCell) {
-        let currentStreak = fetchedResultsController.object(at: cell.currentIndexPath)
+        guard  let index = collectionView?.indexPath(for: cell) else {return}
+        let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
         var components: DateComponents = DateComponents()
         components.calendar = calendar
         components.year = -135
@@ -244,7 +203,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         
         let datePicker = UIDatePicker()
         datePicker.datePickerMode = .date
-        datePicker.setDate(currentStreak.start!, animated: true)
+        datePicker.setDate(streak.start ?? currentDay, animated: true)
         datePicker.maximumDate = currentDay
         datePicker.minimumDate = minDate
         
@@ -256,9 +215,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         let ok = UIAlertAction(title: "Enter", style: .default) { (action) in
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyy-MM-dd"
-            currentStreak.start = self.changeToMidnight(toChange: datePicker.date)
-            currentStreak.lastModified = Date.init()
-
+            StreakController.shared.update(startDate: datePicker.date, ofStreak: streak)
             self.updateUI()
         }
         
@@ -269,25 +226,24 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         present(alert, animated: true, completion: nil)
     }
     internal func getGoalAlert(_ cell: StreakCollectionViewCell) {
-        let currentStreak = fetchedResultsController.object(at: cell.currentIndexPath)
-
-
+        guard  let index = collectionView?.indexPath(for: cell) else {return}
+        
+        let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
+        
+        
         let alert = UIAlertController(title: "Set a Goal for your Streak:", message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
         
         let seven = UIAlertAction(title: "7 days", style: .default) { (action) in
-            currentStreak.goal = 7
-            currentStreak.lastModified = Date.init()
+            StreakController.shared.add(goal: 7, ofStreak: streak)
             self.updateUI()
         }
         let thirthy = UIAlertAction(title: "30 days", style: .default) { (action) in
-            currentStreak.goal = 30
-            currentStreak.lastModified = Date.init()
+            StreakController.shared.add(goal: 30, ofStreak: streak)
             self.updateUI()
         }
         let removeGoal = UIAlertAction(title: "remove current Goal", style: .destructive) { (action) in
-            currentStreak.goal = 0
-            currentStreak.lastModified = Date.init()
+            StreakController.shared.add(goal: 0, ofStreak: streak)
             self.updateUI()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -295,54 +251,27 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         alert.addAction(thirthy)
         alert.addAction(removeGoal)
         alert.addAction(cancel)
-
+        
         present(alert, animated: true, completion: nil)
     }
     
     
     internal func restartStreak(_ cell: StreakCollectionViewCell) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let restartedStreak = fetchedResultsController.object(at: cell.currentIndexPath)
-        let newStreak = Streak(context: managedContext)
-        newStreak.start = restartedStreak.start
-        newStreak.name = restartedStreak.name
-        newStreak.count = restartedStreak.count
-        newStreak.goal = restartedStreak.goal
-        newStreak.end = currentDay
-        newStreak.restartedStreak = true
-        newStreak.finishedStreak = true
-        newStreak.lastModified = Date.init()
-
-        try? managedContext.save()
-
-        restartedStreak.start = currentDay
-        restartedStreak.finishedStreak = false
-        restartedStreak.lastModified = Date.init()
-
-        
-        try? managedContext.save()
-        
+        guard  let index = collectionView?.indexPath(for: cell) else {return}
+        StreakController.shared.restart(streak: StreakController.shared.unfinishedStreakfetchResultsController.object(at: index))
         updateUI()
     }
     
     internal func saveStreak(_ cell: StreakCollectionViewCell) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let currentStreak = fetchedResultsController.object(at: cell.currentIndexPath)
-        currentStreak.end = currentDay
-        currentStreak.finishedStreak = true
-        currentStreak.badge = false
-        currentStreak.lastModified = Date.init()
-        defaults.removeObject(forKey: "currentCount")
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        try? managedContext.save()
+        guard  let index = collectionView?.indexPath(for: cell) else {return}
+        if StreakController.shared.unfinishedStreakfetchResultsController.object(at: index).badge == true {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+        StreakController.shared.finish(streak: StreakController.shared.unfinishedStreakfetchResultsController.object(at: index))
         updateUI()
         if Bool.random() {
             SKStoreReviewController.requestReview()
         }
-
     }
     
     internal func sequeToSaveScreen() {
@@ -357,10 +286,10 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         self.updateUI()
         collectionView?.scrollRectToVisible(CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height), animated: false)
         pageIndicator.currentPage = 0
-        nameAlert(indexPath: cell.currentIndexPath, cell: nil, editStreak: false)
+        nameAlert(cell: cell, editStreak: false)
     }
     
-
+    
     /**
      Changes a date Value to midnight
      - Parameters:
@@ -384,34 +313,29 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     
     // MARK: UICollectionViewDataSource
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
-    }
-    
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[0].numberOfObjects ?? 1
+        return StreakController.shared.unfinishedStreakfetchResultsController.sections?[section].numberOfObjects ?? 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let unFinishedStreak = fetchedResultsController.object(at: indexPath )
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! StreakCollectionViewCell
+        let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? StreakCollectionViewCell else {return UICollectionViewCell()}
         cell.delegate = self
-        cell.streakNameButton.setTitle(unFinishedStreak.name, for: .normal)
-        cell.streakNumberButton.setTitle(String(unFinishedStreak.count), for: .normal)
-        switch unFinishedStreak.count {
+        
+        cell.streakNameButton.setTitle(streak.name, for: .normal)
+        cell.streakNumberButton.setTitle(String(streak.count), for: .normal)
+        switch streak.count {
         case 1:
             cell.roundDaysbutton.setTitle("Day", for: .normal)
         default:
             cell.roundDaysbutton.setTitle("Days", for: .normal)
         }
-        if unFinishedStreak.goal != 0 {
-            cell.progress = Float(unFinishedStreak.count) / Float(unFinishedStreak.goal)
+        if streak.goal != 0 {
+            cell.progress = Float(streak.count) / Float(streak.goal)
         } else {
             cell.progress = 1
         }
         cell.updateUI()
-        cell.currentIndexPath = indexPath
         return cell
     }
     
@@ -424,14 +348,13 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
             header.updateUI()
             view = header
         }
-//        } else if kind == UICollectionElementKindSectionFooter {
-//            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "myFooterView", for: indexPath) as! StreakCollectionViewFooter
-//            footer.delegate = self
-//            footer.goToSaveScreen()
-//            view = footer
-//        }
+        //        } else if kind == UICollectionElementKindSectionFooter {
+        //            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "myFooterView", for: indexPath) as! StreakCollectionViewFooter
+        //            footer.delegate = self
+        //            footer.goToSaveScreen()
+        //            view = footer
+        //        }
         return view
-    
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -457,21 +380,29 @@ extension StreakCollectionViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .update:
-            //CLOUDKIT UPDATE
+            guard let indexPath = indexPath else {return}
+            //                collectionView?.reloadItems(at: [indexPath])
             collectionView?.reloadData()
         case .insert:
-            //CLOUDKIT ADD
-            collectionView?.scrollToItem(at: newIndexPath!, at: .right, animated: true)
-            pageIndicator.currentPage = (newIndexPath?.item)! + 1
-            self.updateUI()
+            guard let newIndexPath = newIndexPath else {return}
             collectionView?.reloadData()
+            
+//            collectionView?.insertItems(at: [newIndexPath])
+            collectionView?.scrollToItem(at: newIndexPath, at: .right, animated: true)
+            pageIndicator.currentPage = (newIndexPath.item) + 1
+            self.updateUI()
         case .delete:
-            //CLOUDKIT REMOVE
+            guard let indexPath = indexPath else {return}
+            //                collectionView?.deleteItems(at: [indexPath])
+            collectionView?.reloadData()
+            
             collectionView?.scrollRectToVisible(CGRect(x: 0, y: 0, width: view.safeAreaLayoutGuide.layoutFrame.width, height: view.safeAreaLayoutGuide.layoutFrame.height), animated: false)
             pageIndicator.currentPage = 0
+        case .move:
+            guard let newIndexPath = newIndexPath, let indexPath = indexPath else {return}
+            //                collectionView?.moveItem(at: indexPath, to: newIndexPath)
             collectionView?.reloadData()
-        default:
-            break
+            
         }
     }
 }

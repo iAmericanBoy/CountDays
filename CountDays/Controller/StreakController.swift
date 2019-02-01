@@ -82,7 +82,6 @@ class StreakController {
         streak.badge = false
         streak.lastModified = Date()
         saveToPersistentStore()
-
     }
     
     //MARK: toggle Badge
