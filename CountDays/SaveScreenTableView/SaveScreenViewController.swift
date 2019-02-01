@@ -45,41 +45,33 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.dataSource = self
         streakPicker.dataSource = self
         streakPicker.delegate = self
+        StreakController.shared.finishedStreakfetchResultsController.delegate = self
+
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+        selectedStreak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.lastIndex(of: StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects!.first!) ?? -1
 
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let predicate = NSPredicate(format: "finishedStreak == false")
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Streak")
-        fetchRequest.predicate = predicate
-        do {
-            unfinishedStreaks = try managedContext.fetch(fetchRequest)
-            for (n, streak) in unfinishedStreaks.enumerated() {
-                if streak.value(forKey: "badge") as? Bool == true {
-                    selectedStreak = n
-                }
-            }
-        } catch { }
+
+            
         self.view.backgroundColor = .white
-
+            
         tableView.register(StreakCell.self, forCellReuseIdentifier: cellId)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        StreakController.shared.finishedStreakfetchResultsController.delegate = self
         // show the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         setupUI()
-
+        
         tableView.reloadData()
         updateEditButtonState()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         // hide the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
@@ -153,7 +145,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         attributedString.setAttributes([.link: url, .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize)], range: NSMakeRange(22, 20))
         
         textField.attributedText = attributedString
-    
+        
         return textField
     }()
     
@@ -166,7 +158,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         button.setTitleColor(button.currentTitleColor.withAlphaComponent(0.8), for: .normal)
         return button
     }()
-
+    
     //MARK: - SetupView
     private func setupUI() {
         self.navigationController?.navigationBar.topItem?.title = "Past Streaks"
@@ -176,7 +168,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         tableView.rowHeight = 55
-
+        
         let footerHeight: CGFloat =  500
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = footerHeight
@@ -194,31 +186,31 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderStackView.alignment = .center
         reminderStackView.distribution = .equalSpacing
         reminderStackView.axis = .horizontal
-
-
+        
+        
         let tableViewFooterStackView = UIStackView(arrangedSubviews: [badgeStackView,reminderStackView,streakPicker,aboutTextView, reviewButton])
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
         tableViewFooterStackView.spacing = 5
         tableViewFooterStackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         
         tableView.tableFooterView?.addSubview(tableViewFooterStackView)
         tableViewFooterStackView.leadingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.leadingAnchor).isActive = true
         tableViewFooterStackView.trailingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.trailingAnchor).isActive = true
         tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
         tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
-
-
+        
+        
         
         reminderSwitch.isEnabled = selectedStreak < 0 ? false : true
         
         streakPicker.selectRow(selectedStreak + 1, inComponent: 0, animated: true)
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         reminderSwitch.isOn = defaults.object(forKey: "dailyReminderOn") as? Bool ?? false
-
-        if unfinishedStreaks.count == 0 {
+        
+        if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
             streakPicker.isHidden = true
         } else {
             streakPicker.isHidden = !badgeSwitch.isOn
@@ -240,7 +232,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     @objc func turnOnReminder() {
         defaults.set(reminderSwitch.isOn, forKey: "dailyReminderOn")
         guard 0 < streakPicker.selectedRow(inComponent: 0) else {return}
-
+        
         if reminderSwitch.isOn {
             print("daily reminder sent")
             scheduleReminderNotification(name: unfinishedStreaks[streakPicker.selectedRow(inComponent: 0) - 1].value(forKey: "name") as! String)
@@ -279,10 +271,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         alert.addAction(restartedStreak)
         alert.addAction(streakName)
         alert.addAction(cancel)
-
+        
         present(alert, animated: true, completion: nil)
     }
-
+    
     @objc func reviewApp(sender: UIButton) {
         SKStoreReviewController.requestReview()
     }
@@ -343,13 +335,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     ///this function sets all the badge boolean values of the unfinished streak to false
     func resetBadge() {
-        if unfinishedStreaks.count > 0 {
-            unfinishedStreaks.forEach { streak in
-                streak.setValue(false, forKey: "badge")
-            }
-        }
+        StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects?.first?.badge = false
     }
 }
+
 //MARK: - NSFetchedResultsControllerDelegate:
 extension SaveScreenViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -437,16 +426,16 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return unfinishedStreaks.count + 1
+        return (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count ?? 0) + 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var streakLabel = "SELECT A STREAK"
-        if unfinishedStreaks.count == 0 {
+        if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
             streakLabel = "no current Streak available"
         }
         if row != 0 {
-            streakLabel = unfinishedStreaks[row - 1].value(forKey: "name") as? String ?? "empty"
+            streakLabel = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "empty"
         }
         return streakLabel
     }
@@ -456,7 +445,8 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
         
         if row > 0 {
             //"a streak was selected"
-            UIApplication.shared.applicationIconBadgeNumber = unfinishedStreaks[row - 1].value(forKey: "count") as! Int
+            UIApplication.shared.applicationIconBadgeNumber = Int(truncating: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].count as! NSNumber)
+            
             lastSelectedRow = row - 1
             reminderSwitch.isEnabled = true
             reminderSwitch.isOn = false

@@ -106,7 +106,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
                 print(streak)
 
 
-                streak.count = Int64(differenceInDays(start: self.currentDay, end: streak.start ?? self.currentDay))
+                streak.count = Int32(differenceInDays(start: self.currentDay, end: streak.start ?? self.currentDay))
                 
                 if streak.badge == true  && showBadge {
                     UIApplication.shared.applicationIconBadgeNumber = Int(streak.count)

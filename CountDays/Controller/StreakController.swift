@@ -33,12 +33,32 @@ class StreakController {
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
+    let finishedStreakWithBadgeFetchResultsController: NSFetchedResultsController<Streak> = {
+        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
+        let predicate = NSPredicate(format: "finishedStreak == true && badge == true")
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.predicate = predicate
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+    let unFinishedStreakWithBadgeFetchResultsController: NSFetchedResultsController<Streak> = {
+        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
+        let predicate = NSPredicate(format: "finishedStreak == false && badge == true")
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.predicate = predicate
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
     
     //MARK: - init
     init() {
         do{
             try finishedStreakfetchResultsController.performFetch()
+            try finishedStreakWithBadgeFetchResultsController.performFetch()
             try unfinishedStreakfetchResultsController.performFetch()
+            try unFinishedStreakWithBadgeFetchResultsController.performFetch()
         } catch {
             print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
         }
@@ -63,7 +83,7 @@ class StreakController {
     
     //MARK: add Goal
     func add(goal: Int, ofStreak streak: Streak) {
-        streak.goal = Int64(goal)
+        streak.goal = Int32(goal)
         saveToPersistentStore()
     }
     

@@ -11,13 +11,13 @@ import CoreData
 
 extension Streak {
     @discardableResult
-    convenience init(name: String?, start: Date?, end: Date?, goal: Int64, count: Int64,finishedStreak: Bool, restartedStreak: Bool, badge: Bool, lastModified: Date? , context: NSManagedObjectContext = CoreDataStack.context) {
+    convenience init(name: String?, start: Date?, end: Date?, goal: Int32, count: Int32,finishedStreak: Bool, restartedStreak: Bool, badge: Bool, lastModified: Date? , context: NSManagedObjectContext = CoreDataStack.context) {
         self.init(context: context)
         self.name = name
         self.start = start
         self.end = end
-        self.goal = Int64(goal)
-        self.count = Int64(count)
+        self.goal = goal
+        self.count = count
         self.finishedStreak = finishedStreak
         self.restartedStreak = restartedStreak
         self.badge = badge
