@@ -46,8 +46,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         streakPicker.delegate = self
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
-        
-        selectedStreak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.lastIndex(of: StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects!.first!) ?? -1
+        for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
+            if streak.badge {
+                selectedStreak = n
+            }
+        }
 
 
             
@@ -335,8 +338,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     ///this function sets all the badge boolean values of the unfinished streak to false
     func resetBadge() {
-        StreakController.shared.toggle(badge: false, ofStreak:         StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects![0]
-)
+
+        StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
+            StreakController.shared.toggle(badge: false, ofStreak: streak)
+        })
+
     }
 }
 

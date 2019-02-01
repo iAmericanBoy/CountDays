@@ -18,10 +18,8 @@ class StreakController {
         let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         let predicate = NSPredicate(format: "finishedStreak == false")
-        
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = [nameSort]
-        
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     let finishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
@@ -34,22 +32,13 @@ class StreakController {
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
 
-    let unFinishedStreakWithBadgeFetchResultsController: NSFetchedResultsController<Streak> = {
-        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
-        let predicate = NSPredicate(format: "finishedStreak == false && badge == true")
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [nameSort]
-        fetchRequest.predicate = predicate
-        
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
-    }()
+
     
     //MARK: - init
     init() {
         do{
             try finishedStreakfetchResultsController.performFetch()
             try unfinishedStreakfetchResultsController.performFetch()
-            try unFinishedStreakWithBadgeFetchResultsController.performFetch()
         } catch {
             print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
         }
