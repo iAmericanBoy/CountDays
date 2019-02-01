@@ -33,15 +33,7 @@ class StreakController {
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
-    let finishedStreakWithBadgeFetchResultsController: NSFetchedResultsController<Streak> = {
-        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
-        let predicate = NSPredicate(format: "finishedStreak == true && badge == true")
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [nameSort]
-        fetchRequest.predicate = predicate
-        
-        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
-    }()
+
     let unFinishedStreakWithBadgeFetchResultsController: NSFetchedResultsController<Streak> = {
         let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
         let predicate = NSPredicate(format: "finishedStreak == false && badge == true")
@@ -56,7 +48,6 @@ class StreakController {
     init() {
         do{
             try finishedStreakfetchResultsController.performFetch()
-            try finishedStreakWithBadgeFetchResultsController.performFetch()
             try unfinishedStreakfetchResultsController.performFetch()
             try unFinishedStreakWithBadgeFetchResultsController.performFetch()
         } catch {
@@ -101,6 +92,8 @@ class StreakController {
         streak.finishedStreak = true
         streak.badge = false
         streak.lastModified = Date()
+        saveToPersistentStore()
+
     }
     
     //MARK: toggle Badge

@@ -28,5 +28,10 @@ enum CoreDataStack {
         return container
     }()
     
-    static var context: NSManagedObjectContext { return container.viewContext }
+    static var context: NSManagedObjectContext {
+//        container.viewContext.mergePolicy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+
+        return container.viewContext
+        
+    }
 }

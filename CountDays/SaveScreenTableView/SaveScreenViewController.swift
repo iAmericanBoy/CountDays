@@ -32,8 +32,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
     }
     
-    ///This NSMManagedObject array is a collection of all the streaks that have the attribute finishedStreak set to false, This array is used to populate the pickerview to display a badge
-    var unfinishedStreaks: [NSManagedObject] = []
+
     
     var selectedStreak = -1
     
@@ -75,8 +74,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         // hide the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        if badgeSwitch.isOn && unfinishedStreaks.count > 0 && lastSelectedRow != -1 {
-            unfinishedStreaks[lastSelectedRow].setValue(true, forKey: "badge")
+        if badgeSwitch.isOn && StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects!.count > 0 && lastSelectedRow != -1 {
+            StreakController.shared.toggle(badge: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![lastSelectedRow])
+            
         }
     }
     
@@ -235,8 +235,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         if reminderSwitch.isOn {
             print("daily reminder sent")
-            scheduleReminderNotification(name: unfinishedStreaks[streakPicker.selectedRow(inComponent: 0) - 1].value(forKey: "name") as! String)
-            print(unfinishedStreaks[streakPicker.selectedRow(inComponent: 0) - 1].value(forKey: "name") as! String)
+            scheduleReminderNotification(name: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[streakPicker.selectedRow(inComponent: 0) - 1].name ?? "")
+
         } else {
             print("daily reminder turn off")
             
@@ -335,7 +335,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     ///this function sets all the badge boolean values of the unfinished streak to false
     func resetBadge() {
-        StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects?.first?.badge = false
+        StreakController.shared.toggle(badge: false, ofStreak:         StreakController.shared.unFinishedStreakWithBadgeFetchResultsController.fetchedObjects![0]
+)
     }
 }
 
