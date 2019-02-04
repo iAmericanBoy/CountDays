@@ -22,7 +22,7 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard  let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.first else {return}
+        guard  let streak = StreakController.shared.unFinishedWithBadgeStreakfetchResultsController.fetchedObjects?.first else {return}
         
         // Determine the user action
         switch response.actionIdentifier {
