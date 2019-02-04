@@ -31,6 +31,15 @@ class StreakController {
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
+    let unFinishedWithBadgeStreakfetchResultsController: NSFetchedResultsController<Streak> = {
+        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
+        let predicate = NSPredicate(format: "finishedStreak == false && badge == true")
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.predicate = predicate
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
 
 
     

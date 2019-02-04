@@ -293,10 +293,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     func scheduleReminderNotification(name: String) {
         let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
-        let ignoreAction = UNNotificationAction(identifier: "DO_NOTHING", title: "Continue Streak", options: [.foreground])
         let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
         
-        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [ignoreAction, restartAction, finishAction],intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [restartAction, finishAction],intentIdentifiers: [], options: [])
         
         let content = UNMutableNotificationContent()
         content.body = "Did you continue your streak of \(name)?"

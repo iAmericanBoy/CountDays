@@ -21,7 +21,6 @@
 		B686BDE022039F6300B5F8F0 /* CountDays+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDDF22039F6300B5F8F0 /* CountDays+Convenience.swift */; };
 		B686BDE22203A1A600B5F8F0 /* StreakController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDE12203A1A600B5F8F0 /* StreakController.swift */; };
 		B6ADAEE521E8FC0D0049D86B /* CDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */; };
-		B6ADAEE721E904860049D86B /* CDStreakHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ADAEE621E904860049D86B /* CDStreakHandling.swift */; };
 		B6CCAE962178E89C00A65B0D /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CCAE952178E89B00A65B0D /* NotificationCenter.framework */; };
 		B6CCAE992178E89C00A65B0D /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CCAE982178E89C00A65B0D /* TodayViewController.swift */; };
 		B6F59595214C1E990059D67A /* StreakCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */; };
@@ -68,7 +67,6 @@
 		B686BDDF22039F6300B5F8F0 /* CountDays+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CountDays+Convenience.swift"; sourceTree = "<group>"; };
 		B686BDE12203A1A600B5F8F0 /* StreakController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakController.swift; sourceTree = "<group>"; };
 		B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDNotificationDelegate.swift; sourceTree = "<group>"; };
-		B6ADAEE621E904860049D86B /* CDStreakHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDStreakHandling.swift; sourceTree = "<group>"; };
 		B6B70BFC212DBC5700C20985 /* CountDays.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDays.entitlements; sourceTree = "<group>"; };
 		B6CCAE932178E89B00A65B0D /* DaysInARow Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "DaysInARow Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CCAE952178E89B00A65B0D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -167,7 +165,6 @@
 				B6216117215016FE002AD560 /* SaveScreenTableView */,
 				B6216115214D7180002AD560 /* UiColor+Extension.swift */,
 				B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */,
-				B6ADAEE621E904860049D86B /* CDStreakHandling.swift */,
 				B675679A2119FCD6000E2B74 /* Assets.xcassets */,
 				B675679F2119FCD6000E2B74 /* Info.plist */,
 			);
@@ -397,7 +394,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6ADAEE721E904860049D86B /* CDStreakHandling.swift in Sources */,
 				B621611B2150461A002AD560 /* StreakCollectionViewHeader.swift in Sources */,
 				B621611D21515461002AD560 /* StreakCollectionViewFooter.swift in Sources */,
 				B6216116214D7180002AD560 /* UiColor+Extension.swift in Sources */,
