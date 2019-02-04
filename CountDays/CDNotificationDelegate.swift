@@ -22,17 +22,14 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let streakBot = CDStreakHandling()
-        
+        guard  let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.first else {return}
         
         // Determine the user action
         switch response.actionIdentifier {
         case "Restart":
-            streakBot.restartStreak()
-        case "DO_NOTHING":
-            print("DO_NOTHING")
+            StreakController.shared.restart(streak: streak)
         case "Finish":
-            streakBot.finishStreak()
+            StreakController.shared.finish(streak: streak)
         default:
             print("Unknown action")
         }
