@@ -86,6 +86,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     //MARK: - UIElements
     lazy var sortButton = UIBarButtonItem(title: "Sort", style: UIBarButtonItemStyle.plain, target: self, action: #selector(sortList))
     
+    lazy var tap = UITapGestureRecognizer(target: self, action: #selector(streakPickerDismissed))
+    
     let badgeSwitch:UISwitch = {
         let newSwitch = UISwitch()
         newSwitch.isOn = false
@@ -100,10 +102,28 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeLabel: UILabel = {
         let label = UILabel()
         label.text = "Display the amount of days on the badge"
-        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        label.textAlignment = .natural
         label.numberOfLines = 0;
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let badgeSelectionTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(string: " Select a Streak...",
+                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize), NSAttributedString.Key.foregroundColor: UIColor.systemBlue])
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.systemBlue.cgColor
+        return textField
+    }()
+    let badgePlaceholderButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.isEnabled = false
+        button.layer.borderColor = UIColor.clear.cgColor
+        return button
     }()
     
     let reminderSwitch:UISwitch = {
@@ -121,10 +141,32 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderLabel: UILabel = {
         let label = UILabel()
         label.text = "Send daily reminder"
-        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        label.textAlignment = .natural
         label.numberOfLines = 0;
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let reminderSelectionTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedPlaceholder = NSAttributedString(string: " Select a Streak...",
+                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize), NSAttributedString.Key.foregroundColor: UIColor.systemBlue])
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.systemBlue.cgColor
+        return textField
+    }()
+    
+    let reminderDefaultButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Change default Text", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
+        button.layer.borderColor = UIColor.systemBlue.cgColor
+        button.addTarget(self, action: #selector(reminderDefaultButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     let streakPicker: UIPickerView = {
@@ -168,6 +210,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems = [self.editButtonItem, sortButton]
         
         self.view.addSubview(self.tableView)
+        self.view.addGestureRecognizer(tap)
+        self.tableView.addGestureRecognizer(tap)
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         tableView.rowHeight = 55
@@ -185,13 +229,37 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeStackView.distribution = .equalSpacing
         badgeStackView.axis = .horizontal
         
+        let badgeSettingsStackView = UIStackView(arrangedSubviews: [badgeSelectionTextField, badgePlaceholderButton])
+        badgeSettingsStackView.alignment = .fill
+        badgeSettingsStackView.distribution = .fillEqually
+        badgeSettingsStackView.axis = .horizontal
+        badgeSettingsStackView.spacing = 5
+        
         let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel, reminderSwitch])
         reminderStackView.alignment = .center
         reminderStackView.distribution = .equalSpacing
         reminderStackView.axis = .horizontal
         
+        let reminderSettingsStackView = UIStackView(arrangedSubviews: [reminderSelectionTextField, reminderDefaultButton])
+        reminderSettingsStackView.alignment = .fill
+        reminderSettingsStackView.distribution = .fillEqually
+        reminderSettingsStackView.axis = .horizontal
+        reminderSettingsStackView.spacing = 5
         
-        let tableViewFooterStackView = UIStackView(arrangedSubviews: [badgeStackView,reminderStackView,streakPicker,aboutTextView, reviewButton])
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let toolBar = UIToolbar()
+        toolBar.setItems([space,doneButton], animated: true)
+        toolBar.sizeToFit()
+        
+        
+        badgeSelectionTextField.inputView = streakPicker
+        badgeSelectionTextField.inputAccessoryView = toolBar
+        reminderSelectionTextField.inputView = streakPicker
+        reminderSelectionTextField.inputAccessoryView = toolBar
+
+        
+        let tableViewFooterStackView = UIStackView(arrangedSubviews: [badgeStackView,badgeSettingsStackView, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
@@ -204,7 +272,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableViewFooterStackView.trailingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.trailingAnchor).isActive = true
         tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
         tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
-        
         
         
         reminderSwitch.isEnabled = selectedStreak < 0 ? false : true
@@ -282,6 +349,19 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         SKStoreReviewController.requestReview()
     }
     
+    @objc func reminderDefaultButtonTapped() {
+        
+    }
+    
+    @objc func doneButtonTapped() {
+        badgeSelectionTextField.resignFirstResponder()
+        reminderSelectionTextField.resignFirstResponder()
+    }
+    
+    @objc func streakPickerDismissed(){
+        badgeSelectionTextField.resignFirstResponder()
+        reminderSelectionTextField.resignFirstResponder()
+    }
     //MARK: - Notifications
     private func askForNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, error) in
