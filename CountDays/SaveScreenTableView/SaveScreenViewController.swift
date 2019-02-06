@@ -52,6 +52,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             if streak.dailyReminder {
                 reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
                 reminderSelectionTextField.text = streak.name
+                reminderTextDefaultButton.isEnabled = true
             }
         }
 
@@ -159,7 +160,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.layer.borderColor = UIColor.systemBlue.cgColor
-        button.addTarget(self, action: #selector(reminderDefaultButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(reminderDefaultTextButtonTapped), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -284,6 +286,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeSelectionTextField.isHidden = !sender.isOn
         reminderSelectionTextField.isHidden = !sender.isOn
         reminderTextDefaultButton.isHidden = !sender.isOn
+        reminderTextDefaultButton.isEnabled = false
         reminderLabel.isHidden = !sender.isOn
         badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
         badgeSelectionTextField.text = "Select a streak"
@@ -294,6 +297,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             print("daily reminder turn off")
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+            self.defaults.removeObject(forKey: "ReminderText")
             resetPickerSelections()
         }
     }
@@ -332,8 +336,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         SKStoreReviewController.requestReview()
     }
     
-    @objc func reminderDefaultButtonTapped() {
-        
+    @objc func reminderDefaultTextButtonTapped() {
+        changeDefaultTextAlert()
     }
     
     @objc func doneButtonTapped() {
@@ -343,6 +347,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     @objc func userTappedOnView(){
         userDissmissedPickerView()
     }
+    
     //MARK: - Notifications
     private func askForNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, error) in
@@ -357,9 +362,13 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
         
         let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [restartAction, finishAction],intentIdentifiers: [], options: [])
-        
         let content = UNMutableNotificationContent()
-        content.body = "Did you continue your streak of \(name)?"
+        if let body = defaults.string(forKey: "ReminderText") {
+            content.body = body
+        } else {
+            content.body = "Did you continue your streak of \(name)?"
+        }
+
         content.title = "Daily Streak: \(name)"
         content.categoryIdentifier = "DailyReminderCategory"
         
@@ -396,7 +405,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             self.navigationController?.navigationBar.topItem?.rightBarButtonItem?.isEnabled = numberOfObjects > 0
         }
     }
-    ///this function sets all the badge boolean values of the unfinished streak to false
+    
+    ///this function sets all the badge  and daily reminder boolean values of the unfinished streak to false
     func resetPickerSelections() {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
@@ -408,6 +418,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             StreakController.shared.toggle(reminder: false, ofStreak: streak)
         })
     }
+    
     func setupStateofUI() {
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         
@@ -422,7 +433,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
     }
 
-    
     func userDissmissedPickerView() {
         badgeSelectionTextField.resignFirstResponder()
         reminderSelectionTextField.resignFirstResponder()
@@ -437,15 +447,41 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if reminderStreakPicker.selectedRow(inComponent: 0) > 0 {
             let row = reminderStreakPicker.selectedRow(inComponent: 0) - 1
             print("daily reminder sent")
-            scheduleReminderNotification(name: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].name ?? "Streak not found")
+            let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row]
+            scheduleReminderNotification(name: streak?.name ?? "Streak not found")
             StreakController.shared.toggle(reminder: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![row])
-
         } else {
             print("daily reminder turn off")
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         }
     }
+    func changeDefaultTextAlert() {
+        guard let streakName = StreakController.shared.unFinishedWithReminderStreakfetchResultsController.fetchedObjects?[0].name else {return}
+        
+        let textAlert = UIAlertController(title: nil, message: "Edit the default Text for the daily reminder", preferredStyle: .alert)
+        
+        textAlert.addTextField { (defaultText) in
+            if let text = self.defaults.string(forKey: "ReminderText"){
+                defaultText.text = text
+            } else {
+                defaultText.text = "Did you continue your streak of \(streakName)?"
+            }
+        }
+        
+        let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
+            guard let newText = textAlert.textFields?.first?.text else {return}
+            self.defaults.set(newText, forKey: "ReminderText")
+            self.scheduleReminderNotification(name: streakName)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        textAlert.addAction(saveAction)
+        textAlert.addAction(cancelAction)
+        
+        present(textAlert, animated: true)
+    }
+
 }
 
 //MARK: - NSFetchedResultsControllerDelegate:
@@ -558,6 +594,7 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
                 badgeSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
             case 2222:
                 reminderSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
+                reminderTextDefaultButton.isEnabled = true
 
             default:
                 break
@@ -577,6 +614,8 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
 
             case 2222:
                 reminderSelectionTextField.text = "Select a Streak"
+                reminderTextDefaultButton.isEnabled = false
+
 
             default:
                 break
