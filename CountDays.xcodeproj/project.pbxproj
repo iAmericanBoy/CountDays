@@ -76,6 +76,7 @@
 		B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewController.swift; sourceTree = "<group>"; };
 		B6F59596214C465B0059D67A /* StreakCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6FC061521CC228100E7B3B6 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CountDays v2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -786,9 +787,10 @@
 		B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */,
 				B67567982119FCD3000E2B74 /* CountDays.xcdatamodel */,
 			);
-			currentVersion = B67567982119FCD3000E2B74 /* CountDays.xcdatamodel */;
+			currentVersion = B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */;
 			path = CountDays.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

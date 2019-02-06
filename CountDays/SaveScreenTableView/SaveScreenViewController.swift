@@ -46,18 +46,18 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
             if streak.badge {
-                badgeStreakPicker.selectRow(n, inComponent: 0, animated: true)
+                badgeStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
                 badgeSelectionTextField.text = streak.name
-                
+            }
+            if streak.dailyReminder {
+                reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
+                reminderSelectionTextField.text = streak.name
             }
         }
 
-
-            
         self.view.backgroundColor = .white
             
         tableView.register(StreakCell.self, forCellReuseIdentifier: cellId)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -287,8 +287,14 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderLabel.isHidden = !sender.isOn
         badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
         badgeSelectionTextField.text = "Select a streak"
+        reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
+        reminderSelectionTextField.text = "Select a streak"
         if !sender.isOn {
             UIApplication.shared.applicationIconBadgeNumber = 0
+            print("daily reminder turn off")
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+            resetPickerSelections()
         }
     }
 
@@ -397,17 +403,22 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
             StreakController.shared.toggle(badge: false, ofStreak: streak)
-        
+        })
+        StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
+            StreakController.shared.toggle(reminder: false, ofStreak: streak)
         })
     }
     func setupStateofUI() {
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         
-        
         if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
             badgeSelectionTextField.isHidden = true
+            reminderSelectionTextField.isHidden = true
+            reminderTextDefaultButton.isHidden = true
         } else {
             badgeSelectionTextField.isHidden = !badgeSwitch.isOn
+            reminderSelectionTextField.isHidden = !badgeSwitch.isOn
+            reminderTextDefaultButton.isHidden = !badgeSwitch.isOn
         }
     }
 
@@ -427,6 +438,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             let row = reminderStreakPicker.selectedRow(inComponent: 0) - 1
             print("daily reminder sent")
             scheduleReminderNotification(name: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].name ?? "Streak not found")
+            StreakController.shared.toggle(reminder: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![row])
+
         } else {
             print("daily reminder turn off")
             let center = UNUserNotificationCenter.current()

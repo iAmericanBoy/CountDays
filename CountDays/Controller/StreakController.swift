@@ -40,6 +40,15 @@ class StreakController {
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
+    let unFinishedWithReminderStreakfetchResultsController: NSFetchedResultsController<Streak> = {
+        let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
+        let predicate = NSPredicate(format: "finishedStreak == false && dailyReminder == true")
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.predicate = predicate
+        
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
 
 
     
@@ -48,6 +57,8 @@ class StreakController {
         do{
             try finishedStreakfetchResultsController.performFetch()
             try unfinishedStreakfetchResultsController.performFetch()
+            try unFinishedWithBadgeStreakfetchResultsController.performFetch()
+            try unFinishedWithReminderStreakfetchResultsController.performFetch()
         } catch {
             print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
         }
@@ -56,7 +67,7 @@ class StreakController {
     //MARK: - CRUD
     //MARK: create
     func createStreakWith(name:String) {
-        Streak(name: name, start: Calendar.current.startOfDay(for: Date()), end: nil, goal: 0, count: 1, finishedStreak: false, restartedStreak: false, badge: false, lastModified: Date())
+        Streak(name: name, start: Calendar.current.startOfDay(for: Date()), end: nil, goal: 0, count: 1, finishedStreak: false, restartedStreak: false, badge: false,reminder: false, lastModified: Date())
         saveToPersistentStore()
     }
     
@@ -78,7 +89,7 @@ class StreakController {
     
     //MARK: toggle Restart
     func restart(streak: Streak) {
-        Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, lastModified: Date())
+        Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date())
         streak.start = Calendar.current.startOfDay(for: Date())
         streak.lastModified = Date()
         saveToPersistentStore()
@@ -96,6 +107,12 @@ class StreakController {
     //MARK: toggle Badge
     func toggle(badge: Bool, ofStreak streak: Streak) {
         streak.badge = badge
+        saveToPersistentStore()
+    }
+    
+    //MARK: - Toggle Daily Reminder
+    func toggle(reminder: Bool, ofStreak streak: Streak) {
+        streak.dailyReminder = reminder
         saveToPersistentStore()
     }
     
