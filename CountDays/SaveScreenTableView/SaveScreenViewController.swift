@@ -19,7 +19,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let cellId = "cellId"
     let headerId = "headerId"
     let footerId = "footerId"
-    var lastSelectedRow = -1
     
     let defaults = UserDefaults.standard
     
@@ -31,11 +30,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             defaults.set(newSortDescriptor.key, forKey: "sortBy")
         }
     }
-    
-
-    
-    var selectedStreak = -1
-    
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -52,7 +46,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
             if streak.badge {
-                selectedStreak = n
+                badgeStreakPicker.selectRow(n, inComponent: 0, animated: true)
+                badgeSelectionTextField.text = streak.name
+                
             }
         }
 
@@ -81,10 +77,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         // hide the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        if badgeSwitch.isOn && StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects!.count > 0 && lastSelectedRow != -1 {
-            StreakController.shared.toggle(badge: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![lastSelectedRow])
-            
-        }
+
     }
     
     //MARK: - UIElements
@@ -95,7 +88,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeSwitch:UISwitch = {
         let newSwitch = UISwitch()
         newSwitch.isOn = false
-        newSwitch.addTarget(self, action: #selector(switchAction), for: .valueChanged)
+        newSwitch.addTarget(self, action: #selector(badgeSwitchToggled), for: .valueChanged)
         newSwitch.translatesAutoresizingMaskIntoConstraints = false
         newSwitch.backgroundColor = .white
         newSwitch.layer.cornerRadius = newSwitch.frame.height / 2
@@ -116,7 +109,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeSelectionTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize), NSAttributedString.Key.foregroundColor: UIColor.systemBlue])
+                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+                                                                          .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -133,17 +127,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return button
     }()
     
-    let reminderSwitch:UISwitch = {
-        let newSwitch = UISwitch()
-        newSwitch.isOn = false
-        newSwitch.addTarget(self, action: #selector(turnOnReminder), for: .valueChanged)
-        newSwitch.translatesAutoresizingMaskIntoConstraints = false
-        newSwitch.backgroundColor = .white
-        newSwitch.layer.cornerRadius = newSwitch.frame.height / 2
-        newSwitch.onTintColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
-        newSwitch.isOn = false
-        return newSwitch
-    }()
     
     let reminderLabel: UILabel = {
         let label = UILabel()
@@ -158,7 +141,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderSelectionTextField: UITextField = {
         let textField = UITextField()
         textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize), NSAttributedString.Key.foregroundColor: UIColor.systemBlue])
+                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+                                                                          .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.systemBlue.cgColor
@@ -168,9 +152,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return textField
     }()
     
-    let reminderDefaultButton: UIButton = {
+    let reminderTextDefaultButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Change default Text", for: .normal)
+        button.setTitle("Text", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
@@ -253,14 +237,14 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeSettingsStackView.axis = .horizontal
         badgeSettingsStackView.spacing = 5
         
-        let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel, reminderSwitch])
+        let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel])
         reminderStackView.alignment = .center
         reminderStackView.distribution = .equalSpacing
         reminderStackView.axis = .horizontal
         
-        let reminderSettingsStackView = UIStackView(arrangedSubviews: [reminderSelectionTextField, reminderDefaultButton])
+        let reminderSettingsStackView = UIStackView(arrangedSubviews: [reminderSelectionTextField, reminderTextDefaultButton])
         reminderSettingsStackView.alignment = .fill
-        reminderSettingsStackView.distribution = .fillEqually
+        reminderSettingsStackView.distribution = .fillProportionally
         reminderSettingsStackView.axis = .horizontal
         reminderSettingsStackView.spacing = 5
         
@@ -281,7 +265,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
-        tableViewFooterStackView.spacing = 5
+        tableViewFooterStackView.spacing = 10
         tableViewFooterStackView.translatesAutoresizingMaskIntoConstraints = false
         
         
@@ -291,39 +275,23 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
         tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
         
-        
-        reminderSwitch.isEnabled = selectedStreak < 0 ? false : true
-        
-        badgeStreakPicker.selectRow(selectedStreak + 1, inComponent: 0, animated: true)
-        badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
-        reminderSwitch.isOn = defaults.object(forKey: "dailyReminderOn") as? Bool ?? false
-        
-        if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
-            badgeSelectionTextField.isHidden = true
-        } else {
-            badgeSelectionTextField.isHidden = !badgeSwitch.isOn
-        }
+        setupStateofUI()
     }
     //MARK: - Actions:
-    @objc func switchAction(sender: UISwitch!) {
+    @objc func badgeSwitchToggled(sender: UISwitch!) {
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
         badgeSelectionTextField.isHidden = !sender.isOn
         reminderSelectionTextField.isHidden = !sender.isOn
-        reminderDefaultButton.isHidden = !sender.isOn
-        reminderSwitch.isHidden = !sender.isOn
+        reminderTextDefaultButton.isHidden = !sender.isOn
         reminderLabel.isHidden = !sender.isOn
         badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
+        badgeSelectionTextField.text = "Select a streak"
         if !sender.isOn {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
     }
-    
-    @objc func turnOnReminder() {
-        defaults.set(reminderSwitch.isOn, forKey: "dailyReminderOn")
 
-    }
-    
     @objc func sortList() {
         let alert = UIAlertController(title: "Sort your saved Streaks by:", message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
@@ -423,12 +391,26 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
     }
     ///this function sets all the badge boolean values of the unfinished streak to false
-    func resetBadge() {
-
+    func resetPickerSelections() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+        
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
             StreakController.shared.toggle(badge: false, ofStreak: streak)
+        
         })
     }
+    func setupStateofUI() {
+        badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
+        
+        
+        if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
+            badgeSelectionTextField.isHidden = true
+        } else {
+            badgeSelectionTextField.isHidden = !badgeSwitch.isOn
+        }
+    }
+
     
     func userDissmissedPickerView() {
         badgeSelectionTextField.resignFirstResponder()
@@ -437,6 +419,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if badgeStreakPicker.selectedRow(inComponent: 0) > 0 {
             let row = badgeStreakPicker.selectedRow(inComponent: 0) - 1
             UIApplication.shared.applicationIconBadgeNumber = Int(truncating: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].count as! NSNumber)
+            StreakController.shared.toggle(badge: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![row])
         } else {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
@@ -554,13 +537,12 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        resetBadge()
+        resetPickerSelections()
         if row > 0 {
             //"a streak was selected"
             switch pickerView.tag {
             case 1111:
                 badgeSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
-
             case 2222:
                 reminderSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
 
