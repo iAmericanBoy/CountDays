@@ -28,6 +28,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
         set (newSortDescriptor){
             defaults.set(newSortDescriptor.key, forKey: "sortBy")
+            StreakController.shared.finishedStreakfetchResultsController.fetchRequest.sortDescriptors = [newSortDescriptor]
+            try? StreakController.shared.finishedStreakfetchResultsController.performFetch()
+
         }
     }
     

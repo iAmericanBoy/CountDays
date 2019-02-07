@@ -13,6 +13,14 @@ class StreakController {
     //MARK: - Singleton
     static let shared = StreakController()
     
+    //MARK: - Sort Descriptor
+    static var sortDescriptor: NSSortDescriptor {
+        get {
+            let key = UserDefaults.standard.string(forKey: "sortBy") ?? "name"
+            return NSSortDescriptor(key: key , ascending: false)
+        }
+    }
+    
     //MARK: - fetchResultsController
     let unfinishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
         let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
@@ -25,8 +33,7 @@ class StreakController {
     let finishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
         let fetchRequest:NSFetchRequest<Streak> = Streak.fetchRequest()
         let predicate = NSPredicate(format: "finishedStreak == true")
-        let nameSort = NSSortDescriptor(key: "name", ascending: true)
-        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.sortDescriptors = [sortDescriptor]
         fetchRequest.predicate = predicate
         
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
