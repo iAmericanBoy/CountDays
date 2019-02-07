@@ -306,7 +306,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let alert = UIAlertController(title: "Sort your saved Streaks by:", message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
         
-        let count = UIAlertAction(title: "Streak Lenght", style: .default) { (action) in
+        let count = UIAlertAction(title: "Streak Length", style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "count", ascending: false)
             self.tableView.reloadData()
         }
