@@ -218,8 +218,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems = [self.editButtonItem, sortButton]
         
         self.view.addSubview(self.tableView)
-        self.view.addGestureRecognizer(tap)
-        self.tableView.addGestureRecognizer(tap)
+        tableView.addGestureRecognizer(tap)
+
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         tableView.rowHeight = 55
@@ -228,7 +228,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = footerHeight
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight))
-        
+
         tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -570,6 +570,7 @@ extension SaveScreenViewController: UITableViewDataSource {
         super.setEditing(editing, animated: true)
         self.tableView.setEditing(editing, animated: true)
         sortButton.isEnabled = !editing
+        tap.isEnabled = !editing
     }
 }
 
