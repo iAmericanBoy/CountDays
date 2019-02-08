@@ -422,6 +422,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     func resetPickerSelections() {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+        self.defaults.removeObject(forKey: "ReminderText")
+
+        
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
             StreakController.shared.toggle(badge: false, ofStreak: streak)
@@ -517,7 +520,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let textAlert = UIAlertController(title: nil, message: "Edit the default Text for the daily reminder", preferredStyle: .alert)
         
         textAlert.addTextField { (defaultText) in
-            if let text = self.defaults.string(forKey: "ReminderText"){
+            if let text = self.defaults.string(forKey: "ReminderText") {
                 defaultText.text = text
             } else {
                 defaultText.text = "Did you continue your streak of \(streakName)?"
