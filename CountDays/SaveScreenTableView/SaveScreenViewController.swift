@@ -45,6 +45,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeStreakPicker.delegate = self
         reminderStreakPicker.dataSource = self
         reminderStreakPicker.delegate = self
+        reminderSelectionTextField.delegate = self
+        badgeSelectionTextField.delegate = self
 
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
@@ -429,6 +431,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     func setupStateofUI() {
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
+        tap.isEnabled = false
         
         if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
             badgeSelectionTextField.isHidden = true
@@ -627,4 +630,16 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             }
         }
     }
+}
+//MARK: - TextField Delegate
+extension SaveScreenViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        tap.isEnabled = true
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        tap.isEnabled = false
+        userDissmissedPickerView()
+    }
+
 }
