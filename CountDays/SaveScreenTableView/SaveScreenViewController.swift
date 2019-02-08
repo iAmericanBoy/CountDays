@@ -133,8 +133,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let badgeSelectionTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
-        textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+        textField.attributedPlaceholder = NSAttributedString(string: " ",
+                                                             attributes: [.font:UIFont.systemFont(ofSize: 28),
                                                                           .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -281,11 +281,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeStackView.distribution = .equalSpacing
         badgeStackView.axis = .horizontal
         
-//        let badgeSettingsStackView = UIStackView(arrangedSubviews: [badgeSelectionTextField])
-//        badgeSettingsStackView.alignment = .
-//        badgeSettingsStackView.distribution = .fill
-//        badgeSettingsStackView.axis = .horizontal
-//        badgeSettingsStackView.spacing = 5
+        let badgeSettingsStackView = UIStackView(arrangedSubviews: [badgeSelectionTextField])
+        badgeSettingsStackView.alignment = .fill
+        badgeSettingsStackView.distribution = .fill
+        badgeSettingsStackView.axis = .horizontal
+        badgeSettingsStackView.spacing = 5
+        
         
         let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel])
         reminderStackView.alignment = .center
@@ -298,6 +299,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSettingsStackView.axis = .horizontal
         reminderSettingsStackView.spacing = 5
         
+badgeSettingsStackView.frame.height
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let toolBar = UIToolbar()
@@ -313,7 +315,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderTimeDefaultTextField.inputAccessoryView = toolBar
 
         
-        let tableViewFooterStackView = UIStackView(arrangedSubviews: [settingsStackView,badgeStackView,badgeSelectionTextField, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
+        let tableViewFooterStackView = UIStackView(arrangedSubviews: [settingsStackView,badgeStackView,badgeSettingsStackView, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
@@ -334,7 +336,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
         badgeStreakPicker.selectRow(0, inComponent: 0, animated: false)
-        badgeSelectionTextField.text = ""
+        badgeSelectionTextField.text = "Select a streak"
 
         reminderStreakPicker.selectRow(0, inComponent: 0, animated: false)
         reminderSelectionTextField.text = ""
