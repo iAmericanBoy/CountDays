@@ -103,12 +103,23 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return newSwitch
     }()
     
+    let settingsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Allow Notifications"
+        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        label.textAlignment = .natural
+        label.numberOfLines = 0;
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let badgeLabel: UILabel = {
         let label = UILabel()
         label.text = "Display the amount of days on the badge"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
+        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -141,6 +152,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
+        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -234,7 +246,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel,badgeSwitch])
+        let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
+        settingsStackView.alignment = .center
+        settingsStackView.distribution = .equalSpacing
+        settingsStackView.axis = .horizontal
+        
+        let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
         badgeStackView.alignment = .center
         badgeStackView.distribution = .equalSpacing
         badgeStackView.axis = .horizontal
@@ -269,7 +286,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSelectionTextField.inputAccessoryView = toolBar
 
         
-        let tableViewFooterStackView = UIStackView(arrangedSubviews: [badgeStackView,badgeSettingsStackView, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
+        let tableViewFooterStackView = UIStackView(arrangedSubviews: [settingsStackView,badgeStackView,badgeSettingsStackView, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
@@ -289,23 +306,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     @objc func badgeSwitchToggled(sender: UISwitch!) {
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
-        badgeSelectionTextField.isHidden = !sender.isOn
-        reminderSelectionTextField.isHidden = !sender.isOn
-        reminderTextDefaultButton.isHidden = !sender.isOn
-        reminderTextDefaultButton.isEnabled = false
-        reminderLabel.isHidden = !sender.isOn
-        badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
-        badgeSelectionTextField.text = "Select a streak"
-        reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
-        reminderSelectionTextField.text = "Select a streak"
-        if !sender.isOn {
-            UIApplication.shared.applicationIconBadgeNumber = 0
-            print("daily reminder turn off")
-            let center = UNUserNotificationCenter.current()
-            center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
-            self.defaults.removeObject(forKey: "ReminderText")
-            resetPickerSelections()
-        }
+        setupStateofUI()
+
     }
 
     @objc func sortList() {
@@ -433,14 +435,55 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         tap.isEnabled = false
         
-        if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
-            badgeSelectionTextField.isHidden = true
-            reminderSelectionTextField.isHidden = true
-            reminderTextDefaultButton.isHidden = true
+        if !badgeSwitch.isOn {
+                //button off w/o Streaks
+                badgeLabel.isHidden = true
+                badgePlaceholderButton.isHidden = true
+                badgeSelectionTextField.isHidden = true
+                
+                reminderLabel.isHidden = true
+                reminderSelectionTextField.isHidden = true
+                reminderTextDefaultButton.isHidden = true
+
+                //button off w Streaks
+                UIApplication.shared.applicationIconBadgeNumber = 0
+                print("daily reminder turn off")
+                let center = UNUserNotificationCenter.current()
+                center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
+                self.defaults.removeObject(forKey: "ReminderText")
+                resetPickerSelections()
         } else {
-            badgeSelectionTextField.isHidden = !badgeSwitch.isOn
-            reminderSelectionTextField.isHidden = !badgeSwitch.isOn
-            reminderTextDefaultButton.isHidden = !badgeSwitch.isOn
+            if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
+                //button on w/o Streak
+                badgeSelectionTextField.isEnabled = false
+                badgeSelectionTextField.isHidden = false
+                badgePlaceholderButton.isHidden = true
+                badgeLabel.isHidden = false
+                badgeSelectionTextField.text = "No active Steak"
+                badgeSelectionTextField.textColor = UIColor.lightGray
+                
+                reminderSelectionTextField.isEnabled = false
+                reminderSelectionTextField.isHidden = false
+                reminderTextDefaultButton.isHidden = false
+                reminderTextDefaultButton.setTitleColor(UIColor.lightGray, for: .disabled)
+                reminderLabel.isHidden = false
+                reminderSelectionTextField.text = "No active Steak"
+                reminderSelectionTextField.textColor = UIColor.lightGray
+
+            } else {
+                //button on w Streak
+                badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
+                badgeSelectionTextField.text = "Select a streak"
+                reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
+                reminderSelectionTextField.text = "Select a streak"
+                
+                badgeSelectionTextField.isHidden = false
+                badgeLabel.isHidden = false
+                badgePlaceholderButton.isHidden = false
+                reminderSelectionTextField.isHidden = false
+                reminderTextDefaultButton.isHidden = false
+                reminderLabel.isHidden = false
+            }
         }
     }
 
