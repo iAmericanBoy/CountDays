@@ -37,7 +37,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-                NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         tableView.dataSource = self
         
@@ -128,8 +128,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return label
     }()
     
-    let badgeSelectionTextField: UITextField = {
-        let textField = UITextField()
+    let badgeSelectionTextField: TextFieldWithoutCopy = {
+        let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
                                                              attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
                                                                           .foregroundColor: UIColor.systemBlue])
@@ -153,8 +153,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return label
     }()
     
-    let reminderSelectionTextField: UITextField = {
-        let textField = UITextField()
+    let reminderSelectionTextField: TextFieldWithoutCopy = {
+        let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
                                                              attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
                                                                           .foregroundColor: UIColor.systemBlue])
@@ -180,8 +180,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         return button
     }()
     
-    let reminderTimeDefaultTextField: UITextField = {
-        let textField = UITextField()
+    let reminderTimeDefaultTextField: TextFieldWithoutCopy = {
+        let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: "4:00",
                                                              attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
                                                                           .foregroundColor: UIColor.lightGray])
@@ -191,6 +191,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.isEnabled = false
         return textField
     }()
     
@@ -330,6 +331,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
         setupStateofUI()
+        resetPickerSelections()
     }
     
 
@@ -431,6 +433,13 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - Private Functions
+    func  displayHourAndMinute(forDate date: Date) -> String {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
+        guard let hourTwentyFour = components.hour, let minute = components.minute else {return "4:00"}
+        let hourUSA = hourTwentyFour > 12 ? hourTwentyFour - 12 : hourTwentyFour
+        return String(format: "%d:%02d", arguments: [hourUSA,minute])
+    }
+    
     @objc func reloadUI() {
         tableView.reloadData()
     }
@@ -447,6 +456,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         self.defaults.removeObject(forKey: "ReminderText")
 
+
         
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
@@ -460,6 +470,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     func setupStateofUI() {
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         tap.isEnabled = false
+        
+        badgeStreakPicker.selectRow(0, inComponent: 0, animated: false)
+        reminderStreakPicker.selectRow(0, inComponent: 0, animated: false)
         
         if !badgeSwitch.isOn {
                 //button off w/o Streaks
@@ -490,10 +503,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderSelectionTextField.isEnabled = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
-                reminderTimeDefaultTextField.isHidden = false
                 reminderTextDefaultButton.setTitleColor(UIColor.lightGray, for: .disabled)
+                reminderTimeDefaultTextField.isEnabled = false
                 reminderTimeDefaultTextField.isHidden = false
-                reminderTimeDefaultTextField.textColor = .lightGray
+                reminderTimeDefaultTextField.text = ""
 
                 reminderLabel.isHidden = false
                 reminderSelectionTextField.text = "No active Steak"
@@ -501,12 +514,23 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
             } else {
                 //button on w Streak
-                badgeSelectionTextField.isHidden = false
                 badgeLabel.isHidden = false
-                reminderSelectionTextField.isHidden = false
-                reminderTextDefaultButton.isHidden = false
-                reminderTimeDefaultTextField.isHidden = false
                 reminderLabel.isHidden = false
+
+                reminderTextDefaultButton.isHidden = false
+                reminderTextDefaultButton.isEnabled = false
+
+
+                reminderTimeDefaultTextField.isHidden = false
+                reminderTimeDefaultTextField.text = ""
+
+                reminderSelectionTextField.isHidden = false
+                reminderSelectionTextField.text = ""
+                
+                badgeSelectionTextField.isHidden = false
+                badgeSelectionTextField.text = ""
+
+
             }
         }
     }
@@ -516,6 +540,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSelectionTextField.resignFirstResponder()
         reminderTimeDefaultTextField.resignFirstResponder()
         
+        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+
         if badgeStreakPicker.selectedRow(inComponent: 0) > 0 {
             let row = badgeStreakPicker.selectedRow(inComponent: 0) - 1
             UIApplication.shared.applicationIconBadgeNumber = Int(truncating: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].count as! NSNumber)
@@ -677,7 +703,7 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
                 reminderSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
                 reminderTextDefaultButton.isEnabled = true
                 reminderTimeDefaultTextField.isEnabled = true
-                reminderTimeDefaultTextField.textColor = UIColor.systemBlue
+                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
 
             default:
                 break
@@ -694,9 +720,7 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
                 reminderSelectionTextField.text = "Select a Streak"
                 reminderTextDefaultButton.isEnabled = false
                 reminderTimeDefaultTextField.isEnabled = false
-                reminderTimeDefaultTextField.textColor = UIColor.lightGray
-
-timeStreakPicker
+                reminderTimeDefaultTextField.text = ""
 
             default:
                 break
@@ -715,5 +739,3 @@ extension SaveScreenViewController: UITextFieldDelegate {
         userDissmissedPickerView()
     }
 }
-
-
