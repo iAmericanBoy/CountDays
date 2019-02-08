@@ -45,6 +45,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeStreakPicker.delegate = self
         reminderStreakPicker.dataSource = self
         reminderStreakPicker.delegate = self
+        
+        reminderTimeDefaultTextField.delegate = self
         reminderSelectionTextField.delegate = self
         badgeSelectionTextField.delegate = self
 
@@ -137,14 +139,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.textAlignment = .center
         return textField
     }()
-    let badgePlaceholderButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
-        button.isEnabled = false
-        button.layer.borderColor = UIColor.clear.cgColor
-        return button
-    }()
-    
     
     let reminderLabel: UILabel = {
         let label = UILabel()
@@ -174,6 +168,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderTextDefaultButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Text", for: .normal)
+        button.setTitleColor(UIColor.lightGray, for: .disabled)
         button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
@@ -181,6 +176,19 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         button.addTarget(self, action: #selector(reminderDefaultTextButtonTapped), for: .touchUpInside)
         button.isEnabled = false
         return button
+    }()
+    
+    let reminderTimeDefaultTextField: UITextField = {
+        let textField = UITextField()
+        textField.attributedText = NSAttributedString(string: "4:00",
+                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+                                                                          .foregroundColor: UIColor.lightGray])
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.layer.borderColor = UIColor.systemBlue.cgColor
+        textField.tintColor = UIColor.clear
+        textField.textAlignment = .center
+        return textField
     }()
     
     let badgeStreakPicker: UIPickerView = {
@@ -194,6 +202,16 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let picker = UIPickerView()
         picker.tag = 2222
         picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
+    }()
+    
+    let timeStreakPicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.tag = 3333
+        picker.datePickerMode = UIDatePickerMode.time
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+        picker.date = fourPM!
         return picker
     }()
     
@@ -256,18 +274,18 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeStackView.distribution = .equalSpacing
         badgeStackView.axis = .horizontal
         
-        let badgeSettingsStackView = UIStackView(arrangedSubviews: [badgeSelectionTextField, badgePlaceholderButton])
-        badgeSettingsStackView.alignment = .fill
-        badgeSettingsStackView.distribution = .fillEqually
-        badgeSettingsStackView.axis = .horizontal
-        badgeSettingsStackView.spacing = 5
+//        let badgeSettingsStackView = UIStackView(arrangedSubviews: [badgeSelectionTextField])
+//        badgeSettingsStackView.alignment = .
+//        badgeSettingsStackView.distribution = .fill
+//        badgeSettingsStackView.axis = .horizontal
+//        badgeSettingsStackView.spacing = 5
         
         let reminderStackView = UIStackView(arrangedSubviews: [reminderLabel])
         reminderStackView.alignment = .center
         reminderStackView.distribution = .equalSpacing
         reminderStackView.axis = .horizontal
         
-        let reminderSettingsStackView = UIStackView(arrangedSubviews: [reminderSelectionTextField, reminderTextDefaultButton])
+        let reminderSettingsStackView = UIStackView(arrangedSubviews: [reminderSelectionTextField, reminderTextDefaultButton, reminderTimeDefaultTextField])
         reminderSettingsStackView.alignment = .fill
         reminderSettingsStackView.distribution = .fillProportionally
         reminderSettingsStackView.axis = .horizontal
@@ -284,9 +302,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeSelectionTextField.inputAccessoryView = toolBar
         reminderSelectionTextField.inputView = reminderStreakPicker
         reminderSelectionTextField.inputAccessoryView = toolBar
+        reminderTimeDefaultTextField.inputView = timeStreakPicker
+        reminderTimeDefaultTextField.inputAccessoryView = toolBar
 
         
-        let tableViewFooterStackView = UIStackView(arrangedSubviews: [settingsStackView,badgeStackView,badgeSettingsStackView, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
+        let tableViewFooterStackView = UIStackView(arrangedSubviews: [settingsStackView,badgeStackView,badgeSelectionTextField, reminderStackView, reminderSettingsStackView,aboutTextView, reviewButton])
         tableViewFooterStackView.alignment = .fill
         tableViewFooterStackView.distribution = .fill
         tableViewFooterStackView.axis = .vertical
@@ -307,8 +327,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
         setupStateofUI()
-
     }
+    
+
 
     @objc func sortList() {
         let alert = UIAlertController(title: "Sort your saved Streaks by:", message: nil, preferredStyle: .actionSheet)
@@ -381,9 +402,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         content.categoryIdentifier = "DailyReminderCategory"
         
         //Real
-        //         Configure the trigger for notification at 4
-        var triggerDate = DateComponents()
-        triggerDate.hour = 16
+        //         Configure the trigger for notification at 4 or at different userselected time
+        let triggerDate = Calendar.current.dateComponents([.hour, .minute], from: timeStreakPicker.date)
         
         //Test
         // Configure the trigger for notification at 3 seconds
@@ -418,7 +438,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
     }
     
-    ///this function sets all the badge  and daily reminder boolean values of the unfinished streak to false
+    ///this function sets all the badge and daily reminder boolean values of the unfinished streak to false
     func resetPickerSelections() {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
@@ -441,13 +461,13 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if !badgeSwitch.isOn {
                 //button off w/o Streaks
                 badgeLabel.isHidden = true
-                badgePlaceholderButton.isHidden = true
                 badgeSelectionTextField.isHidden = true
                 
                 reminderLabel.isHidden = true
                 reminderSelectionTextField.isHidden = true
                 reminderTextDefaultButton.isHidden = true
-
+                reminderTimeDefaultTextField.isHidden = true
+            
                 //button off w Streaks
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 print("daily reminder turn off")
@@ -460,7 +480,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 //button on w/o Streak
                 badgeSelectionTextField.isEnabled = false
                 badgeSelectionTextField.isHidden = false
-                badgePlaceholderButton.isHidden = true
                 badgeLabel.isHidden = false
                 badgeSelectionTextField.text = "No active Steak"
                 badgeSelectionTextField.textColor = UIColor.lightGray
@@ -468,7 +487,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderSelectionTextField.isEnabled = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
+                reminderTimeDefaultTextField.isHidden = false
                 reminderTextDefaultButton.setTitleColor(UIColor.lightGray, for: .disabled)
+                reminderTimeDefaultTextField.isHidden = false
+                reminderTimeDefaultTextField.textColor = .lightGray
+
                 reminderLabel.isHidden = false
                 reminderSelectionTextField.text = "No active Steak"
                 reminderSelectionTextField.textColor = UIColor.lightGray
@@ -482,10 +505,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 
                 badgeSelectionTextField.isHidden = false
                 badgeLabel.isHidden = false
-                badgePlaceholderButton.isHidden = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
                 reminderTextDefaultButton.isEnabled = false
+                reminderTimeDefaultTextField.isHidden = false
+                reminderTimeDefaultTextField.isEnabled = false
                 reminderLabel.isHidden = false
             }
         }
@@ -494,6 +518,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     func userDissmissedPickerView() {
         badgeSelectionTextField.resignFirstResponder()
         reminderSelectionTextField.resignFirstResponder()
+        reminderTimeDefaultTextField.resignFirstResponder()
         
         if badgeStreakPicker.selectedRow(inComponent: 0) > 0 {
             let row = badgeStreakPicker.selectedRow(inComponent: 0) - 1
@@ -655,6 +680,8 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             case 2222:
                 reminderSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
                 reminderTextDefaultButton.isEnabled = true
+                reminderTimeDefaultTextField.isEnabled = true
+                reminderTimeDefaultTextField.textColor = UIColor.systemBlue
 
             default:
                 break
@@ -670,7 +697,10 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             case 2222:
                 reminderSelectionTextField.text = "Select a Streak"
                 reminderTextDefaultButton.isEnabled = false
+                reminderTimeDefaultTextField.isEnabled = false
+                reminderTimeDefaultTextField.textColor = UIColor.lightGray
 
+timeStreakPicker
 
             default:
                 break
@@ -688,5 +718,6 @@ extension SaveScreenViewController: UITextFieldDelegate {
         tap.isEnabled = false
         userDissmissedPickerView()
     }
-
 }
+
+
