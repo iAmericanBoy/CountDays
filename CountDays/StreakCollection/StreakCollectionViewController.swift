@@ -31,6 +31,8 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+
         setupPaging()
         // Register cell classes
         self.collectionView!.register(StreakCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
@@ -184,6 +186,10 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     }
     
     //MARK: - Private Functions
+    @objc func reloadUI() {
+        collectionView?.reloadData()
+    }
+    
     private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){
         var nameTextField: UITextField?
         
