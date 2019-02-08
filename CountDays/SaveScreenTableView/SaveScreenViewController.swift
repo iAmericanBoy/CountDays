@@ -61,6 +61,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
                 reminderSelectionTextField.text = streak.name
                 reminderTextDefaultButton.isEnabled = true
+                reminderTimeDefaultTextField.isEnabled = true
+                reminderTimeDefaultTextField.text = "4:00"
             }
         }
 
@@ -180,13 +182,14 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderTimeDefaultTextField: UITextField = {
         let textField = UITextField()
-        textField.attributedText = NSAttributedString(string: "4:00",
+        textField.attributedPlaceholder = NSAttributedString(string: "4:00",
                                                              attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
                                                                           .foregroundColor: UIColor.lightGray])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.systemBlue.cgColor
         textField.tintColor = UIColor.clear
+        textField.textColor = .systemBlue
         textField.textAlignment = .center
         return textField
     }()
@@ -498,18 +501,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
             } else {
                 //button on w Streak
-                badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
-                badgeSelectionTextField.text = "Select a streak"
-                reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
-                reminderSelectionTextField.text = "Select a streak"
-                
                 badgeSelectionTextField.isHidden = false
                 badgeLabel.isHidden = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
-                reminderTextDefaultButton.isEnabled = false
                 reminderTimeDefaultTextField.isHidden = false
-                reminderTimeDefaultTextField.isEnabled = false
                 reminderLabel.isHidden = false
             }
         }
