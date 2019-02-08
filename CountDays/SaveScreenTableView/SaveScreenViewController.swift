@@ -330,6 +330,15 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     @objc func badgeSwitchToggled(sender: UISwitch!) {
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
+        badgeStreakPicker.selectRow(0, inComponent: 0, animated: false)
+        badgeSelectionTextField.text = ""
+
+        reminderStreakPicker.selectRow(0, inComponent: 0, animated: false)
+        reminderSelectionTextField.text = ""
+        reminderTimeDefaultTextField.text = ""
+        reminderTimeDefaultTextField.isEnabled = false
+        reminderTextDefaultButton.isEnabled = false
+        
         setupStateofUI()
         resetPickerSelections()
     }
@@ -471,8 +480,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         tap.isEnabled = false
         
-        badgeStreakPicker.selectRow(0, inComponent: 0, animated: false)
-        reminderStreakPicker.selectRow(0, inComponent: 0, animated: false)
+
         
         if !badgeSwitch.isOn {
                 //button off w/o Streaks
@@ -518,17 +526,17 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderLabel.isHidden = false
 
                 reminderTextDefaultButton.isHidden = false
-                reminderTextDefaultButton.isEnabled = false
+//                reminderTextDefaultButton.isEnabled = false
 
 
                 reminderTimeDefaultTextField.isHidden = false
-                reminderTimeDefaultTextField.text = ""
+//                reminderTimeDefaultTextField.text = ""
 
                 reminderSelectionTextField.isHidden = false
-                reminderSelectionTextField.text = ""
+//                reminderSelectionTextField.text = ""
                 
                 badgeSelectionTextField.isHidden = false
-                badgeSelectionTextField.text = ""
+//                badgeSelectionTextField.text = ""
 
 
             }
@@ -540,7 +548,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSelectionTextField.resignFirstResponder()
         reminderTimeDefaultTextField.resignFirstResponder()
         
-        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
 
         if badgeStreakPicker.selectedRow(inComponent: 0) > 0 {
             let row = badgeStreakPicker.selectedRow(inComponent: 0) - 1
@@ -550,6 +557,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         if reminderStreakPicker.selectedRow(inComponent: 0) > 0 {
+            reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+
             let row = reminderStreakPicker.selectedRow(inComponent: 0) - 1
             print("daily reminder sent")
             let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row]
@@ -562,12 +571,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
     }
     func changeDefaultTextAlert(forRow row: Int) {
-        guard let streakName = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].name else {return}
+        guard let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row], let streakName = streak.name else {return}
         
-        let textAlert = UIAlertController(title: nil, message: "Edit the default Text for the daily reminder", preferredStyle: .alert)
+        let textAlert = UIAlertController(title: nil, message: "Edit the default text for the reminder", preferredStyle: .alert)
         
         textAlert.addTextField { (defaultText) in
-            if let text = self.defaults.string(forKey: "ReminderText") {
+            if let text = streak.reminderText {
                 defaultText.text = text
             } else {
                 defaultText.text = "Did you continue your streak of \(streakName)?"
@@ -576,6 +585,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
             guard let newText = textAlert.textFields?.first?.text else {return}
+            StreakController.shared.set(reminderText: newText, ofStreak: streak)
             self.defaults.set(newText, forKey: "ReminderText")
             self.scheduleReminderNotification(name: streakName)
         }
