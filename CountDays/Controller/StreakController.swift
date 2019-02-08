@@ -74,7 +74,7 @@ class StreakController {
     //MARK: - CRUD
     //MARK: create
     func createStreakWith(name:String) {
-        Streak(name: name, start: Calendar.current.startOfDay(for: Date()), end: nil, goal: 0, count: 1, finishedStreak: false, restartedStreak: false, badge: false,reminder: false, lastModified: Date())
+        Streak(name: name, start: Calendar.current.startOfDay(for: Date()), end: nil, goal: 0, count: 1, finishedStreak: false, restartedStreak: false, badge: false,reminder: false,lastModified: Date(), reminderText: nil, reminderTime: nil)
         saveToPersistentStore()
     }
     
@@ -96,7 +96,7 @@ class StreakController {
     
     //MARK: toggle Restart
     func restart(streak: Streak) {
-        Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date())
+        Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date(), reminderText: nil, reminderTime: nil)
         streak.start = Calendar.current.startOfDay(for: Date())
         streak.lastModified = Date()
         saveToPersistentStore()
@@ -117,18 +117,31 @@ class StreakController {
         saveToPersistentStore()
     }
     
-    //MARK: - Toggle Daily Reminder
-    func toggle(reminder: Bool, ofStreak streak: Streak) {
-        streak.dailyReminder = reminder
-        saveToPersistentStore()
-    }
-    
     //MARK: delete
     func remove(streak: Streak) {
         if let moc = streak.managedObjectContext {
             moc.delete(streak)
             saveToPersistentStore()
         }
+    }
+    
+    //MARK: -  Reminder
+    //MARK: toggle daily reminder
+    func toggle(reminder: Bool, ofStreak streak: Streak) {
+        streak.dailyReminder = reminder
+        saveToPersistentStore()
+    }
+    
+    //MARK: set Reminder Text
+    func set(reminderText: String, ofStreak streak: Streak) {
+        streak.reminderText = reminderText
+        saveToPersistentStore()
+    }
+    
+    //MARK: set Reminder Time
+    func set(reminderTime: Date, ofStreak streak: Streak) {
+        streak.reminderTime = reminderTime
+        saveToPersistentStore()
     }
     
     //MARK: - Persistance
