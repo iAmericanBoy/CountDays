@@ -62,7 +62,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderSelectionTextField.text = streak.name
                 reminderTextDefaultButton.isEnabled = true
                 reminderTimeDefaultTextField.isEnabled = true
-                reminderTimeDefaultTextField.text = "4:00"
+                var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+                fourPM = Calendar.current.date(bySetting: .minute, value: 0, of: fourPM!)
+                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? fourPM!)
+                timeStreakPicker.date = streak.reminderTime ?? fourPM!
             }
         }
 
@@ -557,13 +560,15 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         if reminderStreakPicker.selectedRow(inComponent: 0) > 0 {
-            reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
 
             let row = reminderStreakPicker.selectedRow(inComponent: 0) - 1
             print("daily reminder sent")
-            let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row]
-            scheduleReminderNotification(name: streak?.name ?? "Streak not found")
-            StreakController.shared.toggle(reminder: true, ofStreak: StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects![row])
+            guard let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row] else {return}
+            scheduleReminderNotification(name: streak.name ?? "Streak not found")
+            StreakController.shared.toggle(reminder: true, ofStreak: streak)
+            reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+            StreakController.shared.set(reminderTime: timeStreakPicker.date, ofStreak: streak)
+
         } else {
             print("daily reminder turn off")
             let center = UNUserNotificationCenter.current()
