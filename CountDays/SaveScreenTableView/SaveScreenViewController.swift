@@ -345,7 +345,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     @objc func reminderDefaultTextButtonTapped() {
-        changeDefaultTextAlert()
+        changeDefaultTextAlert(forRow: reminderStreakPicker.selectedRow(inComponent: 0) - 1)
     }
     
     @objc func doneButtonTapped() {
@@ -482,6 +482,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 badgePlaceholderButton.isHidden = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
+                reminderTextDefaultButton.isEnabled = false
                 reminderLabel.isHidden = false
             }
         }
@@ -510,8 +511,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         }
     }
-    func changeDefaultTextAlert() {
-        guard let streakName = StreakController.shared.unFinishedWithReminderStreakfetchResultsController.fetchedObjects?[0].name else {return}
+    func changeDefaultTextAlert(forRow row: Int) {
+        guard let streakName = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row].name else {return}
         
         let textAlert = UIAlertController(title: nil, message: "Edit the default Text for the daily reminder", preferredStyle: .alert)
         
