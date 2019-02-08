@@ -569,6 +569,7 @@ extension SaveScreenViewController: UITableViewDataSource {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: true)
         self.tableView.setEditing(editing, animated: true)
+        sortButton.isEnabled = !editing
     }
 }
 
@@ -608,11 +609,6 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
                 break
             }
 
-
-            
-//            lastSelectedRow = row - 1
-//            reminderSwitch.isEnabled = true
-//            reminderSwitch.isOn = false
         } else {
             //"select a row was selected"
             
@@ -628,10 +624,6 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             default:
                 break
             }
-//            lastSelectedRow = -1
-//            reminderSwitch.setOn(false, animated: true)
-//            reminderSwitch.isEnabled = false
-//            turnOnReminder()
         }
     }
 }
