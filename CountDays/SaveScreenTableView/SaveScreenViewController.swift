@@ -448,10 +448,10 @@ badgeSettingsStackView.frame.height
     
     //MARK: - Private Functions
     func  displayHourAndMinute(forDate date: Date) -> String {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: date)
-        guard let hourTwentyFour = components.hour, let minute = components.minute else {return "4:00"}
-        let hourUSA = hourTwentyFour > 12 ? hourTwentyFour - 12 : hourTwentyFour
-        return String(format: "%d:%02d", arguments: [hourUSA,minute])
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from:date)
     }
     
     @objc func reloadUI() {
@@ -469,8 +469,10 @@ badgeSettingsStackView.frame.height
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         self.defaults.removeObject(forKey: "ReminderText")
-
-
+        
+        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+        timeStreakPicker.date = fourPM!
+        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
         
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
@@ -717,10 +719,12 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             case 1111:
                 badgeSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
             case 2222:
-                reminderSelectionTextField.text = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "Streak not found"
+                guard let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1] else {return}
+                reminderSelectionTextField.text = streak.name ?? "Streak not found"
                 reminderTextDefaultButton.isEnabled = true
                 reminderTimeDefaultTextField.isEnabled = true
-                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? Calendar.current.date(bySetting: .hour, value: 16, of: Date())!)
+                timeStreakPicker.date = streak.reminderTime ?? Calendar.current.date(bySetting: .hour, value: 16, of: Date())!
 
             default:
                 break
