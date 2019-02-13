@@ -421,7 +421,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         content.title = "Daily Streak: \(name)"
         content.categoryIdentifier = "DailyReminderCategory"
-        content.userInfo = ["startDate":startDate,"name":name,]
+        content.userInfo = ["streak":streak]
         
         //Real
         //         Configure the trigger for notification at 4 or at different userselected time
@@ -446,6 +446,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             if let theError = error {
                 print(theError.localizedDescription)
             }
+            print("Added new notification with name:\(content.title), body: \(content.body) and userInfo: \(content.userInfo). Scheduld time: \(String(describing: request.trigger))")
         }
     }
     
