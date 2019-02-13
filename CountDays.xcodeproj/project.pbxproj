@@ -17,12 +17,20 @@
 		B67567912119FCD3000E2B74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67567902119FCD3000E2B74 /* AppDelegate.swift */; };
 		B67567992119FCD3000E2B74 /* CountDays.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */; };
 		B675679B2119FCD6000E2B74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B675679A2119FCD6000E2B74 /* Assets.xcassets */; };
+		B67C689E220E270700C6D9D0 /* TextFieldWithoutCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */; };
 		B686BDDE22039AEC00B5F8F0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDDD22039AEC00B5F8F0 /* CoreDataStack.swift */; };
 		B686BDE022039F6300B5F8F0 /* CountDays+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDDF22039F6300B5F8F0 /* CountDays+Convenience.swift */; };
 		B686BDE22203A1A600B5F8F0 /* StreakController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDE12203A1A600B5F8F0 /* StreakController.swift */; };
 		B6ADAEE521E8FC0D0049D86B /* CDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */; };
 		B6CCAE962178E89C00A65B0D /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CCAE952178E89B00A65B0D /* NotificationCenter.framework */; };
 		B6CCAE992178E89C00A65B0D /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CCAE982178E89C00A65B0D /* TodayViewController.swift */; };
+		B6E92EF922138CFF00563F25 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E92EF822138CFF00563F25 /* NotificationService.swift */; };
+		B6E92EFD22138CFF00563F25 /* Service.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6E92EF622138CFF00563F25 /* Service.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B6E92F0622138D0C00563F25 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E92EDF22138C2B00563F25 /* UserNotifications.framework */; };
+		B6E92F0722138D0C00563F25 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6E92EE122138C2B00563F25 /* UserNotificationsUI.framework */; };
+		B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E92F0922138D0C00563F25 /* NotificationViewController.swift */; };
+		B6E92F0D22138D0C00563F25 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */; };
+		B6E92F1122138D0C00563F25 /* Content.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6E92F0522138D0C00563F25 /* Content.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B6F59595214C1E990059D67A /* StreakCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */; };
 		B6F59597214C465B0059D67A /* StreakCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F59596214C465B0059D67A /* StreakCollectionViewCell.swift */; };
 		B6FC061621CC228100E7B3B6 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6FC061521CC228100E7B3B6 /* CloudKit.framework */; };
@@ -46,7 +54,36 @@
 			remoteGlobalIDString = B675678C2119FCD3000E2B74;
 			remoteInfo = CountDays;
 		};
+		B6E92EFB22138CFF00563F25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B67567852119FCD3000E2B74 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B6E92EF522138CFF00563F25;
+			remoteInfo = Service;
+		};
+		B6E92F0F22138D0C00563F25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B67567852119FCD3000E2B74 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B6E92F0422138D0C00563F25;
+			remoteInfo = Content;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B6E92EF122138C2B00563F25 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B6E92F1122138D0C00563F25 /* Content.appex in Embed App Extensions */,
+				B6E92EFD22138CFF00563F25 /* Service.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B60ABEFA21821E020011301A /* WidgetStreakViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStreakViewCell.swift; sourceTree = "<group>"; };
@@ -63,6 +100,8 @@
 		B675679F2119FCD6000E2B74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B67567A42119FCD6000E2B74 /* CountDaysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountDaysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67567AF2119FCD6000E2B74 /* CountDaysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountDaysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithoutCopy.swift; sourceTree = "<group>"; };
+		B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CountDays v3.xcdatamodel"; sourceTree = "<group>"; };
 		B686BDDD22039AEC00B5F8F0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B686BDDF22039F6300B5F8F0 /* CountDays+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CountDays+Convenience.swift"; sourceTree = "<group>"; };
 		B686BDE12203A1A600B5F8F0 /* StreakController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakController.swift; sourceTree = "<group>"; };
@@ -73,6 +112,15 @@
 		B6CCAE982178E89C00A65B0D /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		B6CCAE9D2178E89C00A65B0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6CCAEA52178FE3E00A65B0D /* DaysInARow Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DaysInARow Widget.entitlements"; sourceTree = "<group>"; };
+		B6E92EDF22138C2B00563F25 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		B6E92EE122138C2B00563F25 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		B6E92EF622138CFF00563F25 /* Service.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Service.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6E92EF822138CFF00563F25 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		B6E92EFA22138CFF00563F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6E92F0522138D0C00563F25 /* Content.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Content.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6E92F0922138D0C00563F25 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		B6E92F0C22138D0C00563F25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		B6E92F0E22138D0C00563F25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewController.swift; sourceTree = "<group>"; };
 		B6F59596214C465B0059D67A /* StreakCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6FC061521CC228100E7B3B6 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -110,6 +158,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6E92EF322138CFF00563F25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6E92F0222138D0C00563F25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6E92F0722138D0C00563F25 /* UserNotificationsUI.framework in Frameworks */,
+				B6E92F0622138D0C00563F25 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -138,6 +202,8 @@
 			children = (
 				B675678F2119FCD3000E2B74 /* CountDays */,
 				B6CCAE972178E89C00A65B0D /* DaysInARow Widget */,
+				B6E92EF722138CFF00563F25 /* Service */,
+				B6E92F0822138D0C00563F25 /* Content */,
 				B6CCAE942178E89B00A65B0D /* Frameworks */,
 				B675678E2119FCD3000E2B74 /* Products */,
 			);
@@ -150,6 +216,8 @@
 				B67567A42119FCD6000E2B74 /* CountDaysTests.xctest */,
 				B67567AF2119FCD6000E2B74 /* CountDaysUITests.xctest */,
 				B6CCAE932178E89B00A65B0D /* DaysInARow Widget.appex */,
+				B6E92EF622138CFF00563F25 /* Service.appex */,
+				B6E92F0522138D0C00563F25 /* Content.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,6 +233,7 @@
 				B6F59598214C48340059D67A /* StreakCollection */,
 				B6216117215016FE002AD560 /* SaveScreenTableView */,
 				B6216115214D7180002AD560 /* UiColor+Extension.swift */,
+				B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */,
 				B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */,
 				B675679A2119FCD6000E2B74 /* Assets.xcassets */,
 				B675679F2119FCD6000E2B74 /* Info.plist */,
@@ -185,6 +254,8 @@
 			children = (
 				B6FC061521CC228100E7B3B6 /* CloudKit.framework */,
 				B6CCAE952178E89B00A65B0D /* NotificationCenter.framework */,
+				B6E92EDF22138C2B00563F25 /* UserNotifications.framework */,
+				B6E92EE122138C2B00563F25 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -198,6 +269,25 @@
 				B6CCAE9D2178E89C00A65B0D /* Info.plist */,
 			);
 			path = "DaysInARow Widget";
+			sourceTree = "<group>";
+		};
+		B6E92EF722138CFF00563F25 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				B6E92EF822138CFF00563F25 /* NotificationService.swift */,
+				B6E92EFA22138CFF00563F25 /* Info.plist */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		B6E92F0822138D0C00563F25 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				B6E92F0922138D0C00563F25 /* NotificationViewController.swift */,
+				B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */,
+				B6E92F0E22138D0C00563F25 /* Info.plist */,
+			);
+			path = Content;
 			sourceTree = "<group>";
 		};
 		B6F59598214C48340059D67A /* StreakCollection */ = {
@@ -221,10 +311,13 @@
 				B67567892119FCD3000E2B74 /* Sources */,
 				B675678A2119FCD3000E2B74 /* Frameworks */,
 				B675678B2119FCD3000E2B74 /* Resources */,
+				B6E92EF122138C2B00563F25 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B6E92EFC22138CFF00563F25 /* PBXTargetDependency */,
+				B6E92F1022138D0C00563F25 /* PBXTargetDependency */,
 			);
 			name = CountDays;
 			productName = CountDays;
@@ -284,13 +377,47 @@
 			productReference = B6CCAE932178E89B00A65B0D /* DaysInARow Widget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		B6E92EF522138CFF00563F25 /* Service */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6E92EFE22138CFF00563F25 /* Build configuration list for PBXNativeTarget "Service" */;
+			buildPhases = (
+				B6E92EF222138CFF00563F25 /* Sources */,
+				B6E92EF322138CFF00563F25 /* Frameworks */,
+				B6E92EF422138CFF00563F25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Service;
+			productName = Service;
+			productReference = B6E92EF622138CFF00563F25 /* Service.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		B6E92F0422138D0C00563F25 /* Content */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6E92F1222138D0C00563F25 /* Build configuration list for PBXNativeTarget "Content" */;
+			buildPhases = (
+				B6E92F0122138D0C00563F25 /* Sources */,
+				B6E92F0222138D0C00563F25 /* Frameworks */,
+				B6E92F0322138D0C00563F25 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Content;
+			productName = Content;
+			productReference = B6E92F0522138D0C00563F25 /* Content.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		B67567852119FCD3000E2B74 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1000;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Dominic Lanzillotta";
 				TargetAttributes = {
@@ -333,6 +460,12 @@
 							};
 						};
 					};
+					B6E92EF522138CFF00563F25 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					B6E92F0422138D0C00563F25 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = B67567882119FCD3000E2B74 /* Build configuration list for PBXProject "CountDays" */;
@@ -352,6 +485,8 @@
 				B67567A32119FCD6000E2B74 /* CountDaysTests */,
 				B67567AE2119FCD6000E2B74 /* CountDaysUITests */,
 				B6CCAE922178E89B00A65B0D /* DaysInARow Widget */,
+				B6E92EF522138CFF00563F25 /* Service */,
+				B6E92F0422138D0C00563F25 /* Content */,
 			);
 		};
 /* End PBXProject section */
@@ -388,6 +523,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6E92EF422138CFF00563F25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6E92F0322138D0C00563F25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6E92F0D22138D0C00563F25 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -404,6 +554,7 @@
 				B686BDDE22039AEC00B5F8F0 /* CoreDataStack.swift in Sources */,
 				B67567992119FCD3000E2B74 /* CountDays.xcdatamodeld in Sources */,
 				B6126F432136FA160078B0A1 /* SaveScreenViewController.swift in Sources */,
+				B67C689E220E270700C6D9D0 /* TextFieldWithoutCopy.swift in Sources */,
 				B6F59597214C465B0059D67A /* StreakCollectionViewCell.swift in Sources */,
 				B67567912119FCD3000E2B74 /* AppDelegate.swift in Sources */,
 				B621611921501734002AD560 /* StreakCell.swift in Sources */,
@@ -436,6 +587,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6E92EF222138CFF00563F25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6E92EF922138CFF00563F25 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6E92F0122138D0C00563F25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -449,7 +616,28 @@
 			target = B675678C2119FCD3000E2B74 /* CountDays */;
 			targetProxy = B67567B02119FCD6000E2B74 /* PBXContainerItemProxy */;
 		};
+		B6E92EFC22138CFF00563F25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B6E92EF522138CFF00563F25 /* Service */;
+			targetProxy = B6E92EFB22138CFF00563F25 /* PBXContainerItemProxy */;
+		};
+		B6E92F1022138D0C00563F25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B6E92F0422138D0C00563F25 /* Content */;
+			targetProxy = B6E92F0F22138D0C00563F25 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B6E92F0C22138D0C00563F25 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B67567B62119FCD6000E2B74 /* Debug */ = {
@@ -569,6 +757,7 @@
 		B67567B92119FCD6000E2B74 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountDays/CountDays.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -589,6 +778,7 @@
 		B67567BA2119FCD6000E2B74 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountDays/CountDays.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -733,6 +923,92 @@
 			};
 			name = Release;
 		};
+		B6E92EFF22138CFF00563F25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J6B8ZX28ZW;
+				INFOPLIST_FILE = Service/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Service;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B6E92F0022138CFF00563F25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J6B8ZX28ZW;
+				INFOPLIST_FILE = Service/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Service;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B6E92F1322138D0C00563F25 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J6B8ZX28ZW;
+				INFOPLIST_FILE = Content/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Content;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B6E92F1422138D0C00563F25 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J6B8ZX28ZW;
+				INFOPLIST_FILE = Content/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Content;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -781,16 +1057,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		B6E92EFE22138CFF00563F25 /* Build configuration list for PBXNativeTarget "Service" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6E92EFF22138CFF00563F25 /* Debug */,
+				B6E92F0022138CFF00563F25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B6E92F1222138D0C00563F25 /* Build configuration list for PBXNativeTarget "Content" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6E92F1322138D0C00563F25 /* Debug */,
+				B6E92F1422138D0C00563F25 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
 		B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */,
 				B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */,
 				B67567982119FCD3000E2B74 /* CountDays.xcdatamodel */,
 			);
-			currentVersion = B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */;
+			currentVersion = B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */;
 			path = CountDays.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

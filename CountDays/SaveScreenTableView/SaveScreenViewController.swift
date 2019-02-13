@@ -419,6 +419,7 @@ badgeSettingsStackView.frame.height
 
         content.title = "Daily Streak: \(name)"
         content.categoryIdentifier = "DailyReminderCategory"
+        content.userInfo = ["count":"5"]
         
         //Real
         //         Configure the trigger for notification at 4 or at different userselected time
@@ -426,8 +427,8 @@ badgeSettingsStackView.frame.height
         
         //Test
         // Configure the trigger for notification at 3 seconds
-        //        var triggerDate = DateComponents()
-        //        triggerDate.second = 3
+//                var triggerDate = DateComponents()
+//                triggerDate.second = 3
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         
