@@ -15,52 +15,66 @@
             <objects>
                 <viewController id="M4Y-Lb-cyx" userLabel="Notification View Controller" customClass="NotificationViewController" customModule="Content" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="eHH-nu-p3e">
-                                <rect key="frame" x="144.5" y="60.5" width="31" height="199"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Text)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fog-Kj-4O3">
-                                <rect key="frame" x="138" y="279.5" width="44.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Name)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SUk-zp-ncF">
-                                <rect key="frame" x="131.5" y="20" width="57.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihv-bO-iPS" customClass="ViewWithProgressBar" customModule="Content" customModuleProvider="target">
+                                <rect key="frame" x="64" y="0.0" width="256" height="256"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ihv-bO-iPS" secondAttribute="height" multiplier="1:1" id="VWU-8D-cHE"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="uNQ-Bb-g9K">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="400"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6G-xb-YlX">
+                                        <rect key="frame" x="127" y="0.0" width="66.5" height="31.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" usesAttributedText="YES" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwJ-PC-H3l">
+                                        <rect key="frame" x="133.5" y="81.5" width="53.5" height="237"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="0">
+                                                <attributes>
+                                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                    <font key="NSFont" size="96" name=".SFNSDisplay"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uf-AE-aVb">
+                                        <rect key="frame" x="131" y="368.5" width="58" height="31.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="eHH-nu-p3e" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="24O-Bw-qIi"/>
-                            <constraint firstItem="eHH-nu-p3e" firstAttribute="top" secondItem="SUk-zp-ncF" secondAttribute="bottom" constant="20" id="GBf-ec-Xch"/>
-                            <constraint firstItem="SUk-zp-ncF" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="GrA-Sw-gye"/>
-                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="bottom" secondItem="fog-Kj-4O3" secondAttribute="bottom" constant="20" id="X2W-Lx-xhp"/>
-                            <constraint firstItem="eHH-nu-p3e" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="aJv-0z-7pJ"/>
-                            <constraint firstItem="fog-Kj-4O3" firstAttribute="top" secondItem="eHH-nu-p3e" secondAttribute="bottom" constant="20" id="q9x-dS-67k"/>
-                            <constraint firstItem="SUk-zp-ncF" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" constant="20" id="qF1-rg-Juf"/>
-                            <constraint firstItem="fog-Kj-4O3" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="vXb-uQ-Tes"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="bottom" secondItem="uNQ-Bb-g9K" secondAttribute="bottom" id="1Yr-5e-V0N"/>
+                            <constraint firstItem="ihv-bO-iPS" firstAttribute="width" secondItem="S3S-Oj-5AN" secondAttribute="width" multiplier="0.8" id="Bzq-rm-RLo"/>
+                            <constraint firstItem="ihv-bO-iPS" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" id="H06-bX-rhh"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="ihv-bO-iPS" secondAttribute="trailing" id="NbF-lH-2mb"/>
+                            <constraint firstItem="uNQ-Bb-g9K" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" id="eXg-ZX-uC8"/>
+                            <constraint firstItem="uNQ-Bb-g9K" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" id="mKL-Uo-t83"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="uNQ-Bb-g9K" secondAttribute="trailing" id="pFb-PI-oGZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2BE-c3-nQJ"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="320" height="320"/>
-                    <connections>
-                        <outlet property="streakNameLabel" destination="SUk-zp-ncF" id="iQF-KT-yBJ"/>
-                        <outlet property="streakNumberLabel" destination="eHH-nu-p3e" id="fxd-k9-4vT"/>
-                        <outlet property="streakTextLabel" destination="fog-Kj-4O3" id="sK4-gA-ef4"/>
-                    </connections>
+                    <size key="freeformSize" width="320" height="400"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="56" y="41.379310344827587"/>
         </scene>
     </scenes>
 </document>
