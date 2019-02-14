@@ -85,6 +85,7 @@
 /* Begin PBXFileReference section */
 		B60ABEFA21821E020011301A /* WidgetStreakViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStreakViewCell.swift; sourceTree = "<group>"; };
 		B60E2C282215F5A200EAF376 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
+		B60E2C2B22160F8D00EAF376 /* CountDays v4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CountDays v4.xcdatamodel"; sourceTree = "<group>"; };
 		B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveScreenViewController.swift; sourceTree = "<group>"; };
 		B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B6216115214D7180002AD560 /* UiColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiColor+Extension.swift"; sourceTree = "<group>"; };
@@ -974,11 +975,12 @@
 		B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B60E2C2B22160F8D00EAF376 /* CountDays v4.xcdatamodel */,
 				B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */,
 				B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */,
 				B67567982119FCD3000E2B74 /* CountDays.xcdatamodel */,
 			);
-			currentVersion = B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */;
+			currentVersion = B60E2C2B22160F8D00EAF376 /* CountDays v4.xcdatamodel */;
 			path = CountDays.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
