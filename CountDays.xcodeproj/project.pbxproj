@@ -31,6 +31,10 @@
 		B6E92F552214869800563F25 /* UiColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UiColor+Extension.swift */; };
 		B6E92F562214874500563F25 /* UiColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UiColor+Extension.swift */; };
 		B6E92F5B221488DA00563F25 /* ViewWithProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E92F5A221488DA00563F25 /* ViewWithProgressBar.swift */; };
+		B6E92F8F2214E3FE00563F25 /* StreakController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDE12203A1A600B5F8F0 /* StreakController.swift */; };
+		B6E92F902214E40700563F25 /* CountDays.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */; };
+		B6E92F912214E40F00563F25 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDDD22039AEC00B5F8F0 /* CoreDataStack.swift */; };
+		B6E92F922214E41900563F25 /* CountDays+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDDF22039F6300B5F8F0 /* CountDays+Convenience.swift */; };
 		B6F59595214C1E990059D67A /* StreakCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */; };
 		B6F59597214C465B0059D67A /* StreakCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F59596214C465B0059D67A /* StreakCollectionViewCell.swift */; };
 		B6FC061621CC228100E7B3B6 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6FC061521CC228100E7B3B6 /* CloudKit.framework */; };
@@ -534,8 +538,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6E92F5B221488DA00563F25 /* ViewWithProgressBar.swift in Sources */,
+				B6E92F922214E41900563F25 /* CountDays+Convenience.swift in Sources */,
 				B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */,
 				B6E92F552214869800563F25 /* UiColor+Extension.swift in Sources */,
+				B6E92F912214E40F00563F25 /* CoreDataStack.swift in Sources */,
+				B6E92F902214E40700563F25 /* CountDays.xcdatamodeld in Sources */,
+				B6E92F8F2214E3FE00563F25 /* StreakController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -71,6 +71,12 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="400"/>
+                    <connections>
+                        <outlet property="notificationBodyLabel" destination="4uf-AE-aVb" id="0OK-2P-ljv"/>
+                        <outlet property="progressBarView" destination="ihv-bO-iPS" id="LUT-AL-w8s"/>
+                        <outlet property="streakCountLabel" destination="mwJ-PC-H3l" id="jU9-Ig-V8f"/>
+                        <outlet property="streakNameLabel" destination="A6G-xb-YlX" id="JrC-gn-A3r"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
