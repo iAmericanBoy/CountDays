@@ -8,8 +8,11 @@
 
 import Foundation
 
-enum UserInfoDictionary: String {
-    case start = "streakStart"
-    case name = "streakName"
-    case goal = "streakGoal"
+struct UserInfoDictionary {
+    ///Returns: "streakStart"
+    static let start = "streakStart"
+    ///Returns: "streakName"
+    static let name = "streakName"
+    ///Returns: "streakGoal"
+    static let goal = "streakGoal"
 }
