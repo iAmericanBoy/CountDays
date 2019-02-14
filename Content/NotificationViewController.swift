@@ -18,6 +18,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var streakCountLabel: UILabel!
     @IBOutlet weak var notificationBodyLabel: UILabel!
     
+    //MARK: - Properties
+    let todayAtMidnight = Calendar.current.startOfDay(for: Date())
+
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +29,13 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         
         self.streakNameLabel.text = notification.request.content.userInfo["streakName"] as? String
-//        let startDay = notification.request.content.userInfo["streakName"] as? Date
-//        let count = Calendar.current.dateComponents([ .day], from: Calendar.current.startOfDay(for: Date()), to: startDay!).day! + 1
-//        self.streakCountLabel.text =  "\(count)"
+        let startDay = notification.request.content.userInfo["streakDate"] as? Date
+        let count = Calendar.current.dateComponents([ .day], from: startDay ?? todayAtMidnight, to: todayAtMidnight).day! + 1
+        self.streakCountLabel.text =  "\(count)"
         self.notificationBodyLabel.text = notification.request.content.body
 //
-        if let goal = notification.request.content.userInfo["streakGoal"] as? Int {
-            progressBarView.progress = Float(7) / Float(goal)
+        if let goal = notification.request.content.userInfo["streakGoal"] as? Int, goal != 0 {
+            progressBarView.progress = Float(count) / Float(goal)
         } else {
             progressBarView.progress = 1
         }

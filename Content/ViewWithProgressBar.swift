@@ -10,7 +10,11 @@ import UIKit
 
 class ViewWithProgressBar: UIView {
     
-    var progress:Float = 1.0
+    var progress:Float = 1.0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
 
     override func draw(_ rect: CGRect) {
