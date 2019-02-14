@@ -81,16 +81,22 @@ class StreakController {
     //MARK: update
     func update(startDate: Date, ofStreak streak: Streak) {
         streak.start = startDate
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     func update(name: String, ofStreak streak: Streak) {
         streak.name = name
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: add Goal
     func add(goal: Int, ofStreak streak: Streak) {
         streak.goal = Int32(goal)
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
@@ -99,6 +105,8 @@ class StreakController {
         Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date(), reminderText: nil, reminderTime: nil)
         streak.start = Calendar.current.startOfDay(for: Date())
         streak.lastModified = Date()
+        setUUID(forStreak: streak)
+        
         saveToPersistentStore()
     }
     
@@ -108,12 +116,16 @@ class StreakController {
         streak.finishedStreak = true
         streak.badge = false
         streak.lastModified = Date()
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: toggle Badge
     func toggle(badge: Bool, ofStreak streak: Streak) {
         streak.badge = badge
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
@@ -129,18 +141,23 @@ class StreakController {
     //MARK: toggle daily reminder
     func toggle(reminder: Bool, ofStreak streak: Streak) {
         streak.dailyReminder = reminder
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: set Reminder Text
     func set(reminderText: String, ofStreak streak: Streak) {
         streak.reminderText = reminderText
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: set Reminder Time
     func set(reminderTime: Date, ofStreak streak: Streak) {
         streak.reminderTime = reminderTime
+        setUUID(forStreak: streak)
         saveToPersistentStore()
     }
     
@@ -153,5 +170,13 @@ class StreakController {
         } catch {
             print("Error saving: \(String(describing: error)) \(error.localizedDescription))")
         }
-    } 
+    }
+    
+    //MARK: - Private Functions
+    private func setUUID(forStreak streak: Streak) {
+        if streak.uuid == nil {
+            streak.uuid = UUID()
+            saveToPersistentStore()
+        }
+    }
 }

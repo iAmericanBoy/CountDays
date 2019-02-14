@@ -32,7 +32,7 @@ extension Streak {
         super.awakeFromFetch()
         if self.uuid == nil {
             print("\(String(describing: name)) no UUID")
-            self.uuid = UUID()
+//            self.uuid = UUID()
         } else {
             print("\(String(describing: name)) has UUID")
         }
