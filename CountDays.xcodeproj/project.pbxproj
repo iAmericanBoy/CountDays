@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B60ABEFB21821E020011301A /* WidgetStreakViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60ABEFA21821E020011301A /* WidgetStreakViewCell.swift */; };
+		B60E2C292215F5A200EAF376 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E2C282215F5A200EAF376 /* MagicStrings.swift */; };
+		B60E2C2A2215F5A200EAF376 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E2C282215F5A200EAF376 /* MagicStrings.swift */; };
 		B6126F432136FA160078B0A1 /* SaveScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */; };
 		B61E12D02200AEA600F85AEF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */; };
 		B621611921501734002AD560 /* StreakCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621611821501734002AD560 /* StreakCell.swift */; };
@@ -82,6 +84,7 @@
 
 /* Begin PBXFileReference section */
 		B60ABEFA21821E020011301A /* WidgetStreakViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStreakViewCell.swift; sourceTree = "<group>"; };
+		B60E2C282215F5A200EAF376 /* MagicStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagicStrings.swift; sourceTree = "<group>"; };
 		B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveScreenViewController.swift; sourceTree = "<group>"; };
 		B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B6216115214D7180002AD560 /* UiColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiColor+Extension.swift"; sourceTree = "<group>"; };
@@ -217,6 +220,7 @@
 				B6F59598214C48340059D67A /* StreakCollection */,
 				B6216117215016FE002AD560 /* SaveScreenTableView */,
 				B6216115214D7180002AD560 /* UiColor+Extension.swift */,
+				B60E2C282215F5A200EAF376 /* MagicStrings.swift */,
 				B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */,
 				B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */,
 				B675679A2119FCD6000E2B74 /* Assets.xcassets */,
@@ -496,6 +500,7 @@
 				B621611D21515461002AD560 /* StreakCollectionViewFooter.swift in Sources */,
 				B6ADAEE521E8FC0D0049D86B /* CDNotificationDelegate.swift in Sources */,
 				B6F59595214C1E990059D67A /* StreakCollectionViewController.swift in Sources */,
+				B60E2C292215F5A200EAF376 /* MagicStrings.swift in Sources */,
 				B686BDE022039F6300B5F8F0 /* CountDays+Convenience.swift in Sources */,
 				B686BDDE22039AEC00B5F8F0 /* CoreDataStack.swift in Sources */,
 				B67567992119FCD3000E2B74 /* CountDays.xcdatamodeld in Sources */,
@@ -537,6 +542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B60E2C2A2215F5A200EAF376 /* MagicStrings.swift in Sources */,
 				B6E92F5B221488DA00563F25 /* ViewWithProgressBar.swift in Sources */,
 				B6E92F922214E41900563F25 /* CountDays+Convenience.swift in Sources */,
 				B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */,

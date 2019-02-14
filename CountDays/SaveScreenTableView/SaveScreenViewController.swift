@@ -421,7 +421,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         content.title = "Daily Streak: \(name)"
         content.categoryIdentifier = "DailyReminderCategory"
-        content.userInfo = ["streakName":name,"streakStart":startDate,"streakGoal":streak.goal]
+        content.userInfo = [UserInfoDictionary.name:name,
+                            UserInfoDictionary.start:startDate,
+                            UserInfoDictionary.goal:streak.goal]
         
         //Real
         //         Configure the trigger for notification at 4 or at different userselected time

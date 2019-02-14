@@ -28,14 +28,14 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func didReceive(_ notification: UNNotification) {
         
-        self.streakNameLabel.text = notification.request.content.userInfo["streakName"] as? String
-        let startDay = notification.request.content.userInfo["streakStart"] as? Date
+        self.streakNameLabel.text = notification.request.content.userInfo[UserInfoDictionary.name] as? String
+        let startDay = notification.request.content.userInfo[UserInfoDictionary.start] as? Date
 
         let count = Calendar.current.dateComponents([ .day], from: startDay ?? todayAtMidnight, to: todayAtMidnight).day! + 1
         self.streakCountLabel.text =  "\(count)"
         self.notificationBodyLabel.text = notification.request.content.body
 //
-        if let goal = notification.request.content.userInfo["streakGoal"] as? Int, goal != 0 {
+        if let goal = notification.request.content.userInfo[UserInfoDictionary.goal] as? Int, goal != 0 {
             progressBarView.progress = Float(count) / Float(goal)
         } else {
             progressBarView.progress = 1
