@@ -15,4 +15,6 @@ struct UserInfoDictionary {
     static let name = "streakName"
     ///Returns: "streakGoal"
     static let goal = "streakGoal"
+    ///Returns: "uuid"
+    static let uuid = "uuid"
 }

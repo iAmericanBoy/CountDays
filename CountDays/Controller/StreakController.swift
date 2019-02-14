@@ -78,6 +78,21 @@ class StreakController {
         saveToPersistentStore()
     }
     
+    //MARK: read
+    func findStreakWith(uuid: UUID, completion: @escaping (Streak?) -> Void ) {
+        let request: NSFetchRequest<Streak> = Streak.fetchRequest()
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: " uuid == %@", uuid as CVarArg)
+        do {
+            let streaks = try CoreDataStack.context.fetch(request)
+            completion(streaks.first)
+        } catch {
+            print("No Streak with UUID fouund: \(error), \(error.localizedDescription)")
+            completion(nil)
+        }
+    }
+
+    
     //MARK: update
     func update(startDate: Date, ofStreak streak: Streak) {
         streak.start = startDate
