@@ -29,7 +29,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         
         self.streakNameLabel.text = notification.request.content.userInfo["streakName"] as? String
-        let startDay = notification.request.content.userInfo["streakDate"] as? Date
+        let startDay = notification.request.content.userInfo["streakStart"] as? Date
+
         let count = Calendar.current.dateComponents([ .day], from: startDay ?? todayAtMidnight, to: todayAtMidnight).day! + 1
         self.streakCountLabel.text =  "\(count)"
         self.notificationBodyLabel.text = notification.request.content.body
