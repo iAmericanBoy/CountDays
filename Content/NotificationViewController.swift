@@ -34,10 +34,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     }
     
     func didReceive(_ notification: UNNotification) {
-        let content = notification.request.content
-        self.notificationBodyLabel.text = content.body
+        self.notificationBodyLabel.text = notification.request.content.body
 
-        StreakController.shared.findStreakWith(uuid: content.userInfo[UserInfoDictionary.uuid] as? UUID) { (streak) in
+        StreakController.shared.findStreakWith(uuid: notification.request.content.userInfo[UserInfoDictionary.uuid] as? UUID) { (streak) in
             self.streak = streak
         }
     }
