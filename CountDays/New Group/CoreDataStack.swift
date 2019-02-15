@@ -13,9 +13,9 @@ enum CoreDataStack {
     
     static let container: NSPersistentContainer = {
         
-        let appName = Bundle.main.object(forInfoDictionaryKey: (kCFBundleNameKey as String)) as! String
-        let container = NSPersistentContainer(name: appName)
-        
+//        let appName = Bundle.main.object(forInfoDictionaryKey: (kCFBundleNameKey as String)) as! String
+        let container = NSPersistentContainer(name: "CountDays")
+
         if UserDefaults.standard.bool(forKey: "migrationSuccess"){
             container.persistentStoreDescriptions = [NSPersistentStoreDescription(url:  FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.oskman.DaysInARowGroup")!.appendingPathComponent("CountDays.sqlite"))]
         }
