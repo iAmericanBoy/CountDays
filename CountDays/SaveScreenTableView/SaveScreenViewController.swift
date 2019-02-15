@@ -407,6 +407,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     func scheduleReminderNotification(streak: Streak) {
         guard let name = streak.name, let startDate = streak.start else {return}
+        
+        if streak.uuid == nil {
+            StreakController.shared.addUUID(toStreak: streak)
+        }
+        guard let uuid = streak.uuid?.uuidString else {return}
 
 
         let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
@@ -425,7 +430,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         content.userInfo = [UserInfoDictionary.name:name,
                             UserInfoDictionary.start:startDate,
                             UserInfoDictionary.goal:streak.goal,
-                            UserInfoDictionary.uuid:streak.uuid as Any]
+                            UserInfoDictionary.uuid:uuid]
         
         //Real
         //         Configure the trigger for notification at 4 or at different userselected time

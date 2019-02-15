@@ -114,6 +114,12 @@ class StreakController {
 
         saveToPersistentStore()
     }
+    //MARK: add UIID
+    func addUUID(toStreak streak: Streak) {
+        setUUID(forStreak: streak)
+        
+        saveToPersistentStore()
+    }
     
     //MARK: toggle Restart
     func restart(streak: Streak) {
