@@ -455,7 +455,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             if let theError = error {
                 print(theError.localizedDescription)
             }
-            print("Added new notification with name:\(content.title), body: \(content.body) and userInfo: \(content.userInfo). Scheduld time: \(String(describing: request.trigger))")
+            print("Added new notification with name:\(content.title), body: \(content.body) and userInfo: \(content.userInfo). Scheduled time: \(String(describing: request.trigger))")
         }
     }
     

@@ -79,7 +79,11 @@ class StreakController {
     }
     
     //MARK: read
-    func findStreakWith(uuid: UUID, completion: @escaping (Streak?) -> Void ) {
+    func findStreakWith(uuid: UUID?, completion: @escaping (Streak?) -> Void ) {
+        guard let uuid = uuid else {
+            completion(nil)
+            return
+        }
         let request: NSFetchRequest<Streak> = Streak.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: " uuid == %@", uuid as CVarArg)
