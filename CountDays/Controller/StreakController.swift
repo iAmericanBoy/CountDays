@@ -86,7 +86,7 @@ class StreakController {
         }
         let request: NSFetchRequest<Streak> = Streak.fetchRequest()
         request.fetchLimit = 1
-        request.predicate = NSPredicate(format: " uuid == %@", uuid as CVarArg)
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Streak.uuid), uuid as CVarArg)
         do {
             let streaks = try CoreDataStack.context.fetch(request)
             completion(streaks.first)

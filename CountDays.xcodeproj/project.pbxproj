@@ -120,6 +120,7 @@
 		B6E92F5A221488DA00563F25 /* ViewWithProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithProgressBar.swift; sourceTree = "<group>"; };
 		B6F59594214C1E980059D67A /* StreakCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewController.swift; sourceTree = "<group>"; };
 		B6F59596214C465B0059D67A /* StreakCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewCell.swift; sourceTree = "<group>"; };
+		B6F902C122178D6200EDC337 /* Content.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Content.entitlements; sourceTree = "<group>"; };
 		B6FC061521CC228100E7B3B6 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		B6FCF59A220B9EDF00EE0909 /* CountDays v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CountDays v2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +264,7 @@
 		B6E92F0822138D0C00563F25 /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				B6F902C122178D6200EDC337 /* Content.entitlements */,
 				B6E92F0922138D0C00563F25 /* NotificationViewController.swift */,
 				B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */,
 				B6E92F0E22138D0C00563F25 /* Info.plist */,
@@ -425,6 +427,11 @@
 					};
 					B6E92F0422138D0C00563F25 = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -872,6 +879,7 @@
 		B6E92F1322138D0C00563F25 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Content/Content.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;
@@ -894,6 +902,7 @@
 		B6E92F1422138D0C00563F25 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Content/Content.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;

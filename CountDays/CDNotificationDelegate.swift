@@ -23,6 +23,11 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         guard  let streak = StreakController.shared.unFinishedWithReminderStreakfetchResultsController.fetchedObjects?.first else {return}
+        let uuid = response.notification.request.content.userInfo[UserInfoDictionary.uuid] as! String
+        StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuid)) { (streak) in
+             print(streak)
+        }
+        
         
         // Determine the user action
         switch response.actionIdentifier {
