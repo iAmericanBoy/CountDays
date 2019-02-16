@@ -413,11 +413,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
         guard let uuid = streak.uuid?.uuidString else {return}
 
+        let continueAction = UNNotificationAction(identifier: "continue", title: "OK Continue", options: UNNotificationActionOptions(rawValue: 0))
 
         let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
-        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
+        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: UNNotificationActionOptions(rawValue: 0))
         
-        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [restartAction, finishAction],intentIdentifiers: [], options: [])
+        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [continueAction,restartAction, finishAction],intentIdentifiers: [], options: [])
         let content = UNMutableNotificationContent()
         if let body = streak.reminderText {
             content.body = body

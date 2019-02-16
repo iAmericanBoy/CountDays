@@ -22,23 +22,23 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard  let streak = StreakController.shared.unFinishedWithReminderStreakfetchResultsController.fetchedObjects?.first else {return}
         let uuid = response.notification.request.content.userInfo[UserInfoDictionary.uuid] as! String
         StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuid)) { (streak) in
-             print(streak)
+            guard let streak = streak else {return}
+            // Determine the user action
+            switch response.actionIdentifier {
+            case "Restart":
+                StreakController.shared.restart(streak: streak)
+            case "Finish":
+                StreakController.shared.finish(streak: streak)
+            case "continue":
+                break;
+            default:
+                print("Unknown action")
+            }
+            completionHandler()
+            
         }
-        
-        
-        // Determine the user action
-        switch response.actionIdentifier {
-        case "Restart":
-            StreakController.shared.restart(streak: streak)
-        case "Finish":
-            StreakController.shared.finish(streak: streak)
-        default:
-            print("Unknown action")
-        }
-        completionHandler()
     }
 }
 
