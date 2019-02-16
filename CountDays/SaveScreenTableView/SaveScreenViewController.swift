@@ -302,7 +302,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSettingsStackView.axis = .horizontal
         reminderSettingsStackView.spacing = 5
         
-        badgeSettingsStackView.frame.height
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let toolBar = UIToolbar()
