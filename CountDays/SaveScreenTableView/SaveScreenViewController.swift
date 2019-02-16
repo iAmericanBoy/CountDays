@@ -49,6 +49,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderTimeDefaultTextField.delegate = self
         reminderSelectionTextField.delegate = self
         badgeSelectionTextField.delegate = self
+        
+
 
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
@@ -142,6 +144,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.text = "Select a Streak"
         return textField
     }()
     
