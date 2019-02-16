@@ -49,6 +49,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderTimeDefaultTextField.delegate = self
         reminderSelectionTextField.delegate = self
         badgeSelectionTextField.delegate = self
+        
+
 
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
@@ -142,6 +144,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.text = "Select a Streak"
         return textField
     }()
     
@@ -299,7 +302,6 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         reminderSettingsStackView.axis = .horizontal
         reminderSettingsStackView.spacing = 5
         
-badgeSettingsStackView.frame.height
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let toolBar = UIToolbar()
@@ -405,13 +407,22 @@ badgeSettingsStackView.frame.height
         }
     }
     
-    func scheduleReminderNotification(name: String) {
-        let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
-        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: [.destructive])
+    func scheduleReminderNotification(streak: Streak) {
+        guard let name = streak.name, let startDate = streak.start else {return}
         
-        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [restartAction, finishAction],intentIdentifiers: [], options: [])
+        if streak.uuid == nil {
+            StreakController.shared.addUUID(toStreak: streak)
+        }
+        guard let uuid = streak.uuid?.uuidString else {return}
+
+        let continueAction = UNNotificationAction(identifier: "continue", title: "OK Continue", options: UNNotificationActionOptions(rawValue: 0))
+
+        let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
+        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: UNNotificationActionOptions(rawValue: 0))
+        
+        let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [continueAction,restartAction, finishAction],intentIdentifiers: [], options: [])
         let content = UNMutableNotificationContent()
-        if let body = defaults.string(forKey: "ReminderText") {
+        if let body = streak.reminderText {
             content.body = body
         } else {
             content.body = "Did you continue your streak of \(name)?"
@@ -419,6 +430,10 @@ badgeSettingsStackView.frame.height
 
         content.title = "Daily Streak: \(name)"
         content.categoryIdentifier = "DailyReminderCategory"
+        content.userInfo = [UserInfoDictionary.name:name,
+                            UserInfoDictionary.start:startDate,
+                            UserInfoDictionary.goal:streak.goal,
+                            UserInfoDictionary.uuid:uuid]
         
         //Real
         //         Configure the trigger for notification at 4 or at different userselected time
@@ -426,8 +441,8 @@ badgeSettingsStackView.frame.height
         
         //Test
         // Configure the trigger for notification at 3 seconds
-        //        var triggerDate = DateComponents()
-        //        triggerDate.second = 3
+//                var triggerDate = DateComponents()
+//                triggerDate.second = 3
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
         
@@ -443,6 +458,7 @@ badgeSettingsStackView.frame.height
             if let theError = error {
                 print(theError.localizedDescription)
             }
+            print("Added new notification with name:\(content.title), body: \(content.body) and userInfo: \(content.userInfo). Scheduled time: \(String(describing: request.trigger))")
         }
     }
     
@@ -568,7 +584,7 @@ badgeSettingsStackView.frame.height
             let row = reminderStreakPicker.selectedRow(inComponent: 0) - 1
             print("daily reminder sent")
             guard let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row] else {return}
-            scheduleReminderNotification(name: streak.name ?? "Streak not found")
+            scheduleReminderNotification(streak: streak)
             StreakController.shared.toggle(reminder: true, ofStreak: streak)
             reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
             StreakController.shared.set(reminderTime: timeStreakPicker.date, ofStreak: streak)
@@ -595,8 +611,7 @@ badgeSettingsStackView.frame.height
         let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
             guard let newText = textAlert.textFields?.first?.text else {return}
             StreakController.shared.set(reminderText: newText, ofStreak: streak)
-            self.defaults.set(newText, forKey: "ReminderText")
-            self.scheduleReminderNotification(name: streakName)
+            self.scheduleReminderNotification(streak: streak)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         

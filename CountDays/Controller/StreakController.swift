@@ -78,19 +78,50 @@ class StreakController {
         saveToPersistentStore()
     }
     
+    //MARK: read
+    func findStreakWith(uuid: UUID?, completion: @escaping (Streak?) -> Void ) {
+        guard let uuid = uuid else {
+            completion(nil)
+            return
+        }
+        let request: NSFetchRequest<Streak> = Streak.fetchRequest()
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "%K == %@", #keyPath(Streak.uuid), uuid as CVarArg)
+        do {
+            let streaks = try CoreDataStack.context.fetch(request)
+            completion(streaks.first)
+        } catch {
+            print("No Streak with UUID fouund: \(error), \(error.localizedDescription)")
+            completion(nil)
+        }
+    }
+
+    
     //MARK: update
     func update(startDate: Date, ofStreak streak: Streak) {
         streak.start = startDate
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     func update(name: String, ofStreak streak: Streak) {
         streak.name = name
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: add Goal
     func add(goal: Int, ofStreak streak: Streak) {
         streak.goal = Int32(goal)
+        setUUID(forStreak: streak)
+
+        saveToPersistentStore()
+    }
+    //MARK: add UIID
+    func addUUID(toStreak streak: Streak) {
+        setUUID(forStreak: streak)
+        
         saveToPersistentStore()
     }
     
@@ -99,6 +130,8 @@ class StreakController {
         Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date(), reminderText: nil, reminderTime: nil)
         streak.start = Calendar.current.startOfDay(for: Date())
         streak.lastModified = Date()
+        setUUID(forStreak: streak)
+        
         saveToPersistentStore()
     }
     
@@ -108,12 +141,16 @@ class StreakController {
         streak.finishedStreak = true
         streak.badge = false
         streak.lastModified = Date()
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: toggle Badge
     func toggle(badge: Bool, ofStreak streak: Streak) {
         streak.badge = badge
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
@@ -129,18 +166,23 @@ class StreakController {
     //MARK: toggle daily reminder
     func toggle(reminder: Bool, ofStreak streak: Streak) {
         streak.dailyReminder = reminder
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: set Reminder Text
     func set(reminderText: String, ofStreak streak: Streak) {
         streak.reminderText = reminderText
+        setUUID(forStreak: streak)
+
         saveToPersistentStore()
     }
     
     //MARK: set Reminder Time
     func set(reminderTime: Date, ofStreak streak: Streak) {
         streak.reminderTime = reminderTime
+        setUUID(forStreak: streak)
         saveToPersistentStore()
     }
     
@@ -153,5 +195,13 @@ class StreakController {
         } catch {
             print("Error saving: \(String(describing: error)) \(error.localizedDescription))")
         }
-    } 
+    }
+    
+    //MARK: - Private Functions
+    private func setUUID(forStreak streak: Streak) {
+        if streak.uuid == nil {
+            streak.uuid = UUID()
+            saveToPersistentStore()
+        }
+    }
 }

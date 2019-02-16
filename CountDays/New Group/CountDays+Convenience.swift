@@ -25,5 +25,19 @@ extension Streak {
         self.lastModified = lastModified
         self.reminderTime = reminderTime
         self.reminderText = reminderText
+        self.uuid = UUID()
+    }
+    
+    override public func awakeFromFetch() {
+        super.awakeFromFetch()
+        if self.uuid == nil {
+            print("\(String(describing: name)) no UUID")
+//            self.uuid = UUID()
+        } else {
+            print("\(String(describing: name)) has UUID")
+        }
     }
 }
+
+
+

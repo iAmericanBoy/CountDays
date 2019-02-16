@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M4Y-Lb-cyx">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Notification View Controller-->
+        <scene sceneID="cwh-vc-ff4">
+            <objects>
+                <viewController id="M4Y-Lb-cyx" userLabel="Notification View Controller" customClass="NotificationViewController" customModule="Content" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" simulatedAppContext="notificationCenter" id="S3S-Oj-5AN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihv-bO-iPS" customClass="ViewWithProgressBar" customModule="Content" customModuleProvider="target">
+                                <rect key="frame" x="75" y="0.0" width="300" height="300"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ihv-bO-iPS" secondAttribute="height" multiplier="1:1" id="VWU-8D-cHE"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6G-xb-YlX">
+                                <rect key="frame" x="20" y="10" width="335" height="31.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" usesAttributedText="YES" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mwJ-PC-H3l">
+                                <rect key="frame" x="161" y="169" width="53.5" height="112"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="0">
+                                        <attributes>
+                                            <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <font key="NSFont" size="96" name=".SFNSDisplay"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uf-AE-aVb">
+                                <rect key="frame" x="0.0" y="408.5" width="375" height="31.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="mwJ-PC-H3l" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="8Zo-DZ-Qxb"/>
+                            <constraint firstItem="4uf-AE-aVb" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" id="AQl-n3-OM8"/>
+                            <constraint firstItem="ihv-bO-iPS" firstAttribute="width" secondItem="S3S-Oj-5AN" secondAttribute="width" multiplier="0.8" id="Bzq-rm-RLo"/>
+                            <constraint firstItem="A6G-xb-YlX" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" constant="20" id="DZ6-ww-jdj"/>
+                            <constraint firstItem="ihv-bO-iPS" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" id="H06-bX-rhh"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="bottom" secondItem="4uf-AE-aVb" secondAttribute="bottom" constant="10" id="HJ5-dv-qoo"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="ihv-bO-iPS" secondAttribute="trailing" id="NbF-lH-2mb"/>
+                            <constraint firstItem="A6G-xb-YlX" firstAttribute="trailing" secondItem="2BE-c3-nQJ" secondAttribute="trailing" constant="-20" id="Ssw-k3-wV7"/>
+                            <constraint firstItem="4uf-AE-aVb" firstAttribute="trailing" secondItem="2BE-c3-nQJ" secondAttribute="trailing" id="Suz-y9-G7d"/>
+                            <constraint firstItem="mwJ-PC-H3l" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="Y7K-Ma-voI"/>
+                            <constraint firstItem="A6G-xb-YlX" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" constant="10" id="yQx-NX-6u6"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2BE-c3-nQJ"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <size key="freeformSize" width="375" height="450"/>
+                    <connections>
+                        <outlet property="notificationBodyLabel" destination="4uf-AE-aVb" id="0OK-2P-ljv"/>
+                        <outlet property="progressBarView" destination="ihv-bO-iPS" id="LUT-AL-w8s"/>
+                        <outlet property="streakCountLabel" destination="mwJ-PC-H3l" id="jU9-Ig-V8f"/>
+                        <outlet property="streakNameLabel" destination="A6G-xb-YlX" id="JrC-gn-A3r"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3" y="-13"/>
+        </scene>
+    </scenes>
+</document>
