@@ -162,20 +162,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         var needMigrate = false
         var needDeleteOld = false
         
-        
         if FileManager.default.fileExists(atPath: oldStoreUrl.path){
             needMigrate = true
             targetUrl = oldStoreUrl
         }
-        if FileManager.default.fileExists(atPath: newStoreUrl.path){
-            needMigrate = false
-            
-            targetUrl = newStoreUrl
-            
-            if FileManager.default.fileExists(atPath: oldStoreUrl.path){
-                needDeleteOld = true
-            }
+        
+        if let migrationSuccessIsTrue = UserDefaults.standard.object(forKey: "migrationSuccess") as? Bool {
+                if FileManager.default.fileExists(atPath: newStoreUrl.path){
+                    needMigrate = false
+                    
+                    targetUrl = newStoreUrl
+                    
+                    if FileManager.default.fileExists(atPath: oldStoreUrl.path){
+                        needDeleteOld = true
+                    }
+                }
+        } else {
+            self.deleteDocumentAtUrl(url: newStoreUrl)
         }
+
         if targetUrl == nil {
             targetUrl = newStoreUrl
         }
