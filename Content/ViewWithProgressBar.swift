@@ -18,7 +18,7 @@ class ViewWithProgressBar: UIView {
 
 
     override func draw(_ rect: CGRect) {
-        let smallSquare = CGRect(x: self.bounds.midX - 2, y: self.bounds.midY, width: self.bounds.width * 0.5 , height: self.bounds.width * 0.5)
+        let smallSquare = CGRect(x: self.bounds.midX - 3, y: self.bounds.midY - 3, width: self.bounds.width * 0.5 , height: self.bounds.width * 0.5)
         
         let trianglePath = UIBezierPath()
         trianglePath.move(to: CGPoint(x: smallSquare.minX , y: smallSquare.maxY))

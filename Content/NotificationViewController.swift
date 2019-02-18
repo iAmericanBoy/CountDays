@@ -24,6 +24,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.thin)
+
     }
     
     func didReceive(_ notification: UNNotification) {
