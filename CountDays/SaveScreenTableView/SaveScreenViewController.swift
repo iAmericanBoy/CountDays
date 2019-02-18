@@ -486,9 +486,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         self.defaults.removeObject(forKey: "ReminderText")
         
-        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
-        timeStreakPicker.date = fourPM!
-        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+//        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+//        timeStreakPicker.date = fourPM!
+//        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
         
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
