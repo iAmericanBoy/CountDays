@@ -114,7 +114,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let settingsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Allow Notifications"
+        label.text = "Configure Notifications"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
@@ -124,7 +124,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let badgeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Display the amount of days on the badge"
+        label.text = "Set badge for Streak:"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
@@ -150,7 +150,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Send daily reminder"
+        label.text = "Schedule reminder for Streak:"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
