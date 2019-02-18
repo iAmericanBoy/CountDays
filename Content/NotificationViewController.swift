@@ -17,6 +17,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var streakNameLabel: UILabel!
     @IBOutlet weak var streakCountLabel: UILabel!
     @IBOutlet weak var notificationBodyLabel: UILabel!
+    @IBOutlet weak var dayLabel: UILabel!
     
     //MARK: - Properties
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
@@ -24,8 +25,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.thin)
-
+        setupUI()
     }
     
     func didReceive(_ notification: UNNotification) {
@@ -37,10 +37,24 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         let count = Calendar.current.dateComponents([ .day], from: startDay ?? todayAtMidnight, to: todayAtMidnight).day! + 1
         self.streakCountLabel.text =  "\(count)"
         
+        dayLabel.text = count == 1 ? "Day" : "Days"
+        
         if  let goal = notification.request.content.userInfo[UserInfoDictionary.goal] as? Int, goal != 0 {
             progressBarView.progress = Float(count) / Float(goal)
         } else {
             progressBarView.progress = 1
         }
     }
+    
+    //MARK: - Private Functions
+    func setupUI() {
+        streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.thin)
+        dayLabel.layer.borderWidth = 3
+        dayLabel.layer.cornerRadius = dayLabel.frame.size.width / 2.0
+        dayLabel.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.6).cgColor
+        dayLabel.layer.cornerRadius = 0.2 * view.bounds.size.width * 0.51
+        dayLabel.layer.masksToBounds = true
+
+    }
+
 }
