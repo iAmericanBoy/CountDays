@@ -27,9 +27,9 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             guard let streak = streak else {return}
             // Determine the user action
             switch response.actionIdentifier {
-            case "Restart":
+            case "restart":
                 StreakController.shared.restart(streak: streak)
-            case "Finish":
+            case "finish":
                 StreakController.shared.finish(streak: streak)
             case "continue":
                 break;
