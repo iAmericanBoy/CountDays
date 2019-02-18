@@ -151,6 +151,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func migrateToAppGroup() {
+        
+        if defaults.bool(forKey: "migrationSuccess") {
+            let userDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+            userDefaults.set(true, forKey: "migrationSuccess")
+        }
         let coordinator = CoreDataStack.container.persistentStoreCoordinator
         
         let oldStoreUrl = self.applicationDocumentsDirectory.appendingPathComponent("CountDays.sqlite")
@@ -193,6 +198,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     
                     if FileManager.default.fileExists(atPath: newStoreUrl.path){
                         defaults.set(true, forKey: "migrationSuccess")
+                        let userDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+                        userDefaults.set(true, forKey: "migrationSuccess")
                     }
                 } catch let error {
                     print("migrate failed with error : \(error)")
