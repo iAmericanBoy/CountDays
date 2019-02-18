@@ -117,7 +117,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         label.text = "Configure Notifications"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
-        label.numberOfLines = 0;
+        label.numberOfLines = 1;
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -275,8 +275,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
-        settingsStackView.alignment = .center
-        settingsStackView.distribution = .equalSpacing
+        settingsStackView.alignment = .fill
+        settingsStackView.distribution = .fill
         settingsStackView.axis = .horizontal
         
         let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
