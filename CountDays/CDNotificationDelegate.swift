@@ -35,6 +35,29 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                 StreakController.shared.finish(streak: streak)
             case "continue":
                 break;
+            case "snooze" :
+                let continueAction = UNNotificationAction(identifier: "continue", title: "Continue Streak", options: UNNotificationActionOptions(rawValue: 0))
+                let snoozeAction = UNNotificationAction(identifier: "snooze", title: "Ask me again in 1 hour", options: UNNotificationActionOptions(rawValue: 0))
+                
+                
+                let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [continueAction,snoozeAction],intentIdentifiers: [], options: [])
+                let content = response.notification.request.content
+                let triggerDate = Calendar.current.dateComponents([.hour, .minute], from: Date(timeIntervalSinceNow: 3600))
+
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+                // Create the request object.
+                let request = UNNotificationRequest(identifier: "DailyReminder", content: content, trigger: trigger)
+                
+                // Schedule the request.
+                let center = UNUserNotificationCenter.current()
+                center.setNotificationCategories([category])
+
+                center.add(request) { (error : Error?) in
+                    if let theError = error {
+                        print(theError.localizedDescription)
+                    }
+                    print("Added new notification with name:\(content.title), body: \(content.body) and userInfo: \(content.userInfo). Scheduled time: \(String(describing: request.trigger))")
+                }
             case UNNotificationDefaultActionIdentifier:
                 //open app
                 print("opening app")
