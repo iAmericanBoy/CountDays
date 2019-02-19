@@ -18,9 +18,18 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var streakCountLabel: UILabel!
     @IBOutlet weak var notificationBodyLabel: UILabel!
     @IBOutlet weak var dayLabel: UILabel!
+    @IBOutlet weak var finishButton: UIButton!
+    @IBOutlet weak var restartButton: UIButton!
     
     //MARK: - Properties
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
+    var streak: Streak? {
+        didSet {
+            DispatchQueue.main.async {
+                self.updateView()
+            }
+        }
+    }
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -33,24 +42,20 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         
         let uuidAsString = notification.request.content.userInfo[UserInfoDictionary.uuid] as! String
         StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuidAsString)) { (streak) in
-            guard let streak = streak else {return}
-            DispatchQueue.main.async {
-                
-                self.streakNameLabel.text = streak.name
-                let startDay = streak.start
-                
-                let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
-                self.streakCountLabel.text =  "\(count)"
-                
-                self.dayLabel.text = count == 1 ? "Day" : "Days"
-                
-                if streak.goal != 0 {
-                    self.progressBarView.progress = Float(count) / Float(streak.goal)
-                } else {
-                    self.progressBarView.progress = 1
-                }
-            }
+            self.streak = streak
         }
+    }
+    //MARK: - Actions
+    
+    @IBAction func restartButtonsTapped(_ sender: UIButton) {
+        guard let streak = streak else {return}
+        StreakController.shared.restart(streak: streak)
+        updateView()
+    }
+    @IBAction func finishButtonTapped(_ sender: UIButton) {
+        guard let streak = streak else {return}
+        StreakController.shared.finish(streak: streak)
+        //giveFinish message
     }
     
     //MARK: - Private Functions
@@ -63,4 +68,21 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         dayLabel.layer.masksToBounds = true
     }
     
+    func updateView() {
+        guard let streak = streak else {return}
+        
+        self.streakNameLabel.text = streak.name
+        let startDay = streak.start
+        
+        let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
+        self.streakCountLabel.text =  "\(count)"
+        
+        self.dayLabel.text = count == 1 ? "Day" : "Days"
+        
+        if streak.goal != 0 {
+            self.progressBarView.progress = Float(count) / Float(streak.goal)
+        } else {
+            self.progressBarView.progress = 1
+        }
+    }
 }

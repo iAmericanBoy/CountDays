@@ -55,28 +55,50 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4uf-AE-aVb">
-                                <rect key="frame" x="5" y="416" width="365" height="24"/>
+                                <rect key="frame" x="5" y="354.5" width="365" height="24"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="tld-3l-5ib">
+                                <rect key="frame" x="10" y="410" width="355" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNe-EV-5qq">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="restartButtonsTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="csq-v9-IxM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q4P-Hv-2n8">
+                                        <rect key="frame" x="170" y="0.0" width="185" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="finishButtonTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="tPf-U4-oZU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mwJ-PC-H3l" firstAttribute="centerX" secondItem="S3S-Oj-5AN" secondAttribute="centerX" id="1yk-NN-Ppb"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="bottom" secondItem="tld-3l-5ib" secondAttribute="bottom" constant="10" id="CJ2-9Z-TH1"/>
                             <constraint firstItem="A6G-xb-YlX" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" constant="20" id="DZ6-ww-jdj"/>
                             <constraint firstItem="ihv-bO-iPS" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" id="H06-bX-rhh"/>
-                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="bottom" secondItem="4uf-AE-aVb" secondAttribute="bottom" constant="10" id="HJ5-dv-qoo"/>
                             <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="ihv-bO-iPS" secondAttribute="trailing" id="NbF-lH-2mb"/>
                             <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="4uf-AE-aVb" secondAttribute="trailing" constant="5" id="OB1-hU-7Ea"/>
                             <constraint firstItem="4uf-AE-aVb" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" constant="5" id="Ozu-Iz-33f"/>
+                            <constraint firstItem="4uf-AE-aVb" firstAttribute="top" secondItem="mwJ-PC-H3l" secondAttribute="bottom" constant="10" id="Qr4-Ln-dd8"/>
                             <constraint firstItem="A6G-xb-YlX" firstAttribute="trailing" secondItem="2BE-c3-nQJ" secondAttribute="trailing" constant="-20" id="Ssw-k3-wV7"/>
                             <constraint firstItem="ihv-bO-iPS" firstAttribute="width" secondItem="S3S-Oj-5AN" secondAttribute="width" multiplier="0.8" id="WRO-OV-Jxv"/>
                             <constraint firstItem="mwJ-PC-H3l" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="Y7K-Ma-voI"/>
+                            <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="tld-3l-5ib" secondAttribute="trailing" constant="10" id="aMm-mm-lJ3"/>
                             <constraint firstItem="qOl-Nf-M9D" firstAttribute="trailing" secondItem="O3h-RE-nfh" secondAttribute="trailing" constant="-5" id="cDI-RM-bhE"/>
                             <constraint firstItem="O3h-RE-nfh" firstAttribute="bottom" secondItem="ihv-bO-iPS" secondAttribute="bottom" id="dTi-qR-7TT"/>
                             <constraint firstItem="2BE-c3-nQJ" firstAttribute="trailing" secondItem="O3h-RE-nfh" secondAttribute="trailing" id="eLD-JH-aQN"/>
                             <constraint firstItem="O3h-RE-nfh" firstAttribute="width" secondItem="S3S-Oj-5AN" secondAttribute="width" multiplier="0.4" id="ni7-gF-SIh"/>
+                            <constraint firstItem="tld-3l-5ib" firstAttribute="leading" secondItem="2BE-c3-nQJ" secondAttribute="leading" constant="10" id="oAH-6I-fnO"/>
                             <constraint firstItem="qOl-Nf-M9D" firstAttribute="width" secondItem="O3h-RE-nfh" secondAttribute="width" multiplier="0.53" id="oJy-wK-2cv"/>
                             <constraint firstItem="qOl-Nf-M9D" firstAttribute="bottom" secondItem="O3h-RE-nfh" secondAttribute="bottom" constant="-5" id="qia-Gi-e5p"/>
                             <constraint firstItem="A6G-xb-YlX" firstAttribute="top" secondItem="2BE-c3-nQJ" secondAttribute="top" constant="10" id="yQx-NX-6u6"/>
@@ -87,8 +109,10 @@
                     <size key="freeformSize" width="375" height="450"/>
                     <connections>
                         <outlet property="dayLabel" destination="qOl-Nf-M9D" id="tCa-NA-6i0"/>
+                        <outlet property="finishButton" destination="q4P-Hv-2n8" id="zcF-hd-UcE"/>
                         <outlet property="notificationBodyLabel" destination="4uf-AE-aVb" id="0OK-2P-ljv"/>
                         <outlet property="progressBarView" destination="ihv-bO-iPS" id="LUT-AL-w8s"/>
+                        <outlet property="restartButton" destination="UNe-EV-5qq" id="qhT-3X-7BJ"/>
                         <outlet property="streakCountLabel" destination="mwJ-PC-H3l" id="jU9-Ig-V8f"/>
                         <outlet property="streakNameLabel" destination="A6G-xb-YlX" id="JrC-gn-A3r"/>
                     </connections>
