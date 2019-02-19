@@ -61,11 +61,19 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     //MARK: - Private Functions
     func setupUI() {
         streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 150, weight: UIFont.Weight.thin)
+        
         dayLabel.layer.borderWidth = 3
         dayLabel.layer.cornerRadius = dayLabel.frame.size.width / 2.0
         dayLabel.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.6).cgColor
         dayLabel.layer.cornerRadius = 0.2 * view.bounds.size.width * 0.51
         dayLabel.layer.masksToBounds = true
+        
+        restartButton.layer.cornerRadius = 10
+        restartButton.layer.borderWidth = 1.5
+        restartButton.layer.borderColor = UIColor.red.withAlphaComponent(0.7).cgColor
+        
+        finishButton.layer.cornerRadius = 10
+        
     }
     
     func updateView() {
