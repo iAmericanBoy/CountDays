@@ -25,9 +25,10 @@ class StreakController {
     let unfinishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
         let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        let reminderSort = NSSortDescriptor(key: "dailyReminder", ascending: false)
         let predicate = NSPredicate(format: "finishedStreak == false")
         fetchRequest.predicate = predicate
-        fetchRequest.sortDescriptors = [nameSort]
+        fetchRequest.sortDescriptors = [reminderSort,nameSort]
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     let finishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {

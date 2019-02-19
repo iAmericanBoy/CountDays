@@ -151,6 +151,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     func migrateToAppGroup() {
+        
+        if defaults.bool(forKey: "migrationSuccess") {
+            let userDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+            userDefaults.set(true, forKey: "migrationSuccess")
+        }
         let coordinator = CoreDataStack.container.persistentStoreCoordinator
         
         let oldStoreUrl = self.applicationDocumentsDirectory.appendingPathComponent("CountDays.sqlite")
@@ -162,20 +167,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         var needMigrate = false
         var needDeleteOld = false
         
-        
         if FileManager.default.fileExists(atPath: oldStoreUrl.path){
             needMigrate = true
             targetUrl = oldStoreUrl
         }
-        if FileManager.default.fileExists(atPath: newStoreUrl.path){
-            needMigrate = false
-            
-            targetUrl = newStoreUrl
-            
-            if FileManager.default.fileExists(atPath: oldStoreUrl.path){
-                needDeleteOld = true
-            }
+        
+        if let migrationSuccessIsTrue = UserDefaults.standard.object(forKey: "migrationSuccess") as? Bool {
+                if FileManager.default.fileExists(atPath: newStoreUrl.path){
+                    needMigrate = false
+                    
+                    targetUrl = newStoreUrl
+                    
+                    if FileManager.default.fileExists(atPath: oldStoreUrl.path){
+                        needDeleteOld = true
+                    }
+                }
+        } else {
+            self.deleteDocumentAtUrl(url: newStoreUrl)
         }
+
         if targetUrl == nil {
             targetUrl = newStoreUrl
         }
@@ -188,6 +198,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     
                     if FileManager.default.fileExists(atPath: newStoreUrl.path){
                         defaults.set(true, forKey: "migrationSuccess")
+                        let userDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+                        userDefaults.set(true, forKey: "migrationSuccess")
                     }
                 } catch let error {
                     print("migrate failed with error : \(error)")

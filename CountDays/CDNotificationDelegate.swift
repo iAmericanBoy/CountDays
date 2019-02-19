@@ -22,22 +22,32 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        
         let uuid = response.notification.request.content.userInfo[UserInfoDictionary.uuid] as! String
         StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuid)) { (streak) in
+            
             guard let streak = streak else {return}
             // Determine the user action
             switch response.actionIdentifier {
-            case "Restart":
+            case "restart":
                 StreakController.shared.restart(streak: streak)
-            case "Finish":
+            case "finish":
                 StreakController.shared.finish(streak: streak)
             case "continue":
                 break;
+            case UNNotificationDefaultActionIdentifier:
+                //open app
+                print("opening app")
+                
+                let layout = UICollectionViewFlowLayout()
+
+                let window = UIApplication.shared.delegate?.window
+                window??.rootViewController?.present(UINavigationController(rootViewController: StreakCollectionViewController(collectionViewLayout: layout)), animated: false, completion: nil)
+
             default:
                 print("Unknown action")
             }
             completionHandler()
-            
         }
     }
 }

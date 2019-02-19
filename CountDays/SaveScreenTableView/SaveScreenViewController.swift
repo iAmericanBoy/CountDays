@@ -114,17 +114,17 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let settingsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Allow Notifications"
+        label.text = "Configure Notifications"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
-        label.numberOfLines = 0;
+        label.numberOfLines = 1;
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let badgeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Display the amount of days on the badge"
+        label.text = "Set badge for Streak:"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
@@ -150,7 +150,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Send daily reminder"
+        label.text = "Schedule reminder for Streak:"
         label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
         label.textAlignment = .natural
         label.numberOfLines = 0;
@@ -275,8 +275,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
-        settingsStackView.alignment = .center
-        settingsStackView.distribution = .equalSpacing
+        settingsStackView.alignment = .fill
+        settingsStackView.distribution = .fill
         settingsStackView.axis = .horizontal
         
         let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
@@ -415,10 +415,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
         guard let uuid = streak.uuid?.uuidString else {return}
 
-        let continueAction = UNNotificationAction(identifier: "continue", title: "OK Continue", options: UNNotificationActionOptions(rawValue: 0))
+        let continueAction = UNNotificationAction(identifier: "continue", title: "Continue Streak", options: UNNotificationActionOptions(rawValue: 0))
 
-        let restartAction = UNNotificationAction(identifier: "Restart", title: "Restart Streak", options: [.destructive])
-        let finishAction = UNNotificationAction(identifier: "Finish", title: "Finish Streak", options: UNNotificationActionOptions(rawValue: 0))
+        let restartAction = UNNotificationAction(identifier: "restart", title: "Restart Streak", options: [.destructive])
+        let finishAction = UNNotificationAction(identifier: "finish", title: "Finish Streak", options: UNNotificationActionOptions(rawValue: 0))
         
         let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [continueAction,restartAction, finishAction],intentIdentifiers: [], options: [])
         let content = UNMutableNotificationContent()
@@ -486,9 +486,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         center.removePendingNotificationRequests(withIdentifiers: ["DailyReminder"])
         self.defaults.removeObject(forKey: "ReminderText")
         
-        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
-        timeStreakPicker.date = fourPM!
-        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
+//        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+//        timeStreakPicker.date = fourPM!
+//        reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: timeStreakPicker.date)
         
         
         StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.forEach({ (streak) in
