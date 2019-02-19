@@ -55,12 +55,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.finish(streak: streak)
-        //giveFinish message
+        congratulationView()
     }
     
     //MARK: - Private Functions
     func setupUI() {
-        streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 100, weight: UIFont.Weight.thin)
+        streakCountLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 110, weight: UIFont.Weight.thin)
         
         dayLabel.layer.borderWidth = 3
         dayLabel.layer.cornerRadius = dayLabel.frame.size.width / 2.0
@@ -92,5 +92,15 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         } else {
             self.progressBarView.progress = 1
         }
+    }
+    
+    func congratulationView() {
+        progressBarView.isHidden = true
+        streakNameLabel.text = "Imagine Confetti falling from the top"
+        streakCountLabel.isHidden = true
+        notificationBodyLabel.isHidden = true
+        dayLabel.isHidden = true
+        finishButton.isHidden = true
+        restartButton.isHidden = true
     }
 }
