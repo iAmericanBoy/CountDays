@@ -11,7 +11,7 @@ import UserNotifications
 import UserNotificationsUI
 
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
-
+    
     //MARK: - Outlets
     @IBOutlet weak var progressBarView: ViewWithProgressBar!
     @IBOutlet weak var streakNameLabel: UILabel!
@@ -21,7 +21,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     //MARK: - Properties
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
-
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,18 +31,25 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         self.notificationBodyLabel.text = notification.request.content.body
         
-        self.streakNameLabel.text = notification.request.content.userInfo[UserInfoDictionary.name] as? String
-        let startDay = notification.request.content.userInfo[UserInfoDictionary.start] as? Date
-        
-        let count = Calendar.current.dateComponents([ .day], from: startDay ?? todayAtMidnight, to: todayAtMidnight).day! + 1
-        self.streakCountLabel.text =  "\(count)"
-        
-        dayLabel.text = count == 1 ? "Day" : "Days"
-        
-        if  let goal = notification.request.content.userInfo[UserInfoDictionary.goal] as? Int, goal != 0 {
-            progressBarView.progress = Float(count) / Float(goal)
-        } else {
-            progressBarView.progress = 1
+        let uuidAsString = notification.request.content.userInfo[UserInfoDictionary.uuid] as! String
+        StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuidAsString)) { (streak) in
+            guard let streak = streak else {return}
+            DispatchQueue.main.async {
+                
+                self.streakNameLabel.text = streak.name
+                let startDay = streak.start
+                
+                let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
+                self.streakCountLabel.text =  "\(count)"
+                
+                self.dayLabel.text = count == 1 ? "Day" : "Days"
+                
+                if streak.goal != 0 {
+                    self.progressBarView.progress = Float(count) / Float(streak.goal)
+                } else {
+                    self.progressBarView.progress = 1
+                }
+            }
         }
     }
     
@@ -54,7 +61,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         dayLabel.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.6).cgColor
         dayLabel.layer.cornerRadius = 0.2 * view.bounds.size.width * 0.51
         dayLabel.layer.masksToBounds = true
-
     }
-
+    
 }
