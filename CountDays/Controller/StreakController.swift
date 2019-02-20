@@ -22,13 +22,21 @@ class StreakController {
     }
     
     //MARK: - fetchResultsController
-    let unfinishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
+    let sortedUnfinishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
         let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
         let nameSort = NSSortDescriptor(key: "name", ascending: true)
         let reminderSort = NSSortDescriptor(key: "dailyReminder", ascending: false)
         let predicate = NSPredicate(format: "finishedStreak == false")
         fetchRequest.predicate = predicate
         fetchRequest.sortDescriptors = [reminderSort,nameSort]
+        return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
+    }()
+    let unfinishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
+        let fetchRequest: NSFetchRequest<Streak> = Streak.fetchRequest()
+        let nameSort = NSSortDescriptor(key: "name", ascending: true)
+        let predicate = NSPredicate(format: "finishedStreak == false")
+        fetchRequest.predicate = predicate
+        fetchRequest.sortDescriptors = [nameSort]
         return NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.context, sectionNameKeyPath: nil, cacheName: nil)
     }()
     let finishedStreakfetchResultsController: NSFetchedResultsController<Streak> = {
@@ -64,6 +72,7 @@ class StreakController {
     init() {
         do{
             try finishedStreakfetchResultsController.performFetch()
+            try sortedUnfinishedStreakfetchResultsController.performFetch()
             try unfinishedStreakfetchResultsController.performFetch()
             try unFinishedWithBadgeStreakfetchResultsController.performFetch()
             try unFinishedWithReminderStreakfetchResultsController.performFetch()
