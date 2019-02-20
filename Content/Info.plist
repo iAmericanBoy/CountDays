@@ -19,19 +19,19 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.3</string>
 	<key>CFBundleVersion</key>
-	<string>43</string>
+	<string>44</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
-			<key>UNNotificationExtensionUserInteractionEnabled</key>
-			<true/>
 			<key>UNNotificationExtensionCategory</key>
 			<string>DailyReminderCategory</string>
 			<key>UNNotificationExtensionDefaultContentHidden</key>
 			<true/>
 			<key>UNNotificationExtensionInitialContentSizeRatio</key>
 			<integer>1</integer>
+			<key>UNNotificationExtensionUserInteractionEnabled</key>
+			<true/>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
 		<string>MainInterface</string>
