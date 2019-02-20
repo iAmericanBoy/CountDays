@@ -53,6 +53,9 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         guard let streak = streak else {return}
         StreakController.shared.restart(streak: streak)
         updateView()
+        
+        restartButton.isEnabled = false
+        finishButton.isEnabled = false
     }
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
@@ -80,25 +83,28 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func updateView() {
         guard let streak = streak else {return}
-        
-        self.streakNameLabel.text = streak.name
-        let startDay = streak.start
-        
-        let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
-        self.streakCountLabel.text =  "\(count)"
-        
-        self.dayLabel.text = count == 1 ? "Day" : "Days"
-        
-        if streak.goal != 0 {
-            self.progressBarView.progress = Float(count) / Float(streak.goal)
+        if streak.finishedStreak == true {
+            congratulationView()
         } else {
-            self.progressBarView.progress = 1
+            self.streakNameLabel.text = streak.name
+            let startDay = streak.start
+            
+            let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
+            self.streakCountLabel.text =  "\(count)"
+            
+            self.dayLabel.text = count == 1 ? "Day" : "Days"
+            
+            if streak.goal != 0 {
+                self.progressBarView.progress = Float(count) / Float(streak.goal)
+            } else {
+                self.progressBarView.progress = 1
+            }
         }
     }
     
     func congratulationView() {
         progressBarView.isHidden = true
-        streakNameLabel.text = "Imagine Confetti falling from the top"
+        streakNameLabel.isHidden = true
         streakCountLabel.isHidden = true
         notificationBodyLabel.isHidden = true
         dayLabel.isHidden = true
