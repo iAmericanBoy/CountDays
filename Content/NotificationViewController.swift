@@ -31,14 +31,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             }
         }
     }
-
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-    
     func didReceive(_ notification: UNNotification) {
         self.notificationBodyLabel.text = notification.request.content.body
         
@@ -47,8 +45,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             self.streak = streak
         }
     }
-    //MARK: - Actions
     
+    //MARK: - Actions
     @IBAction func restartButtonsTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.restart(streak: streak)
@@ -78,46 +76,44 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         restartButton.layer.borderColor = UIColor.red.withAlphaComponent(0.7).cgColor
         
         finishButton.layer.cornerRadius = 10
-        
     }
     
     func updateView() {
         guard let streak = streak else {return}
+        self.streakNameLabel.text = streak.name
+        let startDay = streak.start
+        
+        let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
+        self.streakCountLabel.text =  "\(count)"
+        
+        self.dayLabel.text = count == 1 ? "Day" : "Days"
+        
+        if streak.goal != 0 {
+            self.progressBarView.progress = Float(count) / Float(streak.goal)
+        } else {
+            self.progressBarView.progress = 1
+        }
         if streak.finishedStreak == true {
             congratulationView()
-        } else {
-            self.streakNameLabel.text = streak.name
-            let startDay = streak.start
-            
-            let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
-            self.streakCountLabel.text =  "\(count)"
-            
-            self.dayLabel.text = count == 1 ? "Day" : "Days"
-            
-            if streak.goal != 0 {
-                self.progressBarView.progress = Float(count) / Float(streak.goal)
-            } else {
-                self.progressBarView.progress = 1
-            }
         }
     }
     
     func congratulationView() {
-        progressBarView.isHidden = true
-        streakNameLabel.isHidden = true
-        streakCountLabel.isHidden = true
-        notificationBodyLabel.isHidden = true
-        dayLabel.isHidden = true
-        finishButton.isHidden = true
-        restartButton.isHidden = true
-        
         createParticles()
         _ = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { (_) in
             DispatchQueue.main.async {
                 self.particleEmitter.birthRate = 0
+                self.progressBarView.isHidden = true
+                self.streakNameLabel.isHidden = true
+                self.streakCountLabel.isHidden = true
+                self.notificationBodyLabel.isHidden = true
+                self.dayLabel.isHidden = true
+                self.finishButton.isHidden = true
+                self.restartButton.isHidden = true
             }
         }
     }
+    
     //MARK: - Confetti
     func createParticles() {
         particleEmitter.position = CGPoint(x: view.bounds.width / 2, y: 0)
@@ -129,7 +125,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         
         particleEmitter.emitterCells = [greenParticle]
         view.layer.addSublayer(particleEmitter)
-        
     }
     func makeEmitterCell(color: UIColor)  -> CAEmitterCell {
         let cell = CAEmitterCell()
