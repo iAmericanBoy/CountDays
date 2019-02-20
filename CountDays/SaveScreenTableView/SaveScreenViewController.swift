@@ -400,7 +400,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     //MARK: - Notifications
     private func askForNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]) { (granted, error) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge, .providesAppNotificationSettings]) { (granted, error) in
+            if let error = error {
+                print("granted, but Error in notification permission:\(error.localizedDescription)")
+            }
+        }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.providesAppNotificationSettings]) { (granted, error) in
             if let error = error {
                 print("granted, but Error in notification permission:\(error.localizedDescription)")
             }
@@ -408,6 +413,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     func scheduleReminderNotification(streak: Streak) {
+        askForNotificationPermission()
         guard let name = streak.name, let startDate = streak.start else {return}
         
         if streak.uuid == nil {

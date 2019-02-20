@@ -73,5 +73,11 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             completionHandler()
         }
     }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        let window = UIApplication.shared.delegate?.window
+        let navController = window??.rootViewController as! UINavigationController
+        navController.pushViewController(SaveScreenViewController(), animated: false)
+    }
 }
 
