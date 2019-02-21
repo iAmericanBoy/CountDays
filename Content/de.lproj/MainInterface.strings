@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Body"; ObjectID = "4uf-AE-aVb"; */
+"4uf-AE-aVb.text" = "Body";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "A6G-xb-YlX"; */
+"A6G-xb-YlX.text" = "Name";
+
+/* Class = "UIButton"; normalTitle = "RESTART"; ObjectID = "UNe-EV-5qq"; */
+"UNe-EV-5qq.normalTitle" = "NEUSTARTEN";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "mwJ-PC-H3l"; */
+"mwJ-PC-H3l.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "FINISH"; ObjectID = "q4P-Hv-2n8"; */
+"q4P-Hv-2n8.normalTitle" = "FERTIGSTELLEN";
+
+/* Class = "UILabel"; text = "Day"; ObjectID = "qOl-Nf-M9D"; */
+"qOl-Nf-M9D.text" = "Tag";
