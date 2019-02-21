@@ -36,6 +36,8 @@ class CDNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             case "continue":
                 break;
             case "snooze" :
+                guard streak.finishedStreak == false else {return}
+                
                 let continueAction = UNNotificationAction(identifier: "continue", title: "Continue Streak", options: UNNotificationActionOptions(rawValue: 0))
                 let snoozeAction = UNNotificationAction(identifier: "snooze", title: "Ask me again in 1 hour", options: UNNotificationActionOptions(rawValue: 0))
                 

@@ -59,6 +59,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         guard let streak = streak else {return}
         StreakController.shared.finish(streak: streak)
         congratulationView()
+        removePendingNotifications()
     }
     
     //MARK: - Private Functions
@@ -95,7 +96,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         }
         if streak.finishedStreak == true {
             congratulationView()
-            //TODO: Unschedule Future Notifications
+            removePendingNotifications()
         }
     }
     
@@ -113,6 +114,11 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
                 self.restartButton.isHidden = true
             }
         }
+    }
+    
+    func removePendingNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.daily])
     }
     
     //MARK: - Confetti
