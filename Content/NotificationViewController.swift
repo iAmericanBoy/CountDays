@@ -22,6 +22,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBOutlet weak var restartButton: UIButton!
     
     //MARK: - Properties
+    let particleEmitter = CAEmitterLayer()
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
     var streak: Streak? {
         didSet {
@@ -36,7 +37,6 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         super.viewDidLoad()
         setupUI()
     }
-    
     func didReceive(_ notification: UNNotification) {
         self.notificationBodyLabel.text = notification.request.content.body
         
@@ -45,17 +45,21 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
             self.streak = streak
         }
     }
-    //MARK: - Actions
     
+    //MARK: - Actions
     @IBAction func restartButtonsTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.restart(streak: streak)
         updateView()
+        
+        restartButton.isEnabled = false
+        finishButton.isEnabled = false
     }
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.finish(streak: streak)
         congratulationView()
+        removePendingNotifications()
     }
     
     //MARK: - Private Functions
@@ -73,12 +77,10 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         restartButton.layer.borderColor = UIColor.red.withAlphaComponent(0.7).cgColor
         
         finishButton.layer.cornerRadius = 10
-        
     }
     
     func updateView() {
         guard let streak = streak else {return}
-        
         self.streakNameLabel.text = streak.name
         let startDay = streak.start
         
@@ -92,15 +94,56 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         } else {
             self.progressBarView.progress = 1
         }
+        if streak.finishedStreak == true {
+            congratulationView()
+            removePendingNotifications()
+        }
     }
     
     func congratulationView() {
-        progressBarView.isHidden = true
-        streakNameLabel.text = "Imagine Confetti falling from the top"
-        streakCountLabel.isHidden = true
-        notificationBodyLabel.isHidden = true
-        dayLabel.isHidden = true
-        finishButton.isHidden = true
-        restartButton.isHidden = true
+        createParticles()
+        _ = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { (_) in
+            DispatchQueue.main.async {
+                self.particleEmitter.birthRate = 0
+                self.progressBarView.isHidden = true
+                self.streakNameLabel.isHidden = true
+                self.streakCountLabel.isHidden = true
+                self.notificationBodyLabel.isHidden = true
+                self.dayLabel.isHidden = true
+                self.finishButton.isHidden = true
+                self.restartButton.isHidden = true
+            }
+        }
+    }
+    
+    func removePendingNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.daily])
+    }
+    
+    //MARK: - Confetti
+    func createParticles() {
+        particleEmitter.position = CGPoint(x: view.bounds.width / 2, y: 0)
+        particleEmitter.emitterShape = .rectangle
+        particleEmitter.emitterSize = CGSize(width: 10, height: 1)
+        particleEmitter.birthRate = 1
+        
+        let greenParticle = makeEmitterCell(color: .lushGreenColor)
+        
+        particleEmitter.emitterCells = [greenParticle]
+        view.layer.addSublayer(particleEmitter)
+    }
+    func makeEmitterCell(color: UIColor)  -> CAEmitterCell {
+        let cell = CAEmitterCell()
+        cell.birthRate = 30
+        cell.lifetime = 4.0
+        cell.color = color.cgColor
+        cell.velocity = 350
+        cell.emissionLongitude = 1
+        cell.emissionRange = 3
+        cell.spin = 10
+        cell.spinRange = 0.5
+        cell.contents = UIImage(named:"pic")?.cgImage
+        return cell
     }
 }

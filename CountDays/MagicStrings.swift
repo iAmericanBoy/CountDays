@@ -18,3 +18,12 @@ struct UserInfoDictionary {
     ///Returns: "uuid"
     static let uuid = "uuid"
 }
+
+struct NotificationIdentifier {
+    ///Returns: "DailyReminder"
+    static let daily = "DailyReminder"
+    ///Returns: "CountCheck"
+    static let countUpdate = "CountCheck"
+    ///Returns: "DailyReminderCategory"
+    static let dailyCategory = "DailyReminderCategory"
+}

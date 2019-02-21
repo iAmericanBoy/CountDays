@@ -47,6 +47,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
             layout.scrollDirection =  .horizontal
         }
         updateUI()
+        reloadUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {

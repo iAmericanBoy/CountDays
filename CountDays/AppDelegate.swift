@@ -99,6 +99,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        return false
+    }
+    
 
     
     func applicationWillTerminate(_ application: UIApplication) {
