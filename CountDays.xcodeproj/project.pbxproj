@@ -11,6 +11,7 @@
 		B60E2C292215F5A200EAF376 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E2C282215F5A200EAF376 /* MagicStrings.swift */; };
 		B60E2C2A2215F5A200EAF376 /* MagicStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E2C282215F5A200EAF376 /* MagicStrings.swift */; };
 		B6126F432136FA160078B0A1 /* SaveScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */; };
+		B61884D4221F146900A7950D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B675679A2119FCD6000E2B74 /* Assets.xcassets */; };
 		B61E12D02200AEA600F85AEF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */; };
 		B621611921501734002AD560 /* StreakCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621611821501734002AD560 /* StreakCell.swift */; };
 		B621611B2150461A002AD560 /* StreakCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621611A2150461A002AD560 /* StreakCollectionViewHeader.swift */; };
@@ -493,6 +494,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B61884D4221F146900A7950D /* Assets.xcassets in Resources */,
 				B6E92F0D22138D0C00563F25 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

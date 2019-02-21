@@ -95,6 +95,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         }
         if streak.finishedStreak == true {
             congratulationView()
+            //TODO: Unschedule Future Notifications
         }
     }
     
@@ -136,7 +137,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         cell.emissionRange = 3
         cell.spin = 10
         cell.spinRange = 0.5
-        cell.contents = UIImage(named: "pic")?.cgImage
+        cell.contents = UIImage(named:"pic")?.cgImage
         return cell
     }
 }
