@@ -13,7 +13,7 @@
 		B6126F432136FA160078B0A1 /* SaveScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */; };
 		B61884D4221F146900A7950D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B675679A2119FCD6000E2B74 /* Assets.xcassets */; };
 		B61884D9221F5A2F00A7950D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B61884DB221F5A2F00A7950D /* Localizable.strings */; };
-		B61884DD221F601D00A7950D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B61884DB221F5A2F00A7950D /* Localizable.strings */; };
+		B61884E1221F621600A7950D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B61884E3221F621600A7950D /* Localizable.strings */; };
 		B61E12D02200AEA600F85AEF /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */; };
 		B621611921501734002AD560 /* StreakCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621611821501734002AD560 /* StreakCell.swift */; };
 		B621611B2150461A002AD560 /* StreakCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621611A2150461A002AD560 /* StreakCollectionViewHeader.swift */; };
@@ -93,6 +93,8 @@
 		B61884D6221F576600A7950D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		B61884DA221F5A2F00A7950D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B61884DE221F605A00A7950D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B61884E2221F621600A7950D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B61884E4221F621E00A7950D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B6216115214D7180002AD560 /* UiColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiColor+Extension.swift"; sourceTree = "<group>"; };
 		B621611821501734002AD560 /* StreakCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCell.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */,
 				B6E92F0E22138D0C00563F25 /* Info.plist */,
 				B6E92F5A221488DA00563F25 /* ViewWithProgressBar.swift */,
+				B61884E3221F621600A7950D /* Localizable.strings */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -503,7 +506,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B61884D4221F146900A7950D /* Assets.xcassets in Resources */,
-				B61884DD221F601D00A7950D /* Localizable.strings in Resources */,
+				B61884E1221F621600A7950D /* Localizable.strings in Resources */,
 				B6E92F0D22138D0C00563F25 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,6 +601,15 @@
 			children = (
 				B61884DA221F5A2F00A7950D /* en */,
 				B61884DE221F605A00A7950D /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		B61884E3221F621600A7950D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B61884E2221F621600A7950D /* en */,
+				B61884E4221F621E00A7950D /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
