@@ -162,28 +162,28 @@ class StreakCollectionViewCell: UICollectionViewCell {
 
         contentView.addSubview(smallSquareView)
         smallSquareView.translatesAutoresizingMaskIntoConstraints = false
-        smallSquareView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
-        smallSquareView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
-        smallSquareView.topAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        smallSquareView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        smallSquareView.widthAnchor.constraint(equalTo: margins.widthAnchor, multiplier: 0.5).isActive = true
+        smallSquareView.heightAnchor.constraint(equalTo: margins.widthAnchor, multiplier: 0.5).isActive = true
+        smallSquareView.topAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
+        smallSquareView.rightAnchor.constraint(equalTo: margins.rightAnchor).isActive = true
         
         
         let topArea = UIStackView(arrangedSubviews: [streakNameButton])
         contentView.addSubview(topArea)
         topArea.translatesAutoresizingMaskIntoConstraints = false
         topArea.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        topArea.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        topArea.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        topArea.heightAnchor.constraint(equalTo: contentView.heightAnchor , multiplier: 0.20).isActive = true
+        topArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
+        topArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
+        topArea.heightAnchor.constraint(equalTo: margins.heightAnchor , multiplier: 0.20).isActive = true
         topArea.axis = .horizontal
         topArea.distribution = .fillEqually
         topArea.spacing = 15
         topArea.alignment = .center
         
         contentView.addSubview(streakNumberButton)
-        streakNumberButton.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        streakNumberButton.widthAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
         streakNumberButton.topAnchor.constraint(equalTo: topArea.bottomAnchor).isActive = true
-        streakNumberButton.heightAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        streakNumberButton.heightAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
 
         contentView.addSubview(roundDaysbutton)
         roundDaysbutton.bottomAnchor.constraint(equalTo: smallSquareView.bottomAnchor, constant: -5).isActive = true
@@ -196,8 +196,8 @@ class StreakCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(bottomButtonArea)
         bottomButtonArea.translatesAutoresizingMaskIntoConstraints = false
         bottomButtonArea.topAnchor.constraint(equalTo: smallSquareView.bottomAnchor, constant: 5).isActive = true
-        bottomButtonArea.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        bottomButtonArea.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        bottomButtonArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
+        bottomButtonArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
         bottomButtonArea.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -40).isActive = true
         bottomButtonArea.axis = .horizontal
         bottomButtonArea.distribution = .fillEqually

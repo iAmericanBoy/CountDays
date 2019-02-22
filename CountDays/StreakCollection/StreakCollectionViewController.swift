@@ -47,7 +47,6 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
             layout.scrollDirection =  .horizontal
         }
         updateUI()
-        reloadUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -188,7 +187,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     //MARK: - Private Functions
     @objc func reloadUI() {
-        collectionView?.reloadData()
+//        collectionView?.reloadData()
     }
     
     private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){
