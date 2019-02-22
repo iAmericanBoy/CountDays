@@ -193,6 +193,7 @@
 		B6216117215016FE002AD560 /* SaveScreenTableView */ = {
 			isa = PBXGroup;
 			children = (
+				B61884DB221F5A2F00A7950D /* Localizable.strings */,
 				B6126F422136FA160078B0A1 /* SaveScreenViewController.swift */,
 				B621611821501734002AD560 /* StreakCell.swift */,
 			);
@@ -238,7 +239,6 @@
 				B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */,
 				B675679A2119FCD6000E2B74 /* Assets.xcassets */,
 				B675679F2119FCD6000E2B74 /* Info.plist */,
-				B61884DB221F5A2F00A7950D /* Localizable.strings */,
 			);
 			path = CountDays;
 			sourceTree = "<group>";
