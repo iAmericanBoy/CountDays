@@ -247,7 +247,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let url = URL(string: "https://www.twitter.com/iAmericanBoy")!
 
         // Set the 'click here' substring to be the link
-        attributedString.setAttributes([.link: url, .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize)], range: NSUnionRange(NSRange(myName)!, NSRange(attributedString.string)!))
+        attributedString.setAttributes([.link: url, .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize)], range: NSRange(attributedString.string.range(of: myName)!, in: attributedString.string))
 
         textField.attributedText = attributedString
         
