@@ -10,7 +10,7 @@ import UIKit
 
 protocol CollectionViewHeaderDelegate: class {
     func showChangeNameAlert(_ cell: StreakCollectionViewHeader)
-    func sequeToSaveScreen()
+    func segueToSaveScreen()
 }
 
 class StreakCollectionViewHeader: UICollectionViewCell {
@@ -114,15 +114,15 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         
         contentView.addSubview(smallSquareView)
         smallSquareView.translatesAutoresizingMaskIntoConstraints = false
-        smallSquareView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5).isActive = true
-        smallSquareView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.25).isActive = true
-        smallSquareView.topAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        smallSquareView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        smallSquareView.widthAnchor.constraint(equalTo: margins.widthAnchor, multiplier: 0.5).isActive = true
+        smallSquareView.heightAnchor.constraint(equalTo: margins.heightAnchor, multiplier: 0.25).isActive = true
+        smallSquareView.topAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
+        smallSquareView.rightAnchor.constraint(equalTo: margins.rightAnchor).isActive = true
         
         contentView.addSubview(streakNumberButton)
-        streakNumberButton.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
-        streakNumberButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        streakNumberButton.heightAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        streakNumberButton.widthAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
+        streakNumberButton.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
+        streakNumberButton.heightAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
         
         contentView.addSubview(roundDaysbutton)
         roundDaysbutton.topAnchor.constraint(equalTo: smallSquareView.topAnchor, constant: 50).isActive = true
@@ -134,8 +134,8 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         contentView.addSubview(topArea)
         topArea.translatesAutoresizingMaskIntoConstraints = false
         topArea.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        topArea.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        topArea.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        topArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
+        topArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
         topArea.bottomAnchor.constraint(equalTo: streakNumberButton.topAnchor).isActive = true
         topArea.axis = .horizontal
         topArea.distribution = .fillEqually
@@ -146,8 +146,8 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         contentView.addSubview(bottomButtonArea)
         bottomButtonArea.translatesAutoresizingMaskIntoConstraints = false
         bottomButtonArea.topAnchor.constraint(equalTo: streakNumberButton.bottomAnchor, constant: 5).isActive = true
-        bottomButtonArea.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        bottomButtonArea.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        bottomButtonArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
+        bottomButtonArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
         bottomButtonArea.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -40).isActive = true
         bottomButtonArea.axis = .horizontal
         bottomButtonArea.distribution = .fillEqually
@@ -200,7 +200,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
 
     @objc func openSaveScreenButtonPressed(sender: UIButton) {
         print("openSaveScreenButtonPressed")
-        self.delegate?.sequeToSaveScreen()
+        self.delegate?.segueToSaveScreen()
         updateUI()
     }
     @objc func changeStartDayAlert(sender: UIButton) {
