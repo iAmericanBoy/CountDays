@@ -143,9 +143,9 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         cell.streakNumberButton.setTitle(String(streak.count), for: .normal)
         switch streak.count {
         case 1:
-            cell.roundDaysbutton.setTitle("Day", for: .normal)
+            cell.roundDaysbutton.setTitle(NSLocalizedString("Day", comment: "The ammount of days the streak has been active"), for: .normal)
         default:
-            cell.roundDaysbutton.setTitle("Days", for: .normal)
+            cell.roundDaysbutton.setTitle(NSLocalizedString("Days", comment: "The ammount of days the streak has been active"), for: .normal)
         }
         if streak.goal != 0 {
             cell.progress = Float(streak.count) / Float(streak.goal)
@@ -161,7 +161,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         if kind == UICollectionElementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! StreakCollectionViewHeader
             header.delegate = self
-            header.streakNameButton.setTitle("Start new Streak", for: .normal)
+            header.streakNameButton.setTitle(NSLocalizedString("Start new Streak", comment: "Call to action to start a new Streak"), for: .normal)
             header.updateUI()
             view = header
         }
@@ -196,21 +196,21 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         if !editStreak {
-            alertController.title =  "New Streak"
-            alertController.message = "Please name your new Streak"
+            alertController.title =  NSLocalizedString("New Streak", comment: "Alert Title when a new Streak is started")
+            alertController.message = NSLocalizedString("Please name your new Streak", comment: "Alert Subtitle when a new Streak is started")
         } else {
-            alertController.title = "Edit Streak"
-            alertController.message = "Please input new name for this Streak"
+            alertController.title = NSLocalizedString("Edit Streak", comment: "Alert Title when a Streak is being renamed")
+            alertController.message = NSLocalizedString("Please input new name for this Streak", comment: "Alert Subtitle when a streak is being renamed")
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel the name Alert"), style: .cancel) { (action) in
             //            self.collectionView?.scrollToItem(at: index!, at: .right, animated: true)
             //            self.pageIndicator.currentPage = (index?.item)! + 1
             //            self.updateUI()
             //            self.collectionView?.reloadData()
         }
         
-        let confirmAction = UIAlertAction(title: "Save", style: .default) { [weak self] action in
+        let confirmAction = UIAlertAction(title: NSLocalizedString("Save", comment: "Save the name entered"), style: .default) { [weak self] action in
             if let name = nameTextField?.text {
                 if editStreak {
                     //update
@@ -229,7 +229,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         
         //adding textfields to our dialog box
         alertController.addTextField { textField in
-            textField.placeholder = "Add Name"
+            textField.placeholder = NSLocalizedString("Add Name", comment: "PlaceholderText in the textfield to add or edit name of Streak")
             NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
                 if let name = textField.text, !name.isEmpty {
                     confirmAction.isEnabled = true
@@ -295,22 +295,22 @@ extension StreakCollectionViewController: CollectionViewCellDelegate {
         datePicker.setDate(streak.start ?? currentDay, animated: true)
         datePicker.maximumDate = currentDay
         datePicker.minimumDate = minDate
+        datePicker.locale = Locale.autoupdatingCurrent
         
         let alert = UIAlertController(title: "\n\n\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
         
         alert.view.addSubview(datePicker)
-        alert.message = "Change the start day of the streak"
-        let ok = UIAlertAction(title: "Enter", style: .default) { (action) in
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyy-MM-dd"
+        alert.message = NSLocalizedString("Change the start day of the streak", comment:"Change the start day of the streak")
+        let okAction = UIAlertAction(title: NSLocalizedString("Save", comment: "Save the current change the start date"), style: .default) { (action) in
+
             StreakController.shared.update(startDate: datePicker.date, ofStreak: streak)
             self.updateUI()
         }
         
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        alert.addAction(cancel)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel the current time Selection"), style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
         
         present(alert, animated: true, completion: nil)
     }
@@ -319,22 +319,22 @@ extension StreakCollectionViewController: CollectionViewCellDelegate {
         
         let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
         
-        let alert = UIAlertController(title: "Set a Goal for your Streak:", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("Set a Goal for your Streak:", comment: "Alert Title to set goal of streak"), message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
         
-        let seven = UIAlertAction(title: "7 days", style: .default) { (action) in
+        let seven = UIAlertAction(title: NSLocalizedString("7 days", comment: "7 days"), style: .default) { (action) in
             StreakController.shared.add(goal: 7, ofStreak: streak)
             self.updateUI()
         }
-        let thirthy = UIAlertAction(title: "30 days", style: .default) { (action) in
+        let thirthy = UIAlertAction(title: NSLocalizedString("30 days", comment: "30 days"), style: .default) { (action) in
             StreakController.shared.add(goal: 30, ofStreak: streak)
             self.updateUI()
         }
-        let removeGoal = UIAlertAction(title: "remove current Goal", style: .destructive) { (action) in
+        let removeGoal = UIAlertAction(title: NSLocalizedString("remove current Goal", comment: "remove current Goal"), style: .destructive) { (action) in
             StreakController.shared.add(goal: 0, ofStreak: streak)
             self.updateUI()
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel the goal selection"), style: .cancel, handler: nil)
         alert.addAction(seven)
         alert.addAction(thirthy)
         alert.addAction(removeGoal)
@@ -360,7 +360,7 @@ extension StreakCollectionViewController: CollectionViewCellDelegate {
     }
     func segueToSaveScreen() {
         let backItem = UIBarButtonItem()
-        backItem.title = "Back"
+        backItem.title = NSLocalizedString("Back", comment: "Back to Streak Collection")
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backItem
         self.navigationController?.pushViewController(SaveScreenViewController(), animated: true)
     }

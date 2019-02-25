@@ -87,8 +87,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
         self.streakCountLabel.text =  "\(count)"
         
-        self.dayLabel.text = count == 1 ? "Day" : "Days"
-        
+        self.dayLabel.text = count == 1 ? NSLocalizedString("Day", comment: "The ammount of days the streak has been active") : NSLocalizedString("Days", comment: "The ammount of days the streak has been active")
+
         if streak.goal != 0 {
             self.progressBarView.progress = Float(count) / Float(streak.goal)
         } else {
