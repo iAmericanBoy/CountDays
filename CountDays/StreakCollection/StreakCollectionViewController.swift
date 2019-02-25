@@ -302,7 +302,7 @@ extension StreakCollectionViewController: CollectionViewCellDelegate {
         
         alert.view.addSubview(datePicker)
         alert.message = NSLocalizedString("Change the start day of the streak", comment:"Change the start day of the streak")
-        let okAction = UIAlertAction(title: NSLocalizedString("Enter", comment: "Enter the current change the start date"), style: .default) { (action) in
+        let okAction = UIAlertAction(title: NSLocalizedString("Save", comment: "Save the current change the start date"), style: .default) { (action) in
 
             StreakController.shared.update(startDate: datePicker.date, ofStreak: streak)
             self.updateUI()
