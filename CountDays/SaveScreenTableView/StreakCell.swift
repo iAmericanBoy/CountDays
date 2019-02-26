@@ -43,6 +43,7 @@ class StreakCell: UITableViewCell {
     var streakLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
     
@@ -50,6 +51,7 @@ class StreakCell: UITableViewCell {
     var streakNumberLabel: UILabel = {
         let label = UILabel()
         label.layer.cornerRadius =  20
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
