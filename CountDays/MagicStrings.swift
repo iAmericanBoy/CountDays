@@ -19,7 +19,7 @@ struct UserInfoDictionary {
     static let uuid = "uuid"
 }
 
-struct NotificationIdentifier {
+struct UserNotificationIdentifier {
     ///Returns: "DailyReminder"
     static let daily = "DailyReminder"
     ///Returns: "CountCheck"

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import UserNotifications
 import UserNotificationsUI
 
@@ -119,7 +120,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func removePendingNotifications() {
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.daily])
+        center.removePendingNotificationRequests(withIdentifiers: [UserNotificationIdentifier.daily])
     }
     
     func removeCurrentNotifications() {
