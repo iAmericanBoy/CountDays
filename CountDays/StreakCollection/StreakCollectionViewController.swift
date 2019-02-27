@@ -31,7 +31,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
 
         setupPaging()
         // Register cell classes
@@ -63,6 +63,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
             onLaunch = false
         }
         updateUI()
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,7 +188,9 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     //MARK: - Private Functions
     @objc func reloadUI() {
-//        collectionView?.reloadData()
+        CoreDataStack.context.reset()
+        StreakController.shared.reloadFetchResultsControllers()
+        updateUI()
     }
     
     private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){
@@ -228,14 +231,32 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         confirmAction.isEnabled = false
         
         //adding textfields to our dialog box
-        alertController.addTextField { textField in
-            textField.placeholder = NSLocalizedString("Add Name", comment: "PlaceholderText in the textfield to add or edit name of Streak")
-            NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
-                if let name = textField.text, !name.isEmpty {
-                    confirmAction.isEnabled = true
-                    nameTextField = textField
-                } else {
-                    confirmAction.isEnabled = false
+        alertController.addTextField { [weak self] textField in
+            switch editStreak {
+            case true:
+                guard  let cell = cell, let index = self?.collectionView?.indexPath(for: cell) else {return}
+                let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
+                textField.text = streak.name
+                textField.placeholder = streak.name
+                NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
+                    if let name = textField.text, !name.isEmpty, name != streak.name {
+                        confirmAction.isEnabled = true
+                        nameTextField = textField
+                    } else {
+                        confirmAction.isEnabled = false
+                    }
+                }
+            case false:
+                textField.placeholder = NSLocalizedString("Add Name", comment: "PlaceholderText in the textfield to add or edit name of Streak")
+                NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
+                    
+                    
+                    if let name = textField.text, !name.isEmpty {
+                        confirmAction.isEnabled = true
+                        nameTextField = textField
+                    } else {
+                        confirmAction.isEnabled = false
+                    }
                 }
             }
         }

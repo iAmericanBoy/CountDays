@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import UserNotifications
 import UserNotificationsUI
 
@@ -44,6 +45,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuidAsString)) { (streak) in
             self.streak = streak
         }
+        removeCurrentNotifications()
     }
     
     //MARK: - Actions
@@ -118,7 +120,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func removePendingNotifications() {
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.daily])
+        center.removePendingNotificationRequests(withIdentifiers: [UserNotificationIdentifier.daily])
+    }
+    
+    func removeCurrentNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllDeliveredNotifications()
     }
     
     //MARK: - Confetti

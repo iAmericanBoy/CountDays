@@ -37,7 +37,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
         tableView.dataSource = self
         
@@ -115,9 +115,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let settingsLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Configure Notifications", comment: "Text in settings to configure Notifications in DaysInARow")
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
-        label.textAlignment = .natural
-        label.numberOfLines = 1;
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -125,9 +124,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Set badge for Streak:", comment: "Text in settings to set badge for streak")
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
-        label.textAlignment = .natural
-        label.numberOfLines = 0;
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -136,7 +134,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeSelectionTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: " ",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: 28),
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -151,7 +149,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Schedule reminder for Streak:", comment: "Text in settings to to set reminder for streak")
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.lineBreakMode = .byCharWrapping
         label.textAlignment = .natural
         label.numberOfLines = 0;
         label.isHidden = true
@@ -162,7 +161,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderSelectionTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Select a Streak", comment: "Placeholdertext for the reminderSelectionTextField"),
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -170,6 +169,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }()
     
@@ -177,7 +177,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let button = UIButton(type: .system)
         button.setTitle("Text", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .disabled)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
         button.layer.borderColor = UIColor.systemBlue.cgColor
@@ -196,7 +196,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let timeString = dateFormatter.string(from: fourPM ?? Date())
         
         textField.attributedPlaceholder = NSAttributedString(string: timeString,
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.lightGray])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -205,6 +205,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.textColor = .systemBlue
         textField.textAlignment = .center
         textField.isEnabled = false
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }()
     
@@ -243,11 +244,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         let myName = "Dominic Lanzillotta"
         
-        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta \n in Chicago", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.systemFont(ofSize: 17)])
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta \n in Chicago", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.preferredFont(forTextStyle: .body)])
         let url = URL(string: "https://www.twitter.com/iAmericanBoy")!
 
         // Set the 'click here' substring to be the link
-        attributedString.setAttributes([.link: url, .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize)], range: NSRange(attributedString.string.range(of: myName)!, in: attributedString.string))
+        attributedString.setAttributes([.link: url, .font: UIFont.preferredFont(forTextStyle: .body)], range: NSRange(attributedString.string.range(of: myName)!, in: attributedString.string))
 
         textField.attributedText = attributedString
         
@@ -257,7 +258,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reviewButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("Please Rate DaysInARow", comment: "Label to ask for an appstore Rating"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(reviewApp), for: .touchUpInside)
         button.setTitleColor(button.currentTitleColor.withAlphaComponent(0.8), for: .normal)
@@ -285,8 +286,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
-        settingsStackView.alignment = .fill
-        settingsStackView.distribution = .fill
+        settingsStackView.alignment = .center
+        settingsStackView.distribution = .equalCentering
         settingsStackView.axis = .horizontal
         
         let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
@@ -487,7 +488,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     @objc func reloadUI() {
-        tableView.reloadData()
+        CoreDataStack.context.reset()
+        StreakController.shared.reloadFetchResultsControllers()
     }
     
     func updateEditButtonState() {

@@ -64,7 +64,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     let streakNameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.largeTitle)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
