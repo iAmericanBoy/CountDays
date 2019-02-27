@@ -188,7 +188,9 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     //MARK: - Private Functions
     @objc func reloadUI() {
-        collectionView?.reloadData()
+        CoreDataStack.context.reset()
+        StreakController.shared.reloadFetchResultsControllers()
+        updateUI()
     }
     
     private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){

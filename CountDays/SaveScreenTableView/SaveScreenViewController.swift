@@ -37,7 +37,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         
         tableView.dataSource = self
         
@@ -488,7 +488,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     @objc func reloadUI() {
-        tableView.reloadData()
+        CoreDataStack.context.reset()
+        StreakController.shared.reloadFetchResultsControllers()
     }
     
     func updateEditButtonState() {

@@ -216,4 +216,16 @@ class StreakController {
             saveToPersistentStore()
         }
     }
+    
+    func reloadFetchResultsControllers(){
+        do{
+            try finishedStreakfetchResultsController.performFetch()
+            try sortedUnfinishedStreakfetchResultsController.performFetch()
+            try unfinishedStreakfetchResultsController.performFetch()
+            try unFinishedWithBadgeStreakfetchResultsController.performFetch()
+            try unFinishedWithReminderStreakfetchResultsController.performFetch()
+        } catch {
+            print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
+        }
+    }
 }
