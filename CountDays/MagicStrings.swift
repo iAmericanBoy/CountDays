@@ -27,3 +27,9 @@ struct UserNotificationIdentifier {
     ///Returns: "DailyReminderCategory"
     static let dailyCategory = "DailyReminderCategory"
 }
+
+struct SharedUserDefaults {
+    ///Returns: "ContentStreakHasChanged"
+    static let ContentStreakHasChanged = "ContentStreakHasChanged"
+}
+

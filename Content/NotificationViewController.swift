@@ -25,6 +25,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     //MARK: - Properties
     let particleEmitter = CAEmitterLayer()
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
+    let sharedUserDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+    
     var streak: Streak? {
         didSet {
             DispatchQueue.main.async {
@@ -52,6 +54,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBAction func restartButtonsTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.restart(streak: streak)
+        sharedUserDefaults.set(true, forKey: SharedUserDefaults.ContentStreakHasChanged)
         updateView()
         
         restartButton.isEnabled = false
@@ -60,6 +63,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.finish(streak: streak)
+        sharedUserDefaults.set(true, forKey: SharedUserDefaults.ContentStreakHasChanged)
         congratulationView()
         removePendingNotifications()
     }
