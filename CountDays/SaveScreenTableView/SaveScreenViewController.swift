@@ -811,4 +811,7 @@ extension SaveScreenViewController: UITextFieldDelegate {
         tap.isEnabled = false
         userDissmissedPickerView()
     }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool  {
+        return false
+    }
 }
