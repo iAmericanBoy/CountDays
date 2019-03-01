@@ -103,7 +103,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return false
     }
     
-
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        CoreDataStack.context.reset()
+        StreakController.shared.reloadFetchResultsControllers()
+    }
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

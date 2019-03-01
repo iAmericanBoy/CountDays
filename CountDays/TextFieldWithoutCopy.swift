@@ -10,7 +10,7 @@ import UIKit
 
 class TextFieldWithoutCopy: UITextField {
     func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.copy(_:)) {
+        if action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.select(_:)) || action == #selector(UIResponderStandardEditActions.selectAll(_:)){
             return false
         }
         

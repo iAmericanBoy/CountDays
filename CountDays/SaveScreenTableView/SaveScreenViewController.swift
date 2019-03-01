@@ -35,9 +35,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - LifeCycle
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         tableView.dataSource = self
         
@@ -54,22 +56,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
-        for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
-            if streak.badge {
-                badgeStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
-                badgeSelectionTextField.text = streak.name
-            }
-            if streak.dailyReminder {
-                reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
-                reminderSelectionTextField.text = streak.name
-                reminderTextDefaultButton.isEnabled = true
-                reminderTimeDefaultTextField.isEnabled = true
-                var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
-                fourPM = Calendar.current.date(bySetting: .minute, value: 0, of: fourPM!)
-                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? fourPM!)
-                timeStreakPicker.date = streak.reminderTime ?? fourPM!
-            }
-        }
+        setpickerViewValue()
 
         self.view.backgroundColor = .white
             
@@ -488,8 +475,42 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     @objc func reloadUI() {
-        CoreDataStack.context.reset()
-        StreakController.shared.reloadFetchResultsControllers()
+        let sharedUserDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+
+        if sharedUserDefaults.bool(forKey: SharedUserDefaults.ContentStreakHasChanged) {
+            tableView.reloadData()
+            badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
+            badgeSelectionTextField.text = ""
+            reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
+            reminderSelectionTextField.text = ""
+            reminderTextDefaultButton.isEnabled = false
+            reminderTimeDefaultTextField.isEnabled = false
+            
+            reminderTimeDefaultTextField.text = nil
+            timeStreakPicker.date = Calendar.current.date(bySetting: .hour, value: 16, of: Date())!
+            
+            setpickerViewValue()
+            sharedUserDefaults.set(false, forKey: SharedUserDefaults.ContentStreakHasChanged) 
+        }
+    }
+    
+    func setpickerViewValue() {
+        for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
+            if streak.badge {
+                badgeStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
+                badgeSelectionTextField.text = streak.name
+            }
+            if streak.dailyReminder {
+                reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
+                reminderSelectionTextField.text = streak.name
+                reminderTextDefaultButton.isEnabled = true
+                reminderTimeDefaultTextField.isEnabled = true
+                var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+                fourPM = Calendar.current.date(bySetting: .minute, value: 0, of: fourPM!)
+                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? fourPM!)
+                timeStreakPicker.date = streak.reminderTime ?? fourPM!
+            }
+        }
     }
     
     func updateEditButtonState() {
@@ -790,5 +811,8 @@ extension SaveScreenViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         tap.isEnabled = false
         userDissmissedPickerView()
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool  {
+        return false
     }
 }

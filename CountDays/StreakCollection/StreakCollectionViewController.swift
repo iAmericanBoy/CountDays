@@ -22,6 +22,8 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     let calendar = Calendar.current
     
     var currentDay = Calendar.current.startOfDay(for: Date())
+    var applicattionDidLoadFromSuspended = false
+
 
     private let cellIdentifier = "Cell"
     private let headerId = "headerId"
@@ -31,7 +33,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 
         setupPaging()
         // Register cell classes
@@ -188,9 +190,12 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     //MARK: - Private Functions
     @objc func reloadUI() {
-        CoreDataStack.context.reset()
-        StreakController.shared.reloadFetchResultsControllers()
-        updateUI()
+        let sharedUserDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+
+        if sharedUserDefaults.bool(forKey: SharedUserDefaults.ContentStreakHasChanged) {
+            collectionView?.reloadData()
+            updateUI()
+        }
     }
     
     private func nameAlert(cell: StreakCollectionViewCell?, editStreak: Bool){

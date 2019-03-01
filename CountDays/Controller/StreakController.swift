@@ -228,4 +228,8 @@ class StreakController {
             print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
         }
     }
+    
+    func refresh(streak: Streak){
+        CoreDataStack.context.refresh(streak, mergeChanges: true)
+    }
 }
