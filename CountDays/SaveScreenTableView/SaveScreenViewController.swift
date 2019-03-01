@@ -490,6 +490,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             timeStreakPicker.date = Calendar.current.date(bySetting: .hour, value: 16, of: Date())!
             
             setpickerViewValue()
+            sharedUserDefaults.set(false, forKey: SharedUserDefaults.ContentStreakHasChanged) 
         }
     }
     
