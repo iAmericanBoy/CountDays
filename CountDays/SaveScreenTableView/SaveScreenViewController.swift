@@ -429,10 +429,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if let body = streak.reminderText {
             content.body = body
         } else {
-            content.body = NSLocalizedString("Did you continue your streak of \(name)?", comment: "Default Text in notification")
+            content.body =  String.localizedStringWithFormat(
+                NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), name)
         }
 
-        content.title = NSLocalizedString("Daily Streak: \(name)", comment: "Title for notification")
+        content.title = String.localizedStringWithFormat(
+            NSLocalizedString("Daily Streak: %@", comment: "Title for notification"),name)
         content.categoryIdentifier = "DailyReminderCategory"
         content.userInfo = [UserInfoDictionary.name:name,
                             UserInfoDictionary.start:startDate,
@@ -643,7 +645,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             if let text = streak.reminderText {
                 defaultText.text = text
             } else {
-                defaultText.text = NSLocalizedString("Did you continue your streak of \(streakName)?", comment: "Default Text in notification")
+                defaultText.text = String.localizedStringWithFormat(
+                    NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), streakName)
             }
         }
         
