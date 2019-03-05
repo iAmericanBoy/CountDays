@@ -138,7 +138,9 @@ class StreakController {
     //MARK: toggle Restart
     func restart(streak: Streak) {
         Streak(name: streak.name, start: streak.start, end: streak.end, goal: streak.goal, count: streak.count, finishedStreak: true, restartedStreak: true, badge: false, reminder: false, lastModified: Date(), reminderText: nil, reminderTime: nil)
-        streak.start = Calendar.current.startOfDay(for: Date())
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+        streak.start = Calendar.current.startOfDay(for: tomorrow ?? Date())
+
         streak.lastModified = Date()
         setUUID(forStreak: streak)
         
@@ -213,5 +215,21 @@ class StreakController {
             streak.uuid = UUID()
             saveToPersistentStore()
         }
+    }
+    
+    func reloadFetchResultsControllers(){
+        do{
+            try finishedStreakfetchResultsController.performFetch()
+            try sortedUnfinishedStreakfetchResultsController.performFetch()
+            try unfinishedStreakfetchResultsController.performFetch()
+            try unFinishedWithBadgeStreakfetchResultsController.performFetch()
+            try unFinishedWithReminderStreakfetchResultsController.performFetch()
+        } catch {
+            print("Error loading fetchResultsController. \(String(describing: error)), \(error.localizedDescription)")
+        }
+    }
+    
+    func refresh(streak: Streak){
+        CoreDataStack.context.refresh(streak, mergeChanges: true)
     }
 }

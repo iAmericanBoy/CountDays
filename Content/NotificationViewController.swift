@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 import UserNotifications
 import UserNotificationsUI
 
@@ -24,6 +25,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     //MARK: - Properties
     let particleEmitter = CAEmitterLayer()
     let todayAtMidnight = Calendar.current.startOfDay(for: Date())
+    let sharedUserDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+    
     var streak: Streak? {
         didSet {
             DispatchQueue.main.async {
@@ -44,12 +47,14 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         StreakController.shared.findStreakWith(uuid: UUID(uuidString: uuidAsString)) { (streak) in
             self.streak = streak
         }
+        removeCurrentNotifications()
     }
     
     //MARK: - Actions
     @IBAction func restartButtonsTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.restart(streak: streak)
+        sharedUserDefaults.set(true, forKey: SharedUserDefaults.ContentStreakHasChanged)
         updateView()
         
         restartButton.isEnabled = false
@@ -58,6 +63,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     @IBAction func finishButtonTapped(_ sender: UIButton) {
         guard let streak = streak else {return}
         StreakController.shared.finish(streak: streak)
+        sharedUserDefaults.set(true, forKey: SharedUserDefaults.ContentStreakHasChanged)
         congratulationView()
         removePendingNotifications()
     }
@@ -87,8 +93,8 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
         let count = Calendar.current.dateComponents([ .day], from: startDay ?? self.todayAtMidnight, to: self.todayAtMidnight).day! + 1
         self.streakCountLabel.text =  "\(count)"
         
-        self.dayLabel.text = count == 1 ? "Day" : "Days"
-        
+        self.dayLabel.text = count == 1 ? NSLocalizedString("Day", comment: "The ammount of days the streak has been active") : NSLocalizedString("Days", comment: "The ammount of days the streak has been active")
+
         if streak.goal != 0 {
             self.progressBarView.progress = Float(count) / Float(streak.goal)
         } else {
@@ -118,7 +124,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     
     func removePendingNotifications() {
         let center = UNUserNotificationCenter.current()
-        center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.daily])
+        center.removePendingNotificationRequests(withIdentifiers: [UserNotificationIdentifier.daily])
+    }
+    
+    func removeCurrentNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllDeliveredNotifications()
     }
     
     //MARK: - Confetti

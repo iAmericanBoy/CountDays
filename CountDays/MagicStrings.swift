@@ -19,7 +19,7 @@ struct UserInfoDictionary {
     static let uuid = "uuid"
 }
 
-struct NotificationIdentifier {
+struct UserNotificationIdentifier {
     ///Returns: "DailyReminder"
     static let daily = "DailyReminder"
     ///Returns: "CountCheck"
@@ -27,3 +27,9 @@ struct NotificationIdentifier {
     ///Returns: "DailyReminderCategory"
     static let dailyCategory = "DailyReminderCategory"
 }
+
+struct SharedUserDefaults {
+    ///Returns: "ContentStreakHasChanged"
+    static let ContentStreakHasChanged = "ContentStreakHasChanged"
+}
+

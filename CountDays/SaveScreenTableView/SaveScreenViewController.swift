@@ -35,6 +35,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - LifeCycle
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
@@ -54,22 +56,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         StreakController.shared.finishedStreakfetchResultsController.delegate = self
 
-        for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
-            if streak.badge {
-                badgeStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
-                badgeSelectionTextField.text = streak.name
-            }
-            if streak.dailyReminder {
-                reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
-                reminderSelectionTextField.text = streak.name
-                reminderTextDefaultButton.isEnabled = true
-                reminderTimeDefaultTextField.isEnabled = true
-                var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
-                fourPM = Calendar.current.date(bySetting: .minute, value: 0, of: fourPM!)
-                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? fourPM!)
-                timeStreakPicker.date = streak.reminderTime ?? fourPM!
-            }
-        }
+        setpickerViewValue()
 
         self.view.backgroundColor = .white
             
@@ -97,11 +84,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - UIElements
-    lazy var sortButton = UIBarButtonItem(title: "Sort", style: UIBarButtonItemStyle.plain, target: self, action: #selector(sortList))
+    lazy var sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: "Label to sort the saved Strreaks"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sortList))
     
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(userTappedOnView))
     
-    let badgeSwitch:UISwitch = {
+    let settingSwitch:UISwitch = {
         let newSwitch = UISwitch()
         newSwitch.isOn = false
         newSwitch.addTarget(self, action: #selector(badgeSwitchToggled), for: .valueChanged)
@@ -114,21 +101,21 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let settingsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Configure Notifications"
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
-        label.textAlignment = .natural
-        label.numberOfLines = 1;
+        label.text = NSLocalizedString("Configure Notifications", comment: "Text in settings to configure Notifications in DaysInARow")
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let badgeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Set badge for Streak:"
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
-        label.textAlignment = .natural
-        label.numberOfLines = 0;
+        label.text = NSLocalizedString("Set badge for Streak:", comment: "Text in settings to set badge for streak")
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.numberOfLines = 0
         label.isHidden = true
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -136,7 +123,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let badgeSelectionTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
         textField.attributedPlaceholder = NSAttributedString(string: " ",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: 28),
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -144,14 +131,16 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
-        textField.text = "Select a Streak"
+        textField.adjustsFontSizeToFitWidth = true
+        textField.text = NSLocalizedString("Select a Streak", comment: "Placeholdertext for the badgeSelectionTextFiled")
         return textField
     }()
     
     let reminderLabel: UILabel = {
         let label = UILabel()
-        label.text = "Schedule reminder for Streak:"
-        label.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        label.text = NSLocalizedString("Schedule reminder for Streak:", comment: "Text in settings to to set reminder for streak")
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.lineBreakMode = .byCharWrapping
         label.textAlignment = .natural
         label.numberOfLines = 0;
         label.isHidden = true
@@ -161,8 +150,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderSelectionTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
-        textField.attributedPlaceholder = NSAttributedString(string: "Select a Streak",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+        textField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("Select a Streak", comment: "Placeholdertext for the reminderSelectionTextField"),
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.systemBlue])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -170,6 +159,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
+
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }()
     
@@ -177,9 +169,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         let button = UIButton(type: .system)
         button.setTitle("Text", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .disabled)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.layer.borderColor = UIColor.systemBlue.cgColor
         button.addTarget(self, action: #selector(reminderDefaultTextButtonTapped), for: .touchUpInside)
         button.isEnabled = false
@@ -188,8 +181,15 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reminderTimeDefaultTextField: TextFieldWithoutCopy = {
         let textField = TextFieldWithoutCopy()
-        textField.attributedPlaceholder = NSAttributedString(string: "4:00",
-                                                             attributes: [.font:UIFont.systemFont(ofSize: UIFont.buttonFontSize),
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.timeStyle = .short
+        let fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+        let timeString = dateFormatter.string(from: fourPM ?? Date())
+        
+        textField.attributedPlaceholder = NSAttributedString(string: timeString,
+                                                             attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
                                                                           .foregroundColor: UIColor.lightGray])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
@@ -197,7 +197,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
         textField.isEnabled = false
+        textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }()
     
@@ -232,13 +234,16 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
         let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .center
-        let attributedString = NSMutableAttributedString(string: "DaysInARow is made by Dominic Lanzillotta \n in Chicago", attributes: [.paragraphStyle: paragraph,.font:UIFont.systemFont(ofSize: 17)])
+        paragraph.alignment = .left
+        
+        let myName = "Dominic Lanzillotta"
+        
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta in Chicago.", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.preferredFont(forTextStyle: .body)])
         let url = URL(string: "https://www.twitter.com/iAmericanBoy")!
-        
+
         // Set the 'click here' substring to be the link
-        attributedString.setAttributes([.link: url, .font: UIFont.systemFont(ofSize: UIFont.buttonFontSize)], range: NSMakeRange(22, 20))
-        
+        attributedString.setAttributes([.link: url, .font: UIFont.preferredFont(forTextStyle: .body)], range: NSRange(attributedString.string.range(of: myName)!, in: attributedString.string))
+
         textField.attributedText = attributedString
         
         return textField
@@ -246,8 +251,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     let reviewButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Please Rate DaysInARow", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.buttonFontSize)
+        button.setTitle(NSLocalizedString("Please Rate DaysInARow", comment: "Label to ask for an appstore Rating"), for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(reviewApp), for: .touchUpInside)
         button.setTitleColor(button.currentTitleColor.withAlphaComponent(0.8), for: .normal)
@@ -256,7 +261,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     //MARK: - SetupView
     private func setupUI() {
-        self.navigationController?.navigationBar.topItem?.title = "Past Streaks"
+        self.navigationController?.navigationBar.topItem?.title = NSLocalizedString("Past Streaks", comment: "Title on the SaveScreen")
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems = [self.editButtonItem, sortButton]
         
         self.view.addSubview(self.tableView)
@@ -264,9 +269,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
-        tableView.rowHeight = 55
         
-        let footerHeight: CGFloat =  500
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        let footerHeight: CGFloat =  600
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = footerHeight
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight))
@@ -274,9 +281,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
-        settingsStackView.alignment = .fill
+        let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,settingSwitch])
+        settingsStackView.alignment = .center
         settingsStackView.distribution = .fill
+        settingsStackView.spacing = 5
         settingsStackView.axis = .horizontal
         
         let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
@@ -330,7 +338,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableViewFooterStackView.trailingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.trailingAnchor).isActive = true
         tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
         tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
-        
+        settingsLabel.widthAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.widthAnchor, multiplier: 0.85).isActive = true
+
         setupStateofUI()
     }
     //MARK: - Actions:
@@ -338,7 +347,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         askForNotificationPermission()
         defaults.set(sender.isOn, forKey: "badgeOn")
         badgeStreakPicker.selectRow(0, inComponent: 0, animated: false)
-        badgeSelectionTextField.text = "Select a streak"
+        badgeSelectionTextField.text = NSLocalizedString("Select a Streak", comment: "Placeholdertext for the badgeSelectionTextFiled")
+
 
         reminderStreakPicker.selectRow(0, inComponent: 0, animated: false)
         reminderSelectionTextField.text = ""
@@ -353,26 +363,26 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
 
     @objc func sortList() {
-        let alert = UIAlertController(title: "Sort your saved Streaks by:", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: NSLocalizedString("Sort your saved Streaks by:", comment: "Label in Sort Alert"), message: nil, preferredStyle: .actionSheet)
         alert.isModalInPopover = true
         
-        let count = UIAlertAction(title: "Streak Length", style: .default) { (action) in
+        let count = UIAlertAction(title: NSLocalizedString("Streak Length", comment: "Sort by length of streak"), style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "count", ascending: false)
             self.tableView.reloadData()
         }
-        let startDate = UIAlertAction(title: "Streak Start Day", style: .default) { (action) in
+        let startDate = UIAlertAction(title: NSLocalizedString("Streak Start Day", comment: "Sort by start of streak"), style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "start", ascending: false)
             self.tableView.reloadData()
         }
-        let restartedStreak = UIAlertAction(title: "Restarted Streak", style: .default) { (action) in
+        let restartedStreak = UIAlertAction(title: NSLocalizedString("Restarted Streak", comment: "Sort by restarted Streaks"), style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "restartedStreak", ascending: false)
             self.tableView.reloadData()
         }
-        let streakName = UIAlertAction(title: "Streak Name", style: .default) { (action) in
+        let streakName = UIAlertAction(title: NSLocalizedString("Streak Name", comment: "Sort by name"), style: .default) { (action) in
             self.sortBy = NSSortDescriptor(key: "name", ascending: false)
             self.tableView.reloadData()
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel Sorting"), style: .cancel, handler: nil)
         alert.addAction(count)
         alert.addAction(startDate)
         alert.addAction(restartedStreak)
@@ -421,8 +431,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         }
         guard let uuid = streak.uuid?.uuidString else {return}
 
-        let continueAction = UNNotificationAction(identifier: "continue", title: "Continue Streak", options: UNNotificationActionOptions(rawValue: 0))
-        let snoozeAction = UNNotificationAction(identifier: "snooze", title: "Ask me again in 1 hour", options: UNNotificationActionOptions(rawValue: 0))
+        let continueAction = UNNotificationAction(identifier: "continue", title: NSLocalizedString("Continue Streak", comment: "Notification Action title to continue streak"), options: UNNotificationActionOptions(rawValue: 0))
+        let snoozeAction = UNNotificationAction(identifier: "snooze", title: NSLocalizedString("Ask me again in 1 hour", comment: "Notification action title to snooze notification"), options: UNNotificationActionOptions(rawValue: 0))
 
         
         let category = UNNotificationCategory(identifier: "DailyReminderCategory", actions: [continueAction,snoozeAction],intentIdentifiers: [], options: [])
@@ -430,10 +440,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if let body = streak.reminderText {
             content.body = body
         } else {
-            content.body = "Did you continue your streak of \(name)?"
+            content.body =  String.localizedStringWithFormat(
+                NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), name)
         }
 
-        content.title = "Daily Streak: \(name)"
+        content.title = String.localizedStringWithFormat(
+            NSLocalizedString("Daily Streak: %@", comment: "Title for notification"),name)
         content.categoryIdentifier = "DailyReminderCategory"
         content.userInfo = [UserInfoDictionary.name:name,
                             UserInfoDictionary.start:startDate,
@@ -476,7 +488,42 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     @objc func reloadUI() {
-        tableView.reloadData()
+        let sharedUserDefaults = UserDefaults(suiteName: "group.com.oskman.DaysInARowGroup")!
+
+        if sharedUserDefaults.bool(forKey: SharedUserDefaults.ContentStreakHasChanged) {
+            tableView.reloadData()
+            badgeStreakPicker.selectRow(0, inComponent: 0, animated: true)
+            badgeSelectionTextField.text = ""
+            reminderStreakPicker.selectRow(0, inComponent: 0, animated: true)
+            reminderSelectionTextField.text = ""
+            reminderTextDefaultButton.isEnabled = false
+            reminderTimeDefaultTextField.isEnabled = false
+            
+            reminderTimeDefaultTextField.text = nil
+            timeStreakPicker.date = Calendar.current.date(bySetting: .hour, value: 16, of: Date())!
+            
+            setpickerViewValue()
+            sharedUserDefaults.set(false, forKey: SharedUserDefaults.ContentStreakHasChanged) 
+        }
+    }
+    
+    func setpickerViewValue() {
+        for (n, streak) in (StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.enumerated())! {
+            if streak.badge {
+                badgeStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
+                badgeSelectionTextField.text = streak.name
+            }
+            if streak.dailyReminder {
+                reminderStreakPicker.selectRow(n + 1, inComponent: 0, animated: true)
+                reminderSelectionTextField.text = streak.name
+                reminderTextDefaultButton.isEnabled = true
+                reminderTimeDefaultTextField.isEnabled = true
+                var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
+                fourPM = Calendar.current.date(bySetting: .minute, value: 0, of: fourPM!)
+                reminderTimeDefaultTextField.text = displayHourAndMinute(forDate: streak.reminderTime ?? fourPM!)
+                timeStreakPicker.date = streak.reminderTime ?? fourPM!
+            }
+        }
     }
     
     func updateEditButtonState() {
@@ -505,12 +552,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     func setupStateofUI() {
-        badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
+        settingSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         tap.isEnabled = false
         
 
         
-        if !badgeSwitch.isOn {
+        if !settingSwitch.isOn {
                 //button off w/o Streaks
                 badgeLabel.isHidden = true
                 badgeSelectionTextField.isHidden = true
@@ -533,7 +580,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 badgeSelectionTextField.isEnabled = false
                 badgeSelectionTextField.isHidden = false
                 badgeLabel.isHidden = false
-                badgeSelectionTextField.text = "No active Steak"
+                badgeSelectionTextField.text = NSLocalizedString("No active Steak", comment: "Text when no active streak is availabe for selection")
                 badgeSelectionTextField.textColor = UIColor.lightGray
                 
                 reminderSelectionTextField.isEnabled = false
@@ -545,7 +592,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 reminderTimeDefaultTextField.text = ""
 
                 reminderLabel.isHidden = false
-                reminderSelectionTextField.text = "No active Steak"
+                reminderSelectionTextField.text = NSLocalizedString("No active Steak", comment: "Text when no active streak is availabe for selection")
                 reminderSelectionTextField.textColor = UIColor.lightGray
 
             } else {
@@ -603,22 +650,23 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     func changeDefaultTextAlert(forRow row: Int) {
         guard let streak = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row], let streakName = streak.name else {return}
         
-        let textAlert = UIAlertController(title: nil, message: "Edit the default text for the reminder", preferredStyle: .alert)
+        let textAlert = UIAlertController(title: nil, message: NSLocalizedString("Edit the default text for the reminder", comment: "Call to action in text Alert to change notification body"), preferredStyle: .alert)
         
         textAlert.addTextField { (defaultText) in
             if let text = streak.reminderText {
                 defaultText.text = text
             } else {
-                defaultText.text = "Did you continue your streak of \(streakName)?"
+                defaultText.text = String.localizedStringWithFormat(
+                    NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), streakName)
             }
         }
         
-        let saveAction = UIAlertAction(title: "Save", style: .default) { (_) in
+        let saveAction = UIAlertAction(title: NSLocalizedString("Save", comment: "Save Textchange"), style: .default) { (_) in
             guard let newText = textAlert.textFields?.first?.text else {return}
             StreakController.shared.set(reminderText: newText, ofStreak: streak)
             self.scheduleReminderNotification(streak: streak)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "Cancel Textchange"), style: .cancel, handler: nil)
         
         textAlert.addAction(saveAction)
         textAlert.addAction(cancelAction)
@@ -721,9 +769,9 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        var streakLabel = "SELECT A STREAK"
+        var streakLabel = NSLocalizedString("SELECT A STREAK", comment: "Placeholdertext for the pickerview")
         if StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?.count == 0 {
-            streakLabel = "no current Streak available"
+            streakLabel = NSLocalizedString("no current Streak available", comment: "Default message if no streak is availabe")
         }
         if row != 0 {
             streakLabel = StreakController.shared.unfinishedStreakfetchResultsController.fetchedObjects?[row - 1].name ?? "empty"
@@ -755,10 +803,9 @@ extension SaveScreenViewController: UIPickerViewDelegate, UIPickerViewDataSource
             
             switch pickerView.tag {
             case 1111:
-                badgeSelectionTextField.text = "Select a Streak"
-
+                badgeSelectionTextField.text = NSLocalizedString("Select a Streak", comment: "Placeholdertext for the badgeSelectionTextFiled")
             case 2222:
-                reminderSelectionTextField.text = "Select a Streak"
+                reminderSelectionTextField.text = NSLocalizedString("Select a Streak", comment: "Placeholdertext for the reminderSelectionTextField")
                 reminderTextDefaultButton.isEnabled = false
                 reminderTimeDefaultTextField.isEnabled = false
                 reminderTimeDefaultTextField.text = ""
@@ -778,5 +825,8 @@ extension SaveScreenViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         tap.isEnabled = false
         userDissmissedPickerView()
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool  {
+        return false
     }
 }

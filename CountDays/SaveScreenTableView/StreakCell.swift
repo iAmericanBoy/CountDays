@@ -43,6 +43,8 @@ class StreakCell: UITableViewCell {
     var streakLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
     
@@ -50,6 +52,7 @@ class StreakCell: UITableViewCell {
     var streakNumberLabel: UILabel = {
         let label = UILabel()
         label.layer.cornerRadius =  20
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -59,17 +62,15 @@ class StreakCell: UITableViewCell {
     private func setupUI() {
         backgroundColor = .white
         self.contentView.addSubview(streakLabel)
-        streakLabel.adjustsFontSizeToFitWidth = true
-        streakLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        streakLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 5).isActive = true
+        streakLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15).isActive = true
+        streakLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15).isActive = true
         streakLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -50).isActive = true
-        streakLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        streakLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15).isActive = true
         self.contentView.addSubview(streakNumberLabel)
-        streakNumberLabel.adjustsFontSizeToFitWidth = true
-        streakNumberLabel.widthAnchor.constraint(equalToConstant: 36).isActive = true
-        streakNumberLabel.heightAnchor.constraint(equalToConstant: 36).isActive = true
+        streakNumberLabel.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.85)
+        streakNumberLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.85)
         streakNumberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        streakNumberLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -7).isActive = true
+        streakNumberLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -(contentView.bounds.height * 0.34)).isActive = true
     }
     
     //MARK: - Custum UI
@@ -80,7 +81,7 @@ class StreakCell: UITableViewCell {
             unfinishedColor = UIColor.red
         }
         
-        let labelRect = CGRect(x: contentView.bounds.maxX - 46, y: contentView.bounds.maxY - 47, width: 42, height: 42)
+        let labelRect = CGRect(x: contentView.bounds.maxX - contentView.bounds.height * 0.85, y: contentView.bounds.maxY - contentView.bounds.height * 0.86, width: contentView.bounds.height * 0.76, height: contentView.bounds.height * 0.76)
         
         let endAngelVal = (360 * progressRatio) - 90
 

@@ -42,7 +42,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     
     let roundDaysbutton: UIButton = {
         let button = UIButton()
-        button.setTitle("Days", for: .normal)
+        button.setTitle(NSLocalizedString("Day", comment: "The title on the daybutton"), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -58,7 +58,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     
     let streakNameButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Start new Streak", for: .normal)
+        button.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -69,7 +69,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     
     let restartButton: UIButton = {
         let button = UIButton()
-        button.setTitle("RESTART", for: .normal)
+        button.setTitle(NSLocalizedString("RESTART", comment: "The title on the restart StreakButton"), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -85,7 +85,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     
     let finishButton: UIButton = {
         let button = UIButton()
-        button.setTitle("FINISH", for: .normal)
+        button.setTitle(NSLocalizedString("FINISH", comment: "The title on the finish Streak button"), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -170,7 +170,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     }
     
     func updateUI(){
-        if streakNameButton.title(for: .normal)! == "Start new Streak"{
+        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the sttreak name button"){
             finishButton.isEnabled = false
             restartButton.isEnabled = false
             streakNumberButton.isEnabled = false
@@ -185,9 +185,9 @@ class StreakCollectionViewHeader: UICollectionViewCell {
             streakNameButton.isEnabled = false
         }
         if streakNumberButton.titleLabel?.text == "1" {
-            roundDaysbutton.setTitle("Day", for: .normal)
+            roundDaysbutton.setTitle(NSLocalizedString("Day", comment: "The title on the daybutton with one count"), for: .normal)
         } else {
-            roundDaysbutton.setTitle("Days", for: .normal)
+            roundDaysbutton.setTitle(NSLocalizedString("Days", comment: "The title on the daybutton with multiple counts"), for: .normal)
         }
     }
     

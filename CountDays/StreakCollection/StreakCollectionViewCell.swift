@@ -47,7 +47,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
 
     let roundDaysbutton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Day", for: .normal)
+        button.setTitle(NSLocalizedString("Day", comment: "The title on the daybutton"), for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -63,10 +63,12 @@ class StreakCollectionViewCell: UICollectionViewCell {
     
     let streakNameButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Start new Streak", for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.largeTitle)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.numberOfLines = 0
+        button.titleLabel?.textAlignment = .center
         button.clipsToBounds = false
         button.titleLabel?.baselineAdjustment = .alignCenters
         return button
@@ -74,7 +76,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     
     let restartButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("RESTART", for: .normal)
+        button.setTitle(NSLocalizedString("RESTART", comment: "The title on the restart StreakButton"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -90,7 +92,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     
     let finishButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("FINISH", for: .normal)
+        button.setTitle(NSLocalizedString("FINISH", comment: "The title on the finish Streak button"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -167,23 +169,35 @@ class StreakCollectionViewCell: UICollectionViewCell {
         smallSquareView.topAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
         smallSquareView.rightAnchor.constraint(equalTo: margins.rightAnchor).isActive = true
         
+        contentView.addSubview(openSaveScreenButton)
+        openSaveScreenButton.topAnchor.constraint(equalTo: margins.topAnchor,constant: 5).isActive = true
+        openSaveScreenButton.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
+        openSaveScreenButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        openSaveScreenButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         
-        let topArea = UIStackView(arrangedSubviews: [streakNameButton])
-        contentView.addSubview(topArea)
-        topArea.translatesAutoresizingMaskIntoConstraints = false
-        topArea.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        topArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
-        topArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
-        topArea.heightAnchor.constraint(equalTo: margins.heightAnchor , multiplier: 0.20).isActive = true
-        topArea.axis = .horizontal
-        topArea.distribution = .fillEqually
-        topArea.spacing = 15
-        topArea.alignment = .center
+        contentView.addSubview(newEmptyStreak)
+        newEmptyStreak.topAnchor.constraint(equalTo: margins.topAnchor,constant: 5).isActive = true
+        newEmptyStreak.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
+        newEmptyStreak.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        newEmptyStreak.widthAnchor.constraint(equalToConstant: 45).isActive = true
         
         contentView.addSubview(streakNumberButton)
         streakNumberButton.widthAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
-        streakNumberButton.topAnchor.constraint(equalTo: topArea.bottomAnchor).isActive = true
+        streakNumberButton.centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
+        streakNumberButton.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
         streakNumberButton.heightAnchor.constraint(equalTo: margins.widthAnchor).isActive = true
+        
+        let nameStackView = UIStackView(arrangedSubviews: [streakNameButton])
+        contentView.addSubview(nameStackView)
+        nameStackView.translatesAutoresizingMaskIntoConstraints = false
+        nameStackView.topAnchor.constraint(equalTo: newEmptyStreak.bottomAnchor).isActive = true
+        nameStackView.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -10).isActive = true
+        nameStackView.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 10).isActive = true
+        nameStackView.bottomAnchor.constraint(equalTo: streakNumberButton.topAnchor).isActive = true
+        nameStackView.axis = .horizontal
+        nameStackView.distribution = .fillEqually
+        nameStackView.spacing = 15
+        nameStackView.alignment = .center
 
         contentView.addSubview(roundDaysbutton)
         roundDaysbutton.bottomAnchor.constraint(equalTo: smallSquareView.bottomAnchor, constant: -5).isActive = true
@@ -196,25 +210,13 @@ class StreakCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(bottomButtonArea)
         bottomButtonArea.translatesAutoresizingMaskIntoConstraints = false
         bottomButtonArea.topAnchor.constraint(equalTo: smallSquareView.bottomAnchor, constant: 5).isActive = true
-        bottomButtonArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
-        bottomButtonArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
+        bottomButtonArea.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -5).isActive = true
+        bottomButtonArea.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 5).isActive = true
         bottomButtonArea.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -40).isActive = true
         bottomButtonArea.axis = .horizontal
         bottomButtonArea.distribution = .fillEqually
-        bottomButtonArea.spacing = 15
+        bottomButtonArea.spacing = 10
         bottomButtonArea.alignment = .center
-        
-        contentView.addSubview(openSaveScreenButton)
-        openSaveScreenButton.topAnchor.constraint(equalTo: margins.topAnchor,constant: 5).isActive = true
-        openSaveScreenButton.rightAnchor.constraint(equalTo: margins.rightAnchor, constant: -20).isActive = true
-        openSaveScreenButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        openSaveScreenButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        
-        contentView.addSubview(newEmptyStreak)
-        newEmptyStreak.topAnchor.constraint(equalTo: margins.topAnchor,constant: 5).isActive = true
-        newEmptyStreak.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 20).isActive = true
-        newEmptyStreak.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        newEmptyStreak.widthAnchor.constraint(equalToConstant: 45).isActive = true
         
         //targets
         roundDaysbutton.addTarget(self, action: #selector(changeGoalAlert), for: .touchUpInside)
@@ -236,7 +238,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         }
         
         setNeedsDisplay()
-        if streakNameButton.title(for: .normal) == "Start new Streak"{
+        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the sttreak name button"){
             finishButton.isEnabled = false
             restartButton.isEnabled = false
             streakNumberButton.isEnabled = false
@@ -280,7 +282,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     @objc func restartButtonPressed(sender: UIButton) {
         print("restartButtonPressed")
         self.delegate?.restartStreak(self)
-        streakNameButton.setTitle("Start new Streak", for: .normal)
+        streakNameButton.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
         updateUI()
     }
     @objc func finishButtonPressed(sender: UIButton) {
