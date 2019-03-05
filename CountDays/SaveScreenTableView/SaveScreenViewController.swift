@@ -88,7 +88,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(userTappedOnView))
     
-    let badgeSwitch:UISwitch = {
+    let settingSwitch:UISwitch = {
         let newSwitch = UISwitch()
         newSwitch.isOn = false
         newSwitch.addTarget(self, action: #selector(badgeSwitchToggled), for: .valueChanged)
@@ -104,6 +104,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         label.text = NSLocalizedString("Configure Notifications", comment: "Text in settings to configure Notifications in DaysInARow")
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -114,6 +115,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
         label.isHidden = true
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -129,6 +131,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
         textField.text = NSLocalizedString("Select a Streak", comment: "Placeholdertext for the badgeSelectionTextFiled")
         return textField
     }()
@@ -156,6 +159,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
+
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
     }()
@@ -167,6 +172,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.layer.borderColor = UIColor.systemBlue.cgColor
         button.addTarget(self, action: #selector(reminderDefaultTextButtonTapped), for: .touchUpInside)
         button.isEnabled = false
@@ -191,6 +197,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.tintColor = UIColor.clear
         textField.textColor = .systemBlue
         textField.textAlignment = .center
+        textField.adjustsFontSizeToFitWidth = true
         textField.isEnabled = false
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         return textField
@@ -227,11 +234,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
         let paragraph = NSMutableParagraphStyle()
-        paragraph.alignment = .center
+        paragraph.alignment = .left
         
         let myName = "Dominic Lanzillotta"
         
-        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta \n in Chicago", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.preferredFont(forTextStyle: .body)])
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta in Chicago.", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.preferredFont(forTextStyle: .body)])
         let url = URL(string: "https://www.twitter.com/iAmericanBoy")!
 
         // Set the 'click here' substring to be the link
@@ -262,9 +269,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
-        tableView.rowHeight = 55
         
-        let footerHeight: CGFloat =  500
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        let footerHeight: CGFloat =  600
         tableView.allowsSelection = false
         tableView.sectionFooterHeight = footerHeight
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight))
@@ -272,9 +281,10 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,badgeSwitch])
+        let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,settingSwitch])
         settingsStackView.alignment = .center
-        settingsStackView.distribution = .equalCentering
+        settingsStackView.distribution = .fill
+        settingsStackView.spacing = 5
         settingsStackView.axis = .horizontal
         
         let badgeStackView = UIStackView(arrangedSubviews: [badgeLabel])
@@ -328,7 +338,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableViewFooterStackView.trailingAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.trailingAnchor).isActive = true
         tableViewFooterStackView.topAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.topAnchor).isActive = true
         tableViewFooterStackView.bottomAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.bottomAnchor).isActive = true
-        
+        settingsLabel.widthAnchor.constraint(equalTo: tableView.tableFooterView!.layoutMarginsGuide.widthAnchor, multiplier: 0.85).isActive = true
+
         setupStateofUI()
     }
     //MARK: - Actions:
@@ -429,10 +440,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         if let body = streak.reminderText {
             content.body = body
         } else {
-            content.body = NSLocalizedString("Did you continue your streak of \(name)?", comment: "Default Text in notification")
+            content.body =  String.localizedStringWithFormat(
+                NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), name)
         }
 
-        content.title = NSLocalizedString("Daily Streak: \(name)", comment: "Title for notification")
+        content.title = String.localizedStringWithFormat(
+            NSLocalizedString("Daily Streak: %@", comment: "Title for notification"),name)
         content.categoryIdentifier = "DailyReminderCategory"
         content.userInfo = [UserInfoDictionary.name:name,
                             UserInfoDictionary.start:startDate,
@@ -539,12 +552,12 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     func setupStateofUI() {
-        badgeSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
+        settingSwitch.isOn = defaults.object(forKey: "badgeOn") as? Bool ?? false
         tap.isEnabled = false
         
 
         
-        if !badgeSwitch.isOn {
+        if !settingSwitch.isOn {
                 //button off w/o Streaks
                 badgeLabel.isHidden = true
                 badgeSelectionTextField.isHidden = true
@@ -643,7 +656,8 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
             if let text = streak.reminderText {
                 defaultText.text = text
             } else {
-                defaultText.text = NSLocalizedString("Did you continue your streak of \(streakName)?", comment: "Default Text in notification")
+                defaultText.text = String.localizedStringWithFormat(
+                    NSLocalizedString("Did you continue your streak of %@?", comment: "Default Text in notification"), streakName)
             }
         }
         
