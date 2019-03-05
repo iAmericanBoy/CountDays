@@ -12,7 +12,7 @@
 "mwJ-PC-H3l.text" = "0";
 
 /* Class = "UIButton"; normalTitle = "FINISH"; ObjectID = "q4P-Hv-2n8"; */
-"q4P-Hv-2n8.normalTitle" = "FERTIGSTELLEN";
+"q4P-Hv-2n8.normalTitle" = "BEENDEN";
 
 /* Class = "UILabel"; text = "Day"; ObjectID = "qOl-Nf-M9D"; */
 "qOl-Nf-M9D.text" = "Tag";
