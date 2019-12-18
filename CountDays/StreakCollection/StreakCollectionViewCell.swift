@@ -36,9 +36,9 @@ class StreakCollectionViewCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 50, weight: UIFont.Weight.medium)
-        
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.baselineAdjustment = .alignCenters
+        button.contentVerticalAlignment = .top
         button.setTitleColor(.black, for: .normal)
         return button
     }()
