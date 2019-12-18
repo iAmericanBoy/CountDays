@@ -18,7 +18,7 @@ class StreakCell: UITableViewCell {
     var progressRatio:Float = 1.0
     
     //MARK: - init
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }

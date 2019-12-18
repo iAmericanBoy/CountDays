@@ -33,12 +33,12 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: UIApplication.willEnterForegroundNotification, object: nil)
 
         setupPaging()
         // Register cell classes
         self.collectionView!.register(StreakCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        collectionView?.register(StreakCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView?.register(StreakCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
         collectionView?.backgroundColor = .white
         collectionView?.isPagingEnabled = true
@@ -161,7 +161,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var view = UICollectionReusableView()
-        if kind == UICollectionElementKindSectionHeader {
+        if kind == UICollectionView.elementKindSectionHeader {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! StreakCollectionViewHeader
             header.delegate = self
             header.streakNameButton.setTitle(NSLocalizedString("Start new Streak", comment: "Call to action to start a new Streak"), for: .normal)
@@ -243,7 +243,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
                 let streak = StreakController.shared.unfinishedStreakfetchResultsController.object(at: index)
                 textField.text = streak.name
                 textField.placeholder = streak.name
-                NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
+                NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: textField, queue: .main) { notif in
                     if let name = textField.text, !name.isEmpty, name != streak.name {
                         confirmAction.isEnabled = true
                         nameTextField = textField
@@ -253,7 +253,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
                 }
             case false:
                 textField.placeholder = NSLocalizedString("Add Name", comment: "PlaceholderText in the textfield to add or edit name of Streak")
-                NotificationCenter.default.addObserver(forName: .UITextFieldTextDidChange, object: textField, queue: .main) { notif in
+                NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: textField, queue: .main) { notif in
                     
                     
                     if let name = textField.text, !name.isEmpty {

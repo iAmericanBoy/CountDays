@@ -48,7 +48,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     let roundDaysbutton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("Day", comment: "The title on the daybutton"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
@@ -64,7 +64,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
     let streakNameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.largeTitle)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.largeTitle)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.numberOfLines = 0
@@ -78,7 +78,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("RESTART", comment: "The title on the restart StreakButton"), for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
@@ -94,7 +94,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("FINISH", comment: "The title on the finish Streak button"), for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
