@@ -39,7 +39,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadUI), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         tableView.dataSource = self
         
@@ -84,7 +84,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - UIElements
-    lazy var sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: "Label to sort the saved Strreaks"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(sortList))
+    lazy var sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: "Label to sort the saved Strreaks"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(sortList))
     
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(userTappedOnView))
     
@@ -220,7 +220,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let timeStreakPicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.tag = 3333
-        picker.datePickerMode = UIDatePickerMode.time
+        picker.datePickerMode = UIDatePicker.Mode.time
         picker.translatesAutoresizingMaskIntoConstraints = false
         var fourPM = Calendar.current.date(bySetting: .hour, value: 16, of: Date())
         picker.date = fourPM!
@@ -271,7 +271,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
         
         tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         let footerHeight: CGFloat =  600
         tableView.allowsSelection = false
@@ -740,7 +740,7 @@ extension SaveScreenViewController: UITableViewDataSource {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             StreakController.shared.remove(streak: StreakController.shared.finishedStreakfetchResultsController.object(at: indexPath))
         }
