@@ -58,7 +58,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
 
         setpickerViewValue()
 
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
             
         tableView.register(StreakCell.self, forCellReuseIdentifier: cellId)
     }
@@ -84,7 +84,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     }
     
     //MARK: - UIElements
-    lazy var sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: "Label to sort the saved Strreaks"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(sortList))
+    lazy var sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: "Label to sort the saved Streaks"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(sortList))
     
     lazy var tap = UITapGestureRecognizer(target: self, action: #selector(userTappedOnView))
     
@@ -93,9 +93,9 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         newSwitch.isOn = false
         newSwitch.addTarget(self, action: #selector(badgeSwitchToggled), for: .valueChanged)
         newSwitch.translatesAutoresizingMaskIntoConstraints = false
-        newSwitch.backgroundColor = .white
+        newSwitch.backgroundColor = .systemBackground
         newSwitch.layer.cornerRadius = newSwitch.frame.height / 2
-        newSwitch.onTintColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
+        newSwitch.onTintColor = .lushGreenColor.withAlphaComponent(0.9)
         return newSwitch
     }()
     
@@ -128,7 +128,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.systemBlue.cgColor
-        textField.tintColor = UIColor.clear
+        textField.tintColor = UIColor.systemFill
         textField.textColor = .systemBlue
         textField.textAlignment = .center
         textField.adjustsFontSizeToFitWidth = true
@@ -168,7 +168,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
     let reminderTextDefaultButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Text", for: .normal)
-        button.setTitleColor(UIColor.lightGray, for: .disabled)
+        button.setTitleColor(UIColor.systemGray, for: .disabled)
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 5
@@ -190,11 +190,11 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         
         textField.attributedPlaceholder = NSAttributedString(string: timeString,
                                                              attributes: [.font:UIFont.preferredFont(forTextStyle: .title1),
-                                                                          .foregroundColor: UIColor.lightGray])
+                                                                          .foregroundColor: UIColor.systemGray])
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 5
         textField.layer.borderColor = UIColor.systemBlue.cgColor
-        textField.tintColor = UIColor.clear
+        textField.tintColor = UIColor.systemFill
         textField.textColor = .systemBlue
         textField.textAlignment = .center
         textField.adjustsFontSizeToFitWidth = true
@@ -233,12 +233,13 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         textField.isUserInteractionEnabled = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .clear
+        textField.textColor = .label
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .left
         
         let myName = "Dominic Lanzillotta"
         
-        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta in Chicago.", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph,.font:UIFont.preferredFont(forTextStyle: .body)])
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("DaysInARow is made by Dominic Lanzillotta in Grand Rapids.", comment: "Label to tell who the App is made by. Dont change Dominic Lanzillotta and the new line carret"), attributes: [.paragraphStyle: paragraph, .font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.label])
         let url = URL(string: "https://www.twitter.com/iAmericanBoy")!
 
         // Set the 'click here' substring to be the link
@@ -255,7 +256,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(reviewApp), for: .touchUpInside)
-        button.setTitleColor(button.currentTitleColor.withAlphaComponent(0.8), for: .normal)
+        button.setTitleColor(.link, for: .normal)
         return button
     }()
     
@@ -268,7 +269,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.addGestureRecognizer(tap)
 
         
-        tableView.backgroundColor = UIColor(red: (62/255),green: (168/255),blue: (59/255),alpha:0.9)
+        tableView.backgroundColor = .lushGreenColor.withAlphaComponent(0.9)
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
@@ -278,7 +279,7 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
         tableView.sectionFooterHeight = footerHeight
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: footerHeight))
 
-        tableView.tableFooterView?.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+        tableView.tableFooterView?.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         let settingsStackView = UIStackView(arrangedSubviews: [settingsLabel,settingSwitch])
@@ -581,19 +582,19 @@ class SaveScreenViewController: UIViewController, UIPopoverPresentationControlle
                 badgeSelectionTextField.isHidden = false
                 badgeLabel.isHidden = false
                 badgeSelectionTextField.text = NSLocalizedString("No active Steak", comment: "Text when no active streak is availabe for selection")
-                badgeSelectionTextField.textColor = UIColor.lightGray
+                badgeSelectionTextField.textColor = UIColor.systemGray
                 
                 reminderSelectionTextField.isEnabled = false
                 reminderSelectionTextField.isHidden = false
                 reminderTextDefaultButton.isHidden = false
-                reminderTextDefaultButton.setTitleColor(UIColor.lightGray, for: .disabled)
+                reminderTextDefaultButton.setTitleColor(UIColor.systemGray, for: .disabled)
                 reminderTimeDefaultTextField.isEnabled = false
                 reminderTimeDefaultTextField.isHidden = false
                 reminderTimeDefaultTextField.text = ""
 
                 reminderLabel.isHidden = false
                 reminderSelectionTextField.text = NSLocalizedString("No active Steak", comment: "Text when no active streak is availabe for selection")
-                reminderSelectionTextField.textColor = UIColor.lightGray
+                reminderSelectionTextField.textColor = UIColor.systemGray
 
             } else {
                 //button on w Streak

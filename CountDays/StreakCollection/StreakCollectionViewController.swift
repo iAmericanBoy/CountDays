@@ -40,7 +40,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         self.collectionView!.register(StreakCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView?.register(StreakCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
         
-        collectionView?.backgroundColor = .white
+        collectionView?.backgroundColor = .systemBackground
         collectionView?.isPagingEnabled = true
         collectionView?.showsHorizontalScrollIndicator = false
         collectionView?.clipsToBounds = true
@@ -79,7 +79,7 @@ class StreakCollectionViewController: UICollectionViewController, UICollectionVi
         let pageControl = UIPageControl()
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPageIndicatorTintColor = .lushGreenColor
-        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.pageIndicatorTintColor = .systemGray3
         pageControl.hidesForSinglePage = true
         pageControl.addTarget(self, action: #selector(goToNextScreen), for: .valueChanged)
         pageControl.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)

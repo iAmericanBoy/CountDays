@@ -33,8 +33,8 @@
 		B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E92F0922138D0C00563F25 /* NotificationViewController.swift */; };
 		B6E92F0D22138D0C00563F25 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6E92F0B22138D0C00563F25 /* MainInterface.storyboard */; };
 		B6E92F1122138D0C00563F25 /* Content.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6E92F0522138D0C00563F25 /* Content.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B6E92F552214869800563F25 /* UiColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UiColor+Extension.swift */; };
-		B6E92F562214874500563F25 /* UiColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UiColor+Extension.swift */; };
+		B6E92F552214869800563F25 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UIColor+Extension.swift */; };
+		B6E92F562214874500563F25 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6216115214D7180002AD560 /* UIColor+Extension.swift */; };
 		B6E92F5B221488DA00563F25 /* ViewWithProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E92F5A221488DA00563F25 /* ViewWithProgressBar.swift */; };
 		B6E92F8F2214E3FE00563F25 /* StreakController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B686BDE12203A1A600B5F8F0 /* StreakController.swift */; };
 		B6E92F902214E40700563F25 /* CountDays.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B67567972119FCD3000E2B74 /* CountDays.xcdatamodeld */; };
@@ -82,7 +82,7 @@
 		B61884E2221F621600A7950D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B61884E4221F621E00A7950D /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B61E12CF2200AEA600F85AEF /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		B6216115214D7180002AD560 /* UiColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UiColor+Extension.swift"; sourceTree = "<group>"; };
+		B6216115214D7180002AD560 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		B621611821501734002AD560 /* StreakCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCell.swift; sourceTree = "<group>"; };
 		B621611A2150461A002AD560 /* StreakCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewHeader.swift; sourceTree = "<group>"; };
 		B621611C21515461002AD560 /* StreakCollectionViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCollectionViewFooter.swift; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 				B6F59598214C48340059D67A /* StreakCollection */,
 				B6216117215016FE002AD560 /* SaveScreenTableView */,
 				B61884DB221F5A2F00A7950D /* Localizable.strings */,
-				B6216115214D7180002AD560 /* UiColor+Extension.swift */,
+				B6216115214D7180002AD560 /* UIColor+Extension.swift */,
 				B60E2C282215F5A200EAF376 /* MagicStrings.swift */,
 				B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */,
 				B6ADAEE421E8FC0D0049D86B /* CDNotificationDelegate.swift */,
@@ -325,7 +325,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1320;
 				ORGANIZATIONNAME = "Dominic Lanzillotta";
 				TargetAttributes = {
 					B675678C2119FCD3000E2B74 = {
@@ -435,7 +435,7 @@
 				B67567992119FCD3000E2B74 /* CountDays.xcdatamodeld in Sources */,
 				B6126F432136FA160078B0A1 /* SaveScreenViewController.swift in Sources */,
 				B67C689E220E270700C6D9D0 /* TextFieldWithoutCopy.swift in Sources */,
-				B6E92F562214874500563F25 /* UiColor+Extension.swift in Sources */,
+				B6E92F562214874500563F25 /* UIColor+Extension.swift in Sources */,
 				B6F59597214C465B0059D67A /* StreakCollectionViewCell.swift in Sources */,
 				B67567912119FCD3000E2B74 /* AppDelegate.swift in Sources */,
 				B621611921501734002AD560 /* StreakCell.swift in Sources */,
@@ -461,7 +461,7 @@
 				B6E92F5B221488DA00563F25 /* ViewWithProgressBar.swift in Sources */,
 				B6E92F922214E41900563F25 /* CountDays+Convenience.swift in Sources */,
 				B6E92F0A22138D0C00563F25 /* NotificationViewController.swift in Sources */,
-				B6E92F552214869800563F25 /* UiColor+Extension.swift in Sources */,
+				B6E92F552214869800563F25 /* UIColor+Extension.swift in Sources */,
 				B6E92F912214E40F00563F25 /* CoreDataStack.swift in Sources */,
 				B6E92F902214E40700563F25 /* CountDays.xcdatamodeld in Sources */,
 				B6E92F8F2214E3FE00563F25 /* StreakController.swift in Sources */,
@@ -536,6 +536,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -561,7 +562,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -597,6 +598,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -616,7 +618,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -634,7 +636,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = CountDays/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -655,7 +657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = CountDays/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -674,7 +676,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = "DaysInARow Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -697,7 +699,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = "DaysInARow Widget/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -719,7 +721,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -742,7 +744,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
