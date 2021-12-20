@@ -44,6 +44,7 @@ class StreakCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.textColor = .label
         label.font = UIFont.preferredFont(forTextStyle: .body)
         return label
     }()
@@ -54,21 +55,21 @@ class StreakCell: UITableViewCell {
         label.layer.cornerRadius =  20
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.textAlignment = .center
+        label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     //MARK: - SetupView
     private func setupUI() {
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         self.contentView.addSubview(streakLabel)
         streakLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 15).isActive = true
         streakLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15).isActive = true
         streakLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -50).isActive = true
         streakLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -15).isActive = true
         self.contentView.addSubview(streakNumberLabel)
-        streakNumberLabel.widthAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.85)
-        streakNumberLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.85)
+
         streakNumberLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         streakNumberLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -(contentView.bounds.height * 0.34)).isActive = true
     }
@@ -78,7 +79,7 @@ class StreakCell: UITableViewCell {
         var unfinishedColor = UIColor.lushGreenColor
 
         if unFinishedStreak {
-            unfinishedColor = UIColor.red
+            unfinishedColor = UIColor.systemRed
         }
         
         let labelRect = CGRect(x: contentView.bounds.maxX - contentView.bounds.height * 0.85, y: contentView.bounds.maxY - contentView.bounds.height * 0.86, width: contentView.bounds.height * 0.76, height: contentView.bounds.height * 0.76)
@@ -86,7 +87,7 @@ class StreakCell: UITableViewCell {
         let endAngelVal = (360 * progressRatio) - 90
 
         let greyPath = UIBezierPath(ovalIn: labelRect)
-        UIColor.lightGray.withAlphaComponent(0.8).setStroke()
+        UIColor.systemGray.withAlphaComponent(0.8).setStroke()
         greyPath.lineWidth = 3
         greyPath.lineJoinStyle = .bevel
         greyPath.stroke()
