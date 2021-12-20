@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CollectionViewHeaderDelegate: class {
+protocol CollectionViewHeaderDelegate: AnyObject {
     func showChangeNameAlert(_ cell: StreakCollectionViewHeader)
     func segueToSaveScreen()
 }
@@ -34,7 +34,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 450)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.baselineAdjustment = .alignCenters
-        button.setTitleColor(UIColor.black.withAlphaComponent(0.8), for: .normal)
+        button.setTitleColor(UIColor.label.withAlphaComponent(0.8), for: .normal)
         return button
     }()
     
@@ -48,11 +48,11 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
         button.titleLabel?.baselineAdjustment = .alignCenters
-        button.setTitleColor(UIColor.black.withAlphaComponent(0.8), for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(UIColor.label.withAlphaComponent(0.8), for: .normal)
+        button.backgroundColor = .systemBackground
         button.layer.cornerRadius = 50
         button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = UIColor.systemGray.cgColor
         return button
     }()
     
@@ -74,7 +74,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
-        button.backgroundColor = UIColor(red:(232/255),green: (36/255),blue: (35/255),alpha: 0.6)
+        button.backgroundColor = .redBackground.withAlphaComponent(0.6)
         button.titleLabel?.baselineAdjustment = .alignCenters
         button.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .normal)
         button.layer.cornerRadius = 10
@@ -104,7 +104,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
         button.backgroundColor = .lushGreenColor
         button.layer.cornerRadius = 22
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = UIColor.systemGray.cgColor
         button.setBackgroundImage(#imageLiteral(resourceName: "saveImage"), for: .normal)
         return button
     }()
@@ -170,7 +170,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     }
     
     func updateUI(){
-        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the sttreak name button"){
+        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the streak name button"){
             finishButton.isEnabled = false
             restartButton.isEnabled = false
             streakNumberButton.isEnabled = false
@@ -181,7 +181,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
             restartButton.isEnabled = true
             streakNumberButton.isEnabled = true
             roundDaysbutton.isEnabled = true
-            streakNameButton.setTitleColor(.black, for: .normal)
+            streakNameButton.setTitleColor(.link, for: .normal)
             streakNameButton.isEnabled = false
         }
         if streakNumberButton.titleLabel?.text == "1" {
