@@ -1,5 +1,5 @@
 //
-//  UiColor+Extension.swift
+//  UIColor+Extension.swift
 //  CountDays
 //
 //  Created by Dominic Lanzillotta on 9/15/18.
