@@ -43,7 +43,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     let roundDaysbutton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Day", comment: "The title on the daybutton"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
@@ -59,7 +59,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     let streakNameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(NSLocalizedString("Start new Streak", comment: "The title on the streak Name Button"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
@@ -70,7 +70,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     let restartButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("RESTART", comment: "The title on the restart StreakButton"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
@@ -86,7 +86,7 @@ class StreakCollectionViewHeader: UICollectionViewCell {
     let finishButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("FINISH", comment: "The title on the finish Streak button"), for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title1)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false

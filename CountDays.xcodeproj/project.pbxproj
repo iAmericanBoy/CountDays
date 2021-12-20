@@ -48,20 +48,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B67567A52119FCD6000E2B74 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B67567852119FCD3000E2B74 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B675678C2119FCD3000E2B74;
-			remoteInfo = CountDays;
-		};
-		B67567B02119FCD6000E2B74 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B67567852119FCD3000E2B74 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B675678C2119FCD3000E2B74;
-			remoteInfo = CountDays;
-		};
 		B6E92F0F22138D0C00563F25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B67567852119FCD3000E2B74 /* Project object */;
@@ -105,8 +91,6 @@
 		B67567982119FCD3000E2B74 /* CountDays.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CountDays.xcdatamodel; sourceTree = "<group>"; };
 		B675679A2119FCD6000E2B74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B675679F2119FCD6000E2B74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B67567A42119FCD6000E2B74 /* CountDaysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountDaysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B67567AF2119FCD6000E2B74 /* CountDaysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountDaysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67C689D220E270700C6D9D0 /* TextFieldWithoutCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithoutCopy.swift; sourceTree = "<group>"; };
 		B67C689F220E372E00C6D9D0 /* CountDays v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CountDays v3.xcdatamodel"; sourceTree = "<group>"; };
 		B686BDDD22039AEC00B5F8F0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -139,20 +123,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6FC061621CC228100E7B3B6 /* CloudKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B67567A12119FCD6000E2B74 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B67567AC2119FCD6000E2B74 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,8 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				B675678D2119FCD3000E2B74 /* CountDays.app */,
-				B67567A42119FCD6000E2B74 /* CountDaysTests.xctest */,
-				B67567AF2119FCD6000E2B74 /* CountDaysUITests.xctest */,
 				B6CCAE932178E89B00A65B0D /* DaysInARow Widget.appex */,
 				B6E92F0522138D0C00563F25 /* Content.appex */,
 			);
@@ -316,42 +284,6 @@
 			productReference = B675678D2119FCD3000E2B74 /* CountDays.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B67567A32119FCD6000E2B74 /* CountDaysTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B67567BB2119FCD6000E2B74 /* Build configuration list for PBXNativeTarget "CountDaysTests" */;
-			buildPhases = (
-				B67567A02119FCD6000E2B74 /* Sources */,
-				B67567A12119FCD6000E2B74 /* Frameworks */,
-				B67567A22119FCD6000E2B74 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B67567A62119FCD6000E2B74 /* PBXTargetDependency */,
-			);
-			name = CountDaysTests;
-			productName = CountDaysTests;
-			productReference = B67567A42119FCD6000E2B74 /* CountDaysTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		B67567AE2119FCD6000E2B74 /* CountDaysUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B67567BE2119FCD6000E2B74 /* Build configuration list for PBXNativeTarget "CountDaysUITests" */;
-			buildPhases = (
-				B67567AB2119FCD6000E2B74 /* Sources */,
-				B67567AC2119FCD6000E2B74 /* Frameworks */,
-				B67567AD2119FCD6000E2B74 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B67567B12119FCD6000E2B74 /* PBXTargetDependency */,
-			);
-			name = CountDaysUITests;
-			productName = CountDaysUITests;
-			productReference = B67567AF2119FCD6000E2B74 /* CountDaysUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		B6CCAE922178E89B00A65B0D /* DaysInARow Widget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6CCAEA12178E89C00A65B0D /* Build configuration list for PBXNativeTarget "DaysInARow Widget" */;
@@ -398,7 +330,7 @@
 				TargetAttributes = {
 					B675678C2119FCD3000E2B74 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1130;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -417,16 +349,6 @@
 							};
 						};
 					};
-					B67567A32119FCD6000E2B74 = {
-						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
-						TestTargetID = B675678C2119FCD3000E2B74;
-					};
-					B67567AE2119FCD6000E2B74 = {
-						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
-						TestTargetID = B675678C2119FCD3000E2B74;
-					};
 					B6CCAE922178E89B00A65B0D = {
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
@@ -437,6 +359,7 @@
 					};
 					B6E92F0422138D0C00563F25 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -460,8 +383,6 @@
 			projectRoot = "";
 			targets = (
 				B675678C2119FCD3000E2B74 /* CountDays */,
-				B67567A32119FCD6000E2B74 /* CountDaysTests */,
-				B67567AE2119FCD6000E2B74 /* CountDaysUITests */,
 				B6CCAE922178E89B00A65B0D /* DaysInARow Widget */,
 				B6E92F0422138D0C00563F25 /* Content */,
 			);
@@ -476,20 +397,6 @@
 				B61E12D02200AEA600F85AEF /* Launch Screen.storyboard in Resources */,
 				B61884D9221F5A2F00A7950D /* Localizable.strings in Resources */,
 				B675679B2119FCD6000E2B74 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B67567A22119FCD6000E2B74 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B67567AD2119FCD6000E2B74 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,20 +443,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B67567A02119FCD6000E2B74 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B67567AB2119FCD6000E2B74 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B6CCAE8F2178E89B00A65B0D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -578,16 +471,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B67567A62119FCD6000E2B74 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B675678C2119FCD3000E2B74 /* CountDays */;
-			targetProxy = B67567A52119FCD6000E2B74 /* PBXContainerItemProxy */;
-		};
-		B67567B12119FCD6000E2B74 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B675678C2119FCD3000E2B74 /* CountDays */;
-			targetProxy = B67567B02119FCD6000E2B74 /* PBXContainerItemProxy */;
-		};
 		B6E92F1022138D0C00563F25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B6E92F0422138D0C00563F25 /* Content */;
@@ -749,6 +632,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountDays/CountDays.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = CountDays/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -756,9 +640,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -770,6 +655,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountDays/CountDays.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = CountDays/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -777,92 +663,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		B67567BC2119FCD6000E2B74 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6B8ZX28ZW;
-				INFOPLIST_FILE = CountDaysTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDaysTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountDays.app/CountDays";
-			};
-			name = Debug;
-		};
-		B67567BD2119FCD6000E2B74 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6B8ZX28ZW;
-				INFOPLIST_FILE = CountDaysTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDaysTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountDays.app/CountDays";
-			};
-			name = Release;
-		};
-		B67567BF2119FCD6000E2B74 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6B8ZX28ZW;
-				INFOPLIST_FILE = CountDaysUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDaysUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CountDays;
-			};
-			name = Debug;
-		};
-		B67567C02119FCD6000E2B74 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J6B8ZX28ZW;
-				INFOPLIST_FILE = CountDaysUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDaysUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = CountDays;
 			};
 			name = Release;
 		};
@@ -916,6 +721,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Content/Content.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -924,12 +730,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Content;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -939,6 +746,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Content/Content.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 52;
 				DEVELOPMENT_TEAM = J6B8ZX28ZW;
 				INFOPLIST_FILE = Content/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
@@ -947,11 +755,12 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.0.5;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = oskman.CountDays.Content;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -973,24 +782,6 @@
 			buildConfigurations = (
 				B67567B92119FCD6000E2B74 /* Debug */,
 				B67567BA2119FCD6000E2B74 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B67567BB2119FCD6000E2B74 /* Build configuration list for PBXNativeTarget "CountDaysTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B67567BC2119FCD6000E2B74 /* Debug */,
-				B67567BD2119FCD6000E2B74 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B67567BE2119FCD6000E2B74 /* Build configuration list for PBXNativeTarget "CountDaysUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B67567BF2119FCD6000E2B74 /* Debug */,
-				B67567C02119FCD6000E2B74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
