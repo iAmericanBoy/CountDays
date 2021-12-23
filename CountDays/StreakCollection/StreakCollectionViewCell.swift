@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CollectionViewCellDelegate: class {
+protocol CollectionViewCellDelegate: AnyObject {
     func showChangeNameAlert(_ cell: StreakCollectionViewCell)
     func getDateAlert(_ cell: StreakCollectionViewCell)
     func getGoalAlert(_ cell: StreakCollectionViewCell)
@@ -39,7 +39,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.baselineAdjustment = .alignCenters
         button.contentVerticalAlignment = .top
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         return button
     }()
     
@@ -53,8 +53,8 @@ class StreakCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
         button.titleLabel?.baselineAdjustment = .alignCenters
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
+        button.setTitleColor(.label, for: .normal)
+        button.backgroundColor = .systemBackground
         button.layer.borderWidth = 3
         button.layer.cornerRadius = button.frame.size.width / 2.0
         button.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
@@ -82,7 +82,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.clipsToBounds = false
-        button.backgroundColor = UIColor(red:(232/255),green: (36/255),blue: (35/255),alpha: 0.7)
+        button.backgroundColor = .redBackground.withAlphaComponent(0.7)
         button.titleLabel?.baselineAdjustment = .alignCenters
         button.layer.cornerRadius = 10
         button.layer.borderWidth = 1.5
@@ -111,7 +111,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         button.backgroundColor = .lushGreenColor
         button.layer.cornerRadius = 22
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = UIColor.systemGray4.cgColor
         button.setBackgroundImage(#imageLiteral(resourceName: "saveImage"), for: .normal)
         return button
     }()
@@ -141,7 +141,7 @@ class StreakCollectionViewCell: UICollectionViewCell {
         trianglePath.addLine(to: CGPoint(x: smallSquare.maxX, y: smallSquare.maxY))
         trianglePath.addLine(to: CGPoint(x: smallSquare.maxX, y: smallSquare.minY))
         trianglePath.addLine(to: CGPoint(x: smallSquare.minX , y: smallSquare.maxY))
-        UIColor.lightGray.withAlphaComponent(0.5).setFill()
+        UIColor.systemGray.withAlphaComponent(0.5).setFill()
         trianglePath.lineCapStyle = .round
         trianglePath.close()
         trianglePath.fill()
@@ -238,18 +238,18 @@ class StreakCollectionViewCell: UICollectionViewCell {
         }
         
         setNeedsDisplay()
-        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the sttreak name button"){
+        if streakNameButton.title(for: .normal) == NSLocalizedString("Start new Streak", comment: "The title on the streak name button"){
             finishButton.isEnabled = false
             restartButton.isEnabled = false
             streakNumberButton.isEnabled = false
             roundDaysbutton.isEnabled = false
-            streakNameButton.setTitleColor(.lightGray, for: .normal)
+            streakNameButton.setTitleColor(.link, for: .normal)
         } else {
             finishButton.isEnabled = true
             restartButton.isEnabled = true
             streakNumberButton.isEnabled = true
             roundDaysbutton.isEnabled = true
-            streakNameButton.setTitleColor(.black, for: .normal)
+            streakNameButton.setTitleColor(.label, for: .normal)
         }
     }
     

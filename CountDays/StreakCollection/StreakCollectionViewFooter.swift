@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CollectionViewFooterDelegate : class {
+protocol CollectionViewFooterDelegate : AnyObject {
     func segueToSaveScreen()
 }
 
